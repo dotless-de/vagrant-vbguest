@@ -3,3 +3,4 @@ en:
     plugins:
       vbguest:
         installing: "Installing Virtualbox Guest Additions %{version}"
+        missing_iso_path: "Plase add a valid path to the Virtualbox Gust Additions ISO File. On Mac this is most likely: config.vbguest.iso_path = '/Applications/VirtualBox.app//Contents/MacOS/VBoxGuestAdditions.iso' "

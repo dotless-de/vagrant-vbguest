@@ -15,26 +15,36 @@ module VagrantVbguest
       version = env["vm"].vm.interface.get_guest_property_value("/VirtualBox/GuestAdd/Version")
       needs_update = version.empty? || (VirtualBox.version != version.gsub(/[-_]ose/i, ''))
 
-      env.ui.warn("Need update/install to version: #{VirtualBox.version}")
+      env.ui.warn(I18n.t("vagrant.plugins.vbguest.installing", :version => VirtualBox.version))
       
       if env["vm"].created? && env["vm"].vm.running?
-        command = "echo #{VirtualBox.version} > /home/vagrant/vbupgrade".strip
-
+        
+        env["vm"].ssh.upload!(iso_path, '/tmp/VBoxGuestAdditions.iso')
+        env["vm"].ssh.upload!(File.expand_path("../../files/setup_debian.sh", __FILE__), '/tmp/install_vbguest.sh')
+        
         env["vm"].ssh.execute do |ssh|
-          ssh.exec!("#{command}") do |channel, type, data|
+          ssh.sudo!("sh /tmp/install_vbguest.sh") do |channel, type, data|
             # Print the data directly to STDOUT, not doing any newlines
             # or any extra formatting of our own
             $stdout.print(data) if type != :exit_status
           end
-
+          
           # Puts out an ending newline just to make sure we end on a new
           # line.
           $stdout.puts
         end
+        
       end
 
       @app.call(env)
     end
   end
+  
+  protected
+  
+  def iso_path
+    @env["config"].vbguest.iso_path
+  end
+  
 end
 
