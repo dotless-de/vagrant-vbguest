@@ -1,0 +1,5 @@
+en:
+  vagrant:
+    plugins:
+      vbguest:
+        installing: "Installing Virtualbox Guest Additions %{version}"
