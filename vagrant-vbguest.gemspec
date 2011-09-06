@@ -8,9 +8,10 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Robert Schulze"]
   s.email       = ["robert@dotless.de"]
+  s.license     = 'MIT'
   #s.homepage    = "http://rubygems.org/gems/vagrant-vbguest"
-  s.summary     = %q{A Vagrant plugin to install the VirtualBoxAdditions into the VM}
-  s.description = %q{A Vagrant plugin to install the VirtualBoxAdditions into the VM}
+  s.summary     = %q{A Vagrant plugin to install the VirtualBoxAdditions into the guest VM}
+  s.description = %q{A Vagrant plugin to install the VirtualBoxAdditions into the guest VM}
 
   s.required_rubygems_version = ">= 1.3.6"
   #s.rubyforge_project = "vagrant-vbguest"
