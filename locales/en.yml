@@ -2,5 +2,8 @@ en:
   vagrant:
     plugins:
       vbguest:
-        installing: "Installing Virtualbox Guest Additions %{version}"
-        missing_iso_path: "Plase add a valid path to the Virtualbox Gust Additions ISO File. On Mac this is most likely: config.vbguest.iso_path = '/Applications/VirtualBox.app//Contents/MacOS/VBoxGuestAdditions.iso' "
+        guest_ok: "Guests Virtualbox Guest Additions %{version} --- OK."
+        installing: "Installing Virtualbox Guest Additions %{host} - guest's version is %{guest}"
+        missing_iso_path: "Could not autodetect the correct location of the Virtualbox Guest Additions ISO File. Or the Path provided is not correct. \nPlease configure using `config.vbguest.iso_path`. \nOn Mac this is most likely: '/Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso' "
+        start_copy_iso: "Copy iso file %{from} into the box %{to}"
+        start_copy_script: "Copy installer file %{from} into the box %{to}"

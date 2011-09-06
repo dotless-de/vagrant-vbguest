@@ -9,3 +9,9 @@ end
 
 Vagrant::Action.register(:vbguest, vbguest)
 
+[:start, :up, :reload].each do |level|
+  Vagrant::Action[level].use VagrantVbguest::Middleware, :run_level => level
+end
+
+# Add our custom translations to the load path
+I18n.load_path << File.expand_path("../../locales/en.yml", __FILE__)
