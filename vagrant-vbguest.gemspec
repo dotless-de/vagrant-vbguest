@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Robert Schulze"]
   s.email       = ["robert@dotless.de"]
   s.license     = 'MIT'
-  #s.homepage    = "http://rubygems.org/gems/vagrant-vbguest"
+  s.homepage    = "https://github.com/dotless-de/vagrant-vbguest"
   s.summary     = %q{A Vagrant plugin to install the VirtualBoxAdditions into the guest VM}
   s.description = %q{A Vagrant plugin to install the VirtualBoxAdditions into the guest VM}
 
