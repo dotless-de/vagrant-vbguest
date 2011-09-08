@@ -9,6 +9,7 @@ module VagrantVbguest
       @app = app
       @env = env
       @run_level = options.delete(:run_level)
+      @force = options.delete(:force) || env["vbguest.force.install"]
     end
 
     def call(env)
@@ -18,7 +19,7 @@ module VagrantVbguest
         guest_version = version.empty?() ? I18n.t("vagrant.plugins.vbguest.additions_missing_on_guest") : version.gsub(/[-_]ose/i, '');
         needs_update = version.empty? || (VirtualBox.version != guest_version)
 
-        if needs_update
+        if forced_run? || needs_update
           env.ui.warn(I18n.t("vagrant.plugins.vbguest.installing", :host => VirtualBox.version, :guest => guest_version))
       
           env.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => iso_path, :to => iso_destination))
@@ -54,12 +55,16 @@ module VagrantVbguest
     
     protected
 
+    def forced_run?
+      @force
+    end
+
     def vm_up?
       @env["vm"].created? && @env["vm"].vm.running?
     end
     
     def shall_run?
-      vm_up? && (!@run_level || @env["config"].vbguest.auto_update)
+      vm_up? && (forced_run? || !@run_level || @env["config"].vbguest.auto_update)
     end
 
     def iso_path

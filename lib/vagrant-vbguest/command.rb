@@ -2,6 +2,7 @@ module VagrantVbguest
   
   class Command < Vagrant::Command::Base
     register "vbguest", "Check and Update the VirtualBox Guest Additions"
+    class_option :force, :type => :boolean, :required => false, :default => false, :desc => "Force the installation even if correct version seems to be installed"
 
     # Executes the given rake command on the VMs that are represented
     # by this environment.
@@ -13,7 +14,7 @@ module VagrantVbguest
 
     # Executes a command on a specific VM.
     def execute_on_vm(vm)
-      vm.env.actions.run(:vbguest)
+      vm.env.actions.run(:vbguest, "vbguest.force.install" => options[:force])
     end
   end
 end
