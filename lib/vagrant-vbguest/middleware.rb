@@ -8,48 +8,51 @@ module VagrantVbguest
     def initialize(app, env, options = {})
       @app = app
       @env = env
+      @vm = version = env["vm"]
       @run_level = options.delete(:run_level)
       @force = options.delete(:force) || env["vbguest.force.install"]
     end
 
     def call(env)
-
-      if shall_run?
-        version = env["vm"].vm.interface.get_guest_property_value("/VirtualBox/GuestAdd/Version")
-        guest_version = version.empty?() ? I18n.t("vagrant.plugins.vbguest.additions_missing_on_guest") : version.gsub(/[-_]ose/i, '');
-        needs_update = version.empty? || (VirtualBox.version != guest_version)
-
-        if forced_run? || needs_update
-          env.ui.warn(I18n.t("vagrant.plugins.vbguest.installing", :host => VirtualBox.version, :guest => guest_version))
       
-          env.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => iso_path, :to => iso_destination))
-          env["vm"].ssh.upload!(iso_path, iso_destination)
-      
-          env.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_script", :from => File.basename(installer_script), :to => installer_destination))
-          env["vm"].ssh.upload!(installer_script, installer_destination)
+      if shall_run? 
         
-          env["vm"].ssh.execute do |ssh|
-            ssh.sudo!("sh /tmp/install_vbguest.sh") do |channel, type, data|
-              # Print the data directly to STDOUT, not doing any newlines
-              # or any extra formatting of our own
-              $stdout.print(data) if type != :exit_status
-            end
+        env.ui.confirm(I18n.t("vagrant.plugins.vbguest.guest_ok", :version => guest_version)) unless needs_update?
+        
+        if forced_run? || needs_update?
+          env.ui.warn(I18n.t("vagrant.plugins.vbguest.installing#{forced_run? ? '_forced' : ''}", :host => VirtualBox.version, :guest => guest_version))
           
-            ssh.exec!("rm /tmp/install_vbguest.sh /tmp/VBoxGuestAdditions.iso") do |channel, type, data|
-              # Print the data directly to STDOUT, not doing any newlines
-              # or any extra formatting of our own
-              $stdout.print(data) if type != :exit_status
+          # :TODO: 
+          # the whole istallation process should be put into own classes
+          # like the vagrant system loading
+          if i_script = installer_script
+            env.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => iso_path, :to => iso_destination))
+            @vm.ssh.upload!(iso_path, iso_destination)
+            
+            env.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_script", :from => File.basename(i_script), :to => installer_destination))
+            @vm.ssh.upload!(i_script, installer_destination)
+            
+            @vm.ssh.execute do |ssh|
+              ssh.sudo!("sh /tmp/install_vbguest.sh") do |channel, type, data|
+                # Print the data directly to STDOUT, not doing any newlines
+                # or any extra formatting of our own
+                $stdout.print(data) if type != :exit_status
+              end
+              
+              ssh.exec!("rm /tmp/install_vbguest.sh /tmp/VBoxGuestAdditions.iso") do |channel, type, data|
+                # Print the data directly to STDOUT, not doing any newlines
+                # or any extra formatting of our own
+                $stdout.print(data) if type != :exit_status
+              end
+              
+              # Puts out an ending newline just to make sure we end on a new
+              # line.
+              $stdout.puts
             end
-          
-            # Puts out an ending newline just to make sure we end on a new
-            # line.
-            $stdout.puts
           end
-        else
-          env.ui.info(I18n.t("vagrant.plugins.vbguest.guest_ok", :version => guest_version))
         end
       end
-
+      
       @app.call(env)
     end
     
@@ -58,13 +61,23 @@ module VagrantVbguest
     def forced_run?
       @force
     end
+    
+    def needs_update?
+      gv = guest_version
+      !(gv && VirtualBox.version == gv)
+    end
 
     def vm_up?
-      @env["vm"].created? && @env["vm"].vm.running?
+      @vm.created? && @env["vm"].vm.running?
     end
     
     def shall_run?
       vm_up? && (forced_run? || !@run_level || @env["config"].vbguest.auto_update)
+    end
+    
+    def guest_version
+      guest_version = @vm.vm.interface.get_guest_property_value("/VirtualBox/GuestAdd/Version")
+      guest_version.empty? ? nil : guest_version.gsub(/[-_]ose/i, '')
     end
 
     def iso_path
@@ -76,7 +89,16 @@ module VagrantVbguest
     end
     
     def installer_script
-      File.expand_path("../../../files/setup_debian.sh", __FILE__)
+      plattform = @env["vm"].system.distro_dispatch
+      case @env["vm"].system.distro_dispatch
+      when :debian, :ubuntu
+        return File.expand_path("../../../files/setup_debian.sh", __FILE__)
+      when :gentoo, :redhat, :suse, :arch, :linux
+        @env.ui.error(I18n.t("vagrant.plugins.vbguest.generic_install_script_for_plattform", :plattform => plattform.to_s))
+        return File.expand_path("../../../files/setup_linux.sh", __FILE__)
+      end
+      @env.ui.error(I18n.t("vagrant.plugins.vbguest.no_install_script_for_plattform", :plattform => plattform.to_s))
+      nil
     end
     
     def installer_destination
