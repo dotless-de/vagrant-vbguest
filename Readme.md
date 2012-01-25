@@ -4,10 +4,12 @@
 
 ## Installation
 
-Requires vagrant 0.8 (well, did not tested on others. feel free)
+Requires vagrant 0.8 (well, did not tested on earlier versions. feel free)
 
     gem install vagrant-vbguest
-    
+
+Compatibly for vagrant 0.9 is currently under development and __will drop support for vagrant 0.8__.
+
 ## Configuration / Usage
 
 In your `Vagrantfile`:
