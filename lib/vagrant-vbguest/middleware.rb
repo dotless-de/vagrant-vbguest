@@ -23,32 +23,30 @@ module VagrantVbguest
           @env[:ui].warn(I18n.t("vagrant.plugins.vbguest.installing#{forced_run? ? '_forced' : ''}", :host => vb_version, :guest => guest_version))
           
           # :TODO: 
-          # the whole istallation process should be put into own classes
+          # the whole installation process should be put into own classes
           # like the vagrant system loading
           if i_script = installer_script
             @env[:ui].info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => iso_path, :to => iso_destination))
-            @vm.ssh.upload!(iso_path, iso_destination)
+            @vm.channel.upload(iso_path, iso_destination)
             
             @env[:ui].info(I18n.t("vagrant.plugins.vbguest.start_copy_script", :from => File.basename(i_script), :to => installer_destination))
-            @vm.ssh.upload!(i_script, installer_destination)
+            @vm.channel.upload(i_script, installer_destination)
             
-            @vm.ssh.execute do |ssh|
-              ssh.sudo!("sh /tmp/install_vbguest.sh") do |channel, type, data|
-                # Print the data directly to STDOUT, not doing any newlines
-                # or any extra formatting of our own
-                $stdout.print(data) if type != :exit_status
-              end
-              
-              ssh.exec!("rm /tmp/install_vbguest.sh /tmp/VBoxGuestAdditions.iso") do |channel, type, data|
-                # Print the data directly to STDOUT, not doing any newlines
-                # or any extra formatting of our own
-                $stdout.print(data) if type != :exit_status
-              end
-              
-              # Puts out an ending newline just to make sure we end on a new
-              # line.
-              $stdout.puts
+            @vm.channel.sudo("sh /tmp/install_vbguest.sh") do |type, data|
+              # Print the data directly to STDOUT, not doing any newlines
+              # or any extra formatting of our own
+              $stdout.print(data) if type != :exit_status
             end
+
+            @vm.channel.execute("rm /tmp/install_vbguest.sh /tmp/VBoxGuestAdditions.iso") do |type, data|
+              # Print the data directly to STDOUT, not doing any newlines
+              # or any extra formatting of our own
+              $stdout.print(data) if type != :exit_status
+            end
+
+            # Puts out an ending newline just to make sure we end on a new
+            # line.
+            $stdout.puts
           end
         end
       end
