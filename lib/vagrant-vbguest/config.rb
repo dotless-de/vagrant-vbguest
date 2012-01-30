@@ -1,3 +1,5 @@
+require 'virtualbox'
+
 module VagrantVbguest
   
   class Config < Vagrant::Config::Base
