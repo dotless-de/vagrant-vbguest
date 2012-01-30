@@ -75,8 +75,9 @@ module VagrantVbguest
     end
     
     def guest_version
-      guest_version = @vm.vm.interface.get_guest_property_value("/VirtualBox/GuestAdd/Version")
-      guest_version.empty? ? nil : guest_version.gsub(/[-_]ose/i, '')
+      guest_version = @vm.driver.read_guest_additions_version
+      !guest_version ? nil : guest_version.gsub(/[-_]ose/i, '')
+    end
 
     def vb_version
       @env[:vm].driver.version
