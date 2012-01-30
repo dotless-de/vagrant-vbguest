@@ -15,7 +15,14 @@ module VagrantVbguest
     def validate(errors)
       errors.add(I18n.t("vagrant.plugins.vbguest.missing_iso_path")) unless iso_path && iso_path.is_a?(String) && File.exists?(iso_path)
     end
-    
+
+    # explicit hash, to get symbols in hash keys
+    def to_hash
+      {
+        :iso_path => iso_path,
+        :auto_update => auto_update
+      }
+    end
     
     protected
     
@@ -26,5 +33,4 @@ module VagrantVbguest
       @iso_path = dvd.location if dvd
     end
   end
-  
 end
