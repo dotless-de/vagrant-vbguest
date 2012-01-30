@@ -95,7 +95,7 @@ module VagrantVbguest
       when :debian, :ubuntu
         return File.expand_path("../../../files/setup_debian.sh", __FILE__)
       when :gentoo, :redhat, :suse, :arch, :linux
-        @env[:ui].error(I18n.t("vagrant.plugins.vbguest.generic_install_script_for_plattform", :plattform => plattform.to_s))
+        @env[:ui].warn(I18n.t("vagrant.plugins.vbguest.generic_install_script_for_plattform", :plattform => plattform.to_s))
         return File.expand_path("../../../files/setup_linux.sh", __FILE__)
       end
       @env[:ui].error(I18n.t("vagrant.plugins.vbguest.no_install_script_for_plattform", :plattform => plattform.to_s))
