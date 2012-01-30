@@ -7,7 +7,7 @@ vbguest = Vagrant::Action::Builder.new do
   use VagrantVbguest::Middleware
 end
 
-Vagrant::Action.register(:vbguest, vbguest)
+Vagrant.commands.register(:vbguest) { vbguest }
 Vagrant.config_keys.register(:vbguest) { VagrantVbguest::Config }
 
 [:start, :up, :reload].each do |level|
