@@ -11,7 +11,7 @@ Vagrant::Action.register(:vbguest, vbguest)
 Vagrant.config_keys.register(:vbguest) { VagrantVbguest::Config }
 
 [:start, :up, :reload].each do |level|
-  Vagrant::Action[level].use VagrantVbguest::Middleware, :run_level => level
+  Vagrant.actions[level].use VagrantVbguest::Middleware, :run_level => level
 end
 
 # Add our custom translations to the load path
