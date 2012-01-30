@@ -20,7 +20,7 @@ module VagrantVbguest
         @env[:ui].success(I18n.t("vagrant.plugins.vbguest.guest_ok", :version => guest_version)) unless needs_update?
         
         if forced_run? || needs_update?
-          @env[:ui].warn(I18n.t("vagrant.plugins.vbguest.installing#{forced_run? ? '_forced' : ''}", :host => VirtualBox.version, :guest => guest_version))
+          @env[:ui].warn(I18n.t("vagrant.plugins.vbguest.installing#{forced_run? ? '_forced' : ''}", :host => vb_version, :guest => guest_version))
           
           # :TODO: 
           # the whole istallation process should be put into own classes
@@ -63,8 +63,7 @@ module VagrantVbguest
     end
     
     def needs_update?
-      gv = guest_version
-      !(gv && VirtualBox.version == gv)
+      !(guest_version && vb_version == guest_version)
     end
 
     def vm_up?
@@ -78,6 +77,9 @@ module VagrantVbguest
     def guest_version
       guest_version = @vm.vm.interface.get_guest_property_value("/VirtualBox/GuestAdd/Version")
       guest_version.empty? ? nil : guest_version.gsub(/[-_]ose/i, '')
+
+    def vb_version
+      @env[:vm].driver.version
     end
 
     def iso_path
