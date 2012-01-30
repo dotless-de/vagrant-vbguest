@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   # s.add_runtime_dependency "rest-client"
   
   s.add_dependency "virtualbox", "~> 0.9.1"
-  s.add_dependency "vagrant", "~> 0.8.2"
+  s.add_dependency "vagrant", "~> 0.9.0"
   s.add_development_dependency "bundler", ">= 1.0.0"
   
   s.files         = `git ls-files`.split("\n")
