@@ -65,7 +65,7 @@ module VagrantVbguest
     end
 
     def vm_up?
-      @vm.created? && @env[:vm].vm.running?
+      @vm.created? && @env[:vm].state == :running
     end
     
     def shall_run?
