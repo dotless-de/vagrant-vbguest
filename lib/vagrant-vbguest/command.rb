@@ -1,8 +1,17 @@
+require 'optparse'
+
 module VagrantVbguest
   
   class Command < Vagrant::Command::Base
-    register "vbguest", "Check and Update the VirtualBox Guest Additions"
-    class_option :force, :type => :boolean, :required => false, :default => false, :desc => "Whether to force the installation"
+    options = {}
+    opts = OptionParser.new do |opts|
+      opts.banner = "Usage: vagrant vbguest [vm-name] [-f|--force]"
+      opts.separator ""
+
+      opts.on("-f", "--force", "Whether to force the installation") do |f|
+        options[:force] = f
+      end
+    end
 
     # Executes the given rake command on the VMs that are represented
     # by this environment.
