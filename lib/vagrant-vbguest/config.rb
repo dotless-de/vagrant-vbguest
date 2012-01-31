@@ -12,7 +12,7 @@ module VagrantVbguest
       autodetect_iso!
     end
     
-    def validate(errors)
+    def validate(env, errors)
       errors.add(I18n.t("vagrant.plugins.vbguest.missing_iso_path")) unless iso_path && iso_path.is_a?(String) && File.exists?(iso_path)
     end
 
