@@ -5,8 +5,13 @@ module VagrantVbguest
   class Installer
 
     def initialize(vm, options = {})
+      @env = {
+        :ui => vm.ui,
+        :tmp_path => vm.env.tmp_path
+      }
       @vm = vm
       @options = options
+      @iso_path = nil
     end
     
     def run!
@@ -52,8 +57,9 @@ module VagrantVbguest
             $stdout.puts
           end
         end
-        
       end
+    ensure
+      cleanup
     end
     
     def needs_update?
@@ -92,8 +98,26 @@ module VagrantVbguest
     end
 
     def iso_path
-      @options[:iso_path]
-    end
-  end
+      @iso_path ||= begin
+        @env[:iso_url] ||= @options[:iso_path].gsub '$VBOX_VERSION', vb_version
 
+        if local_iso?
+          @env[:iso_url]
+        else
+          @download = VagrantVbguest::Download.new(@env)
+          @download.download
+          @download.temp_path
+        end
+      end
+    end
+
+    def local_iso?
+      ::File.file?(@env[:iso_url])
+    end
+
+    def cleanup
+      @download.cleanup if @download
+    end
+
+  end
 end
