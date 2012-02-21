@@ -28,7 +28,7 @@ module VagrantVbguest
           # :TODO: 
           # the whole installation process should be put into own classes
           # like the vagrant system loading
-          if i_script = installer_script
+          if (i_script = installer_script)
             @vm.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => iso_path, :to => iso_destination))
             @vm.channel.upload(iso_path, iso_destination)
             
@@ -73,14 +73,14 @@ module VagrantVbguest
       plattform = @vm.guest.distro_dispatch
       case plattform
       when :debian, :ubuntu
-        return File.expand_path("../../../files/setup_debian.sh", __FILE__)
+        File.expand_path("../../../files/setup_debian.sh", __FILE__)
       when :gentoo, :redhat, :suse, :arch, :linux
         @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.generic_install_script_for_plattform", :plattform => plattform.to_s))
-        return File.expand_path("../../../files/setup_linux.sh", __FILE__)
+        File.expand_path("../../../files/setup_linux.sh", __FILE__)
+      else
+        @vm.ui.error(I18n.t("vagrant.plugins.vbguest.no_install_script_for_plattform", :plattform => plattform.to_s))  
+        nil
       end
-      @vm.ui.error(I18n.t("vagrant.plugins.vbguest.no_install_script_for_plattform", :plattform => plattform.to_s))
-      
-      nil
     end
     
     def installer_destination
