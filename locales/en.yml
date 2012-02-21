@@ -5,8 +5,17 @@ en:
         guest_ok: "Detected Virtualbox Guest Additions %{version} --- OK."
         installing: "Installing Virtualbox Guest Additions %{host} - guest's version is %{guest}"
         installing_forced: "Forcing installation of Virtualbox Guest Additions %{host} - guest's version is %{guest}"
-        missing_iso_path: "Could not autodetect the correct location of the Virtualbox Guest Additions ISO File. Or the Path provided is not correct. \nPlease configure using `config.vbguest.iso_path`. \nOn Mac this is most likely: '/Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso' "
+        missing_iso_path: |-
+          Could not autodetect the correct location of the Virtualbox Guest Additions
+          ISO File. Please correct or configure using `config.vbguest.iso_path`.
+          If you think this is a bug in vbguest and we could guessed the iso_path,
+          please file a bug: https://github.com/dotless-de/vagrant-vbguest/issues
         start_copy_iso: "Copy iso file %{from} into the box %{to}"
         start_copy_script: "Copy installer file %{from} into the box %{to}"
         no_install_script_for_plattform: "Sorry, not shure how to install on a %{plattform} system. Stopping installation."
         generic_install_script_for_plattform: "%{plattform} is currently not supported, but i'll try generic linux way ... "
+
+        download:
+          with: "Downloading VirtualBox Guest Additions ISO with %{class}..."
+          cleaning: "Cleaning up downloaded VirtualBox Guest Additions ISO..."
+          unknown_type: "Unknown or unsupported URI type given for VirtualBox Guest Additions ISO download."

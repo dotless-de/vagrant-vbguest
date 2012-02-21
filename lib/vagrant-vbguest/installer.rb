@@ -5,8 +5,13 @@ module VagrantVbguest
   class Installer
 
     def initialize(vm, options = {})
+      @env = {
+        :ui => vm.ui,
+        :tmp_path => vm.env.tmp_path
+      }
       @vm = vm
       @options = options
+      @iso_path = nil
     end
     
     def run!
@@ -28,7 +33,7 @@ module VagrantVbguest
           # :TODO: 
           # the whole installation process should be put into own classes
           # like the vagrant system loading
-          if i_script = installer_script
+          if (i_script = installer_script)
             @vm.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => iso_path, :to => iso_destination))
             @vm.channel.upload(iso_path, iso_destination)
             
@@ -52,8 +57,9 @@ module VagrantVbguest
             $stdout.puts
           end
         end
-        
       end
+    ensure
+      cleanup
     end
     
     def needs_update?
@@ -73,14 +79,14 @@ module VagrantVbguest
       plattform = @vm.guest.distro_dispatch
       case plattform
       when :debian, :ubuntu
-        return File.expand_path("../../../files/setup_debian.sh", __FILE__)
+        File.expand_path("../../../files/setup_debian.sh", __FILE__)
       when :gentoo, :redhat, :suse, :arch, :linux
         @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.generic_install_script_for_plattform", :plattform => plattform.to_s))
-        return File.expand_path("../../../files/setup_linux.sh", __FILE__)
+        File.expand_path("../../../files/setup_linux.sh", __FILE__)
+      else
+        @vm.ui.error(I18n.t("vagrant.plugins.vbguest.no_install_script_for_plattform", :plattform => plattform.to_s))  
+        nil
       end
-      @vm.ui.error(I18n.t("vagrant.plugins.vbguest.no_install_script_for_plattform", :plattform => plattform.to_s))
-      
-      nil
     end
     
     def installer_destination
@@ -92,8 +98,26 @@ module VagrantVbguest
     end
 
     def iso_path
-      @options[:iso_path]
-    end
-  end
+      @iso_path ||= begin
+        @env[:iso_url] ||= @options[:iso_path].gsub '$VBOX_VERSION', vb_version
 
+        if local_iso?
+          @env[:iso_url]
+        else
+          @download = VagrantVbguest::Download.new(@env)
+          @download.download
+          @download.temp_path
+        end
+      end
+    end
+
+    def local_iso?
+      ::File.file?(@env[:iso_url])
+    end
+
+    def cleanup
+      @download.cleanup if @download
+    end
+
+  end
 end
