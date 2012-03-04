@@ -1,5 +1,6 @@
 require 'vagrant'
 require "vagrant-vbguest/config"
+require "vagrant-vbguest/download"
 require "vagrant-vbguest/installer"
 require 'vagrant-vbguest/command'
 require 'vagrant-vbguest/middleware'
