@@ -4,7 +4,7 @@
 
 ## Installation
 
-Requires vagrant 0.9.0 or later
+Requires vagrant 0.9.4 or later
 
     gem install vagrant-vbguest
 
