@@ -9,11 +9,24 @@ module VagrantVbguest
     def execute
       options = {}
       opts = OptionParser.new do |opts|
-        opts.banner = "Usage: vagrant vbguest [vm-name] [-f|--force]"
+        puts opts.inspect
+        opts.banner = "Usage: vagrant vbguest [vm-name] [-f|--force] [-I|--no-install] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]"
         opts.separator ""
 
-        opts.on("-f", "--force", "Whether to force the installation") do |f|
-          options[:force] = f
+        opts.on("-f", "--force", "Whether to force the installation") do
+          options[:force] = true
+        end
+        
+        opts.on("--no-install", "-I", "Only check for the installed version. Do not attempt to install anything") do
+          options[:no_install] = true
+        end
+        
+        opts.on("--no-remote", "-R", "Do not attempt do download the iso file from a webserver") do
+          options[:no_remote] = true
+        end
+        
+        opts.on("--iso file_or_uri", "Full path or URI to the VBoxGuestAdditions.iso") do |file_or_uri|
+          options[:iso_path] = file_or_uri
         end
       end
 

@@ -3,17 +3,20 @@ en:
     plugins:
       vbguest:
         guest_ok: "Detected Virtualbox Guest Additions %{version} --- OK."
+        check_failed: "Virtualbox Guest Additions on host: %{host} - guest's version is %{guest}"
         installing: "Installing Virtualbox Guest Additions %{host} - guest's version is %{guest}"
         installing_forced: "Forcing installation of Virtualbox Guest Additions %{host} - guest's version is %{guest}"
-        missing_iso_path: |-
-          Could not autodetect the correct location of the Virtualbox Guest Additions
-          ISO File. Please correct or configure using `config.vbguest.iso_path`.
-          If you think this is a bug in vbguest and we could guessed the iso_path,
-          please file a bug: https://github.com/dotless-de/vagrant-vbguest/issues
         start_copy_iso: "Copy iso file %{from} into the box %{to}"
         start_copy_script: "Copy installer file %{from} into the box %{to}"
-        no_install_script_for_plattform: "Sorry, not shure how to install on a %{plattform} system. Stopping installation."
+        no_install_script_for_plattform: "Sorry, don't know how to install on a %{plattform} system. Stopping installation."
         generic_install_script_for_plattform: "%{plattform} is currently not supported, but i'll try generic linux way ... "
+        
+        validation_errors:
+          missing_iso_path: |-
+            Could not autodetect the correct location of the Virtualbox Guest Additions
+            ISO File. Please correct or configure using `config.vbguest.iso_path`.
+            If you think this is a bug in vbguest and we could guessed the iso_path,
+            please file a bug: https://github.com/dotless-de/vagrant-vbguest/issues
 
         download:
           with: "Downloading VirtualBox Guest Additions ISO with %{class}..."

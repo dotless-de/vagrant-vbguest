@@ -5,29 +5,32 @@ module VagrantVbguest
   class Config < Vagrant::Config::Base
     attr_accessor :iso_path
     attr_accessor :auto_update
+    attr_accessor :no_install
+    attr_accessor :no_remote
     
-    def initialize
-      super
-      @auto_update = true
-      autodetect_iso!
-    end
-    
+    def iso_path; @iso_path ||= autodetect_iso; end
+    def auto_update; @auto_update.nil? ? (@auto_update = true) : @auto_update; end
+    def no_remote; @no_remote.nil? ? (@no_remote = false) : @no_remote; end
+    def no_install; @no_install.nil? ? (@no_install = false): @no_install; end
+        
     def validate(env, errors)
-      errors.add(I18n.t("vagrant.plugins.vbguest.missing_iso_path")) unless iso_path && iso_path.is_a?(String) && File.exists?(iso_path)
+      errors.add(I18n.t("vagrant.plugins.vbguest.missing_iso_path")) unless iso_path && iso_path.is_a?(String)
     end
 
     # explicit hash, to get symbols in hash keys
     def to_hash
       {
         :iso_path => iso_path,
-        :auto_update => auto_update
+        :auto_update => auto_update,
+        :no_install => no_install,
+        :no_remote => no_remote
       }
     end
     
     protected
     
-    def autodetect_iso!
-      @iso_path ||= (media_magager_iso || guess_iso || web_iso)
+    def autodetect_iso
+      media_magager_iso || guess_iso || web_iso
     end
 
     def media_magager_iso
@@ -49,7 +52,7 @@ module VagrantVbguest
     end
 
     def web_iso
-      "http://download.virtualbox.org/virtualbox/$VBOX_VERSION/VBoxGuestAdditions_$VBOX_VERSION.iso"
+      "http://download.virtualbox.org/virtualbox/$VBOX_VERSION/VBoxGuestAdditions_$VBOX_VERSION.iso" unless !no_remote
     end
 
   end

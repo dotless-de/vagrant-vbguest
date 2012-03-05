@@ -25,9 +25,11 @@ module VagrantVbguest
       raise Vagrant::Errors::VMNotRunningError if @vm.state != :running
 
       if @options[:auto_update]
-        @vm.ui.success(I18n.t("vagrant.plugins.vbguest.guest_ok", :version => guest_version)) unless needs_update?
         
-        if @options[:force] || needs_update?
+        @vm.ui.success(I18n.t("vagrant.plugins.vbguest.guest_ok", :version => guest_version)) unless needs_update?
+        @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.check_failed", :host => vb_version, :guest => guest_version)) if @options[:no_install]
+        
+        if @options[:force] || (!@options[:no_install] && needs_update?)
           @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.installing#{@options[:force] ? '_forced' : ''}", :host => vb_version, :guest => guest_version))
           
           # :TODO: 
