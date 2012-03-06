@@ -48,7 +48,7 @@ module VagrantVbguest
               $stdout.print(data) if type != :exit_status
             end
 
-            @vm.channel.execute("rm /tmp/install_vbguest.sh /tmp/VBoxGuestAdditions.iso") do |type, data|
+            @vm.channel.execute("rm #{installer_destination} #{iso_destination}") do |type, data|
               # Print the data directly to STDOUT, not doing any newlines
               # or any extra formatting of our own
               $stdout.print(data) if type != :exit_status
