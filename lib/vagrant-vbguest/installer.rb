@@ -13,7 +13,7 @@ module VagrantVbguest
       @options = options
       @iso_path = nil
     end
-    
+
     def run!
       @options[:auto_update] = true
       run
@@ -25,23 +25,23 @@ module VagrantVbguest
       raise Vagrant::Errors::VMNotRunningError if @vm.state != :running
 
       if @options[:auto_update]
-        
+
         @vm.ui.success(I18n.t("vagrant.plugins.vbguest.guest_ok", :version => guest_version)) unless needs_update?
         @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.check_failed", :host => vb_version, :guest => guest_version)) if @options[:no_install]
-        
+
         if @options[:force] || (!@options[:no_install] && needs_update?)
           @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.installing#{@options[:force] ? '_forced' : ''}", :host => vb_version, :guest => guest_version))
-          
-          # :TODO: 
+
+          # :TODO:
           # the whole installation process should be put into own classes
           # like the vagrant system loading
           if (i_script = installer_script)
             @vm.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => iso_path, :to => iso_destination))
             @vm.channel.upload(iso_path, iso_destination)
-            
+
             @vm.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_script", :from => File.basename(i_script), :to => installer_destination))
             @vm.channel.upload(i_script, installer_destination)
-            
+
             @vm.channel.sudo("sh #{installer_destination}") do |type, data|
               @vm.ui.info(data, :prefix => false, :new_line => false)
             end
@@ -55,11 +55,11 @@ module VagrantVbguest
     ensure
       cleanup
     end
-    
+
     def needs_update?
       !(guest_version && vb_version == guest_version)
     end
-    
+
     def guest_version
       guest_version = @vm.driver.read_guest_additions_version
       !guest_version ? nil : guest_version.gsub(/[-_]ose/i, '')
@@ -78,11 +78,11 @@ module VagrantVbguest
         @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.generic_install_script_for_platform", :platform => platform.to_s))
         File.expand_path("../../../files/setup_linux.sh", __FILE__)
       else
-        @vm.ui.error(I18n.t("vagrant.plugins.vbguest.no_install_script_for_platform", :platform => platform.to_s))  
+        @vm.ui.error(I18n.t("vagrant.plugins.vbguest.no_install_script_for_platform", :platform => platform.to_s))
         nil
       end
     end
-    
+
     def installer_destination
       '/tmp/install_vbguest.sh'
     end

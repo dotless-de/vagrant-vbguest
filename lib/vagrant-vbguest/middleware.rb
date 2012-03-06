@@ -1,9 +1,9 @@
 module VagrantVbguest
-  
+
   # A Vagrant middleware which checks the installed VirtualBox Guest
-  # Additions to match the installed VirtualBox installation on the 
+  # Additions to match the installed VirtualBox installation on the
   # host system.
-  
+
   class Middleware
     def initialize(app, env, options = {})
       @app = app
