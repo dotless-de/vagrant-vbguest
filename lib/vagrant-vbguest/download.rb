@@ -1,7 +1,7 @@
 module VagrantVbguest
 
   # This implementation is based on Action::Box::Download by vagrant
-  # 
+  #
   # This adoption does not run as a action/middleware, but is called manually
   #
   # MIT License - Mitchell Hashimoto and John Bender - https://github.com/mitchellh/vagrant
