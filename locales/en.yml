@@ -9,7 +9,7 @@ en:
         start_copy_iso: "Copy iso file %{from} into the box %{to}"
         start_copy_script: "Copy installer file %{from} into the box %{to}"
         no_install_script_for_platform: "Sorry, don't know how to install on a %{platform} system. Stopping installation."
-        generic_install_script_for_platform: "%{platform} is currently not supported, but i'll try generic linux way ... "
+        generic_install_script_for_platform: "%{platform} is currently not supported, will try generic Linux method..."
         
         validation_errors:
           missing_iso_path: |-
