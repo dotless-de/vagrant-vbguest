@@ -30,10 +30,10 @@ module VagrantVbguest
     protected
     
     def autodetect_iso
-      media_magager_iso || guess_iso || web_iso
+      media_manager_iso || guess_iso || web_iso
     end
 
-    def media_magager_iso
+    def media_manager_iso
       dvd = VirtualBox::DVD.all.find do |d|
         !!(d.location =~ /VBoxGuestAdditions.iso$/)
       end
