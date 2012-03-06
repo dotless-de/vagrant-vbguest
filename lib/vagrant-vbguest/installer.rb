@@ -43,20 +43,12 @@ module VagrantVbguest
             @vm.channel.upload(i_script, installer_destination)
             
             @vm.channel.sudo("sh #{installer_destination}") do |type, data|
-              # Print the data directly to STDOUT, not doing any newlines
-              # or any extra formatting of our own
-              $stdout.print(data) if type != :exit_status
+              @vm.ui.info(data, :prefix => false, :new_line => false)
             end
 
             @vm.channel.execute("rm #{installer_destination} #{iso_destination}") do |type, data|
-              # Print the data directly to STDOUT, not doing any newlines
-              # or any extra formatting of our own
-              $stdout.print(data) if type != :exit_status
+              @vm.ui.error(data.chomp, :prefix => false)
             end
-
-            # Puts out an ending newline just to make sure we end on a new
-            # line.
-            $stdout.puts
           end
         end
       end
