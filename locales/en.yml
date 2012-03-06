@@ -8,8 +8,8 @@ en:
         installing_forced: "Forcing installation of Virtualbox Guest Additions %{host} - guest's version is %{guest}"
         start_copy_iso: "Copy iso file %{from} into the box %{to}"
         start_copy_script: "Copy installer file %{from} into the box %{to}"
-        no_install_script_for_plattform: "Sorry, don't know how to install on a %{plattform} system. Stopping installation."
-        generic_install_script_for_plattform: "%{plattform} is currently not supported, but i'll try generic linux way ... "
+        no_install_script_for_platform: "Sorry, don't know how to install on a %{platform} system. Stopping installation."
+        generic_install_script_for_platform: "%{platform} is currently not supported, but i'll try generic linux way ... "
         
         validation_errors:
           missing_iso_path: |-

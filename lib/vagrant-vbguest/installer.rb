@@ -78,15 +78,15 @@ module VagrantVbguest
     end
 
     def installer_script
-      plattform = @vm.guest.distro_dispatch
-      case plattform
+      platform = @vm.guest.distro_dispatch
+      case platform
       when :debian, :ubuntu
         File.expand_path("../../../files/setup_debian.sh", __FILE__)
       when :gentoo, :redhat, :suse, :arch, :linux
-        @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.generic_install_script_for_plattform", :plattform => plattform.to_s))
+        @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.generic_install_script_for_platform", :platform => platform.to_s))
         File.expand_path("../../../files/setup_linux.sh", __FILE__)
       else
-        @vm.ui.error(I18n.t("vagrant.plugins.vbguest.no_install_script_for_plattform", :plattform => plattform.to_s))  
+        @vm.ui.error(I18n.t("vagrant.plugins.vbguest.no_install_script_for_platform", :platform => platform.to_s))  
         nil
       end
     end
