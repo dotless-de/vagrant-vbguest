@@ -4,13 +4,15 @@
 
 ## Installation
 
-Requires vagrant 0.9.4 or later
-
-    gem install vagrant-vbguest
-
-or, using vagrant's gem wrapper
+Requires vagrant 0.9.4 or later (including 1.0)    
+Since vagrant v1.0.0 the prefered installation method for vagrant is using the provided packages or installers. 
+If you installed vagrant that way, you need to use vagrant's gem wrapper:
 
     vagrant gem install vagrant-vbguest
+
+If you installed vagrant using RubyGems simply:
+
+    gem install vagrant-vbguest
 
 Compatibly for vagrant 0.8 is provided by version 0.0.3 (which lacks a bunch of new options)
 
