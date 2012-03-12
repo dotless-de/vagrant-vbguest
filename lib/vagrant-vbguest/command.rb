@@ -4,7 +4,7 @@ module VagrantVbguest
 
   class Command < Vagrant::Command::Base
 
-    # Executes the given rake command on the VMs that are represented
+    # Runs the vbguest installer on the VMs that are represented
     # by this environment.
     def execute
       options = {}
