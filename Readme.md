@@ -19,7 +19,7 @@ Compatibly for vagrant 0.8 is provided by version 0.0.3 (which lacks a bunch of 
 ## Configuration / Usage
 
 If you're lucky, `vagrant-vbguest` does not require any configurations. 
-Hoever, here is an example for your `Vagrantfile`:
+However, here is an example for your `Vagrantfile`:
 
     Vagrant::Config.run do |config|
       # we will try to autodetect this path. 
