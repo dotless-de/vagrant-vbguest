@@ -30,10 +30,10 @@ module VagrantVbguest
     protected
     
     def autodetect_iso
-      media_magager_iso || guess_iso || web_iso
+      media_manager_iso || guess_iso || web_iso
     end
 
-    def media_magager_iso
+    def media_manager_iso
       dvd = VirtualBox::DVD.all.find do |d|
         !!(d.location =~ /VBoxGuestAdditions.iso$/)
       end
@@ -41,14 +41,14 @@ module VagrantVbguest
     end
 
     def guess_iso
-      guess_path = if Vagrant::Util::Platform.linux?
+      path_platform = if Vagrant::Util::Platform.linux?
         "/usr/share/virtualbox/VBoxGuestAdditions.iso"
       elsif Vagrant::Util::Platform.darwin?
         "/Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso"
       elsif Vagrant::Util::Platform.windows?
         File.join((ENV["PROGRAM_FILES"] || ENV["PROGRAMFILES"]), "/Oracle/VirtualBox/VBoxGuestAdditions.iso")
       end
-      File.exists?(guess_path) ? guess_path : nil
+      File.exists?(path_platform) ? path_platform : nil
     end
 
     def web_iso
