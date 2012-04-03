@@ -10,8 +10,8 @@ module VagrantVbguest
         :tmp_path => vm.env.tmp_path
       }
       @vm = vm
-      @options = options
       @iso_path = nil
+      @options = options
     end
 
     def run!
@@ -36,6 +36,8 @@ module VagrantVbguest
           # the whole installation process should be put into own classes
           # like the vagrant system loading
           if (i_script = installer_script)
+            @options[:iso_path] ||= VagrantVbguest::Detector.new(@vm, @options).iso_path
+
             @vm.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => iso_path, :to => iso_destination))
             @vm.channel.upload(iso_path, iso_destination)
 
@@ -98,6 +100,8 @@ module VagrantVbguest
         if local_iso?
           @env[:iso_url]
         else
+          # :TODO: This will also raise, if the iso_url points to an invalid local path
+          raise VagrantVbguest::DownloadingDisabledError.new(:from => @env[:iso_url]) if @options[:no_remote]
           @download = VagrantVbguest::Download.new(@env)
           @download.download
           @download.temp_path
