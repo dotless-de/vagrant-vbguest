@@ -20,7 +20,7 @@ module VagrantVbguest
       end
 
       def media_manager_iso
-        (m = @vm.driver.execute('list', 'dvds').match(/^.+:\s+(?<path>.*VBoxGuestAdditions.iso)$/i)) && m[:path]
+        (m = @vm.driver.execute('list', 'dvds').match(/^.+:\s+(.*VBoxGuestAdditions.iso)$/i)) && m[1]
       end
 
       def guess_iso
