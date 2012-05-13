@@ -1,11 +1,11 @@
 # vagrant-vbguest
 
-*vagrant-vbguest* is a [Vagrant](http://vagrantup.com) plugin wich automatically installes the host's VirtualBox Guest Additions on the guest system.
+*vagrant-vbguest* is a [Vagrant](http://vagrantup.com) plugin which automatically installs the host's VirtualBox Guest Additions on the guest system.
 
 ## Installation
 
 Requires vagrant 0.9.4 or later (including 1.0)    
-Since vagrant v1.0.0 the prefered installation method for vagrant is using the provided packages or installers. 
+Since vagrant v1.0.0 the preferred installation method for vagrant is using the provided packages or installers. 
 If you installed vagrant that way, you need to use vagrant's gem wrapper:
 
     vagrant gem install vagrant-vbguest
@@ -42,7 +42,7 @@ However, here is an example for your `Vagrantfile`:
 The `iso_path` may contain the optional placeholder `$VBOX_VERSION` for the detected version (e.g. `4.1.8`).
 The URI for the actual iso download reads: `http://download.virtualbox.org/virtualbox/$VBOX_VERSION/VBoxGuestAdditions_$VBOX_VERSION.iso`<br/>
 vbguest will try to autodetect the best option for your system. WTF? see below.
-* `auto_update` (Boolean, dafault: `true`) : Whether to check the correct additions version on each start (where start is _not_ resuming a box).
+* `auto_update` (Boolean, default: `true`) : Whether to check the correct additions version on each start (where start is _not_ resuming a box).
 * `no_install` (Boolean, default: `false`) : Whether to check the correct additions version only. This will warn you about version mis-matches, but will not try to install anything.
 * `no_remote` (Boolean, default: `false`) : Whether to _not_ download the iso file from a remote location. This includes any `http` location!
 
