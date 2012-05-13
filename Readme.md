@@ -89,8 +89,14 @@ Installing the Window System drivers ...fail!
 ...
 </code></pre>
 
-Those lots tell you that, the guest addition of the box *default* are outdated, which guest additions iso file will be used and passes through all the installer logs.
-No worries on the `Installing the Window System drivers ...fail!` line. Most dev boxes you are using won't run a Window Server, thus it's absolutely save to ignore that error.
+The plugin's part starts at `[default] Installing Virtualbox Guest Additions 4.1.14 - guest's version is 4.1.1`, telling you that:
+
+* the guest addition of the box *default* are outdated (or mismatch) 
+* which guest additions iso file will be used 
+* which installer script will be used
+* all the VirtualBox Guest Additions installer output.
+
+No worries on the `Installing the Window System drivers ...fail!`. Most dev boxes you are using won't run a Window Server, thus it's absolutely save to ignore that error.
 
 
 When everything is fine, and no update is needed, you see log like:
