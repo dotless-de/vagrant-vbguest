@@ -64,5 +64,5 @@ You may also run the installer manually:
 ## Knows Issues
 
 * The installer script, which mounts and runs the GuestAdditions Installer Binary, works on linux only. Most likely it will run on most unix-like plattform. 
-* The installer script requires a directory `/mnt` on the host system
+* The installer script requires a directory `/mnt` on the guest system
 * On multi vm boxes, the iso file will be downloaded for each vm
