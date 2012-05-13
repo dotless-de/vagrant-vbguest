@@ -1,6 +1,6 @@
 # vagrant-vbguest
 
-`vagrant-vbguest` is a [Vagrant](http://vagrantup.com) plugin wich automatically installes the host's VirtualBox Guest Additions on the guest system.
+*vagrant-vbguest* is a [Vagrant](http://vagrantup.com) plugin wich automatically installes the host's VirtualBox Guest Additions on the guest system.
 
 ## Installation
 
@@ -18,7 +18,7 @@ Compatibly for vagrant 0.8 is provided by version 0.0.3 (which lacks a bunch of 
 
 ## Configuration / Usage
 
-If you're lucky, `vagrant-vbguest` does not require any configurations. 
+If you're lucky, *vagrant-vbguest* does not require any configurations. 
 However, here is an example for your `Vagrantfile`:
 
     Vagrant::Config.run do |config|
@@ -48,8 +48,8 @@ vbguest will try to autodetect the best option for your system. WTF? see below.
 
 ### ISO autodetection
 
-`vagrant-vbguest` will try to autodetect a VirtualBox GuestAdditions iso file on your system, which usually matches your installed version of VirtualBox.
-If it cannot find one, it downloads one from the web (virtualbox.org). Those places will be checked in order:
+*vagrant-vbguest* will try to autodetect a VirtualBox GuestAdditions iso file on your system, which usually matches your installed version of VirtualBox. If it cannot find one, it downloads one from the web (virtualbox.org).   
+Those places will be checked in order:
 
 1. Checks your VirualBox "Virtual Media Maganger" for a DVD called "VBoxGuestAdditions.iso"
 2. Guess by your operating system:
