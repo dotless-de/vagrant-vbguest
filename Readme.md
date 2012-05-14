@@ -8,11 +8,15 @@ Requires vagrant 0.9.4 or later (including 1.0)
 Since vagrant v1.0.0 the preferred installation method for vagrant is using the provided packages or installers. 
 If you installed vagrant that way, you need to use vagrant's gem wrapper:
 
-    vagrant gem install vagrant-vbguest
+```bash
+$ vagrant gem install vagrant-vbguest
+```
 
 If you installed vagrant using RubyGems, use:
 
-    gem install vagrant-vbguest
+```bash
+$ gem install vagrant-vbguest
+```
 
 Compatibly for vagrant 0.8 is provided by version 0.0.3 (which lacks a bunch of new options)
 
@@ -21,21 +25,22 @@ Compatibly for vagrant 0.8 is provided by version 0.0.3 (which lacks a bunch of 
 If you're lucky, *vagrant-vbguest* does not require any configurations. 
 However, here is an example for your `Vagrantfile`:
 
-    Vagrant::Config.run do |config|
-      # we will try to autodetect this path. 
-      # However, if we cannot or you have a special one you may pass it like:
-      # config.vbguest.iso_path = "#{ENV['HOME']}/Downloads/VBoxGuestAdditions.iso"
-      # or
-      # config.vbguest.iso_path = "http://company.server/VirtualBox/$VBOX_VERSION/VBoxGuestAdditions.iso"
-      
-      # set auto_update to false, if do NOT want to check the correct additions 
-      # version when booting this machine
-      config.vbguest.auto_update = false
-      
-      # do NOT download the iso file from a webserver
-      config.vbguest.no_remote = true
-    end
-
+```ruby
+Vagrant::Config.run do |config|
+  # we will try to autodetect this path. 
+  # However, if we cannot or you have a special one you may pass it like:
+  # config.vbguest.iso_path = "#{ENV['HOME']}/Downloads/VBoxGuestAdditions.iso"
+  # or
+  # config.vbguest.iso_path = "http://company.server/VirtualBox/$VBOX_VERSION/VBoxGuestAdditions.iso"
+  
+  # set auto_update to false, if do NOT want to check the correct additions 
+  # version when booting this machine
+  config.vbguest.auto_update = false
+  
+  # do NOT download the iso file from a webserver
+  config.vbguest.no_remote = true
+end
+```
 
 ### Config options
 
@@ -59,35 +64,35 @@ This is a per box settings. On multi vm environments you need to set that for ea
 
 When *vagrant-vbguest* is running it will provide you some logs:
 
-<pre><code>...
-[default] Booting VM…
-[default] Waiting for VM to boot. This can take a few minutes.
-[default] VM booted and ready for use!
-<span style="color:rgb(196,160,0)">[default] Installing Virtualbox Guest Additions 4.1.14 - guest's version is 4.1.12</span>
-[default] Copy iso file /Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso into the box /tmp/VBoxGuestAdditions.iso
-[default] Copy installer file setup_debian.sh into the box /tmp/install_vbguest.sh
-stdin: is not a tty
-Reading package lists...
-Building dependency tree...
-Reading state information...
-linux-headers-2.6.32-30-server is already the newest version.
-dkms is already the newest version.
-0 upgraded, 0 newly installed, 0 to remove and 142 not upgraded.
-Verifying archive integrity... All good.
-Uncompressing VirtualBox 4.1.14 Guest Additions for Linux..........
-VirtualBox Guest Additions installer
-Removing installed version 4.1.12 of VirtualBox Guest Additions...
-tar: Record size = 8 blocks
-Removing existing VirtualBox DKMS kernel modules ...done.
-Removing existing VirtualBox non-DKMS kernel modules ...done.
-Building the VirtualBox Guest Additions kernel modules ...done.
-Doing non-kernel setup of the Guest Additions ...done.
-You should restart your guest to make sure the new modules are actually used
+    ...
+    [default] Booting VM...
+    [default] Waiting for VM to boot. This can take a few minutes.
+    [default] VM booted and ready for use!
+    [default] Installing Virtualbox Guest Additions 4.1.14 - guest's version is 4.1.12
+    [default] Copy iso file /Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso into the box /tmp/VBoxGuestAdditions.iso
+    [default] Copy installer file setup_debian.sh into the box /tmp/install_vbguest.sh
+    stdin: is not a tty
+    Reading package lists...
+    Building dependency tree...
+    Reading state information...
+    linux-headers-2.6.32-30-server is already the newest version.
+    dkms is already the newest version.
+    0 upgraded, 0 newly installed, 0 to remove and 142 not upgraded.
+    Verifying archive integrity... All good.
+    Uncompressing VirtualBox 4.1.14 Guest Additions for Linux..........
+    VirtualBox Guest Additions installer
+    Removing installed version 4.1.12 of VirtualBox Guest Additions...
+    tar: Record size = 8 blocks
+    Removing existing VirtualBox DKMS kernel modules ...done.
+    Removing existing VirtualBox non-DKMS kernel modules ...done.
+    Building the VirtualBox Guest Additions kernel modules ...done.
+    Doing non-kernel setup of the Guest Additions ...done.
+    You should restart your guest to make sure the new modules are actually used
 
-Installing the Window System drivers ...fail!
-(Could not find the X.Org or XFree86 Window System.)
-...
-</code></pre>
+    Installing the Window System drivers ...fail!
+    (Could not find the X.Org or XFree86 Window System.)
+    ...
+
 
 The plugin's part starts at `[default] Installing Virtualbox Guest Additions 4.1.14 - guest's version is 4.1.1`, telling you that:
 
@@ -98,37 +103,39 @@ The plugin's part starts at `[default] Installing Virtualbox Guest Additions 4.1
 
 No worries on the `Installing the Window System drivers ...fail!`. Most dev boxes you are using won't run a Window Server, thus it's absolutely save to ignore that error.
 
-
 When everything is fine, and no update is needed, you see log like:
 
-<pre><code>...
-[default] Booting VM...
-[default] Waiting for VM to boot. This can take a few minutes.
-[default] VM booted and ready for use!
-<span style="color:rgb(78,154,6)">[default] Detected Virtualbox Guest Additions 4.1.14 --- OK.</span>
-...
-</code></pre>
+    ...
+    [default] Booting VM...
+    [default] Waiting for VM to boot. This can take a few minutes.
+    [default] VM booted and ready for use!
+    [default] Detected Virtualbox Guest Additions 4.1.14 --- OK.
+    ...
 
 
 ### Running as a Command
 
 When you switched off the middleware auto update, or you have a box up and running you may also run the installer manually.
 
-    $ vagrant vbguest [vm-name] [-f|--force] [-I|--no-install] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]
+```bash
+$ vagrant vbguest [vm-name] [-f|--force] [-I|--no-install] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]
+```
 
 For example, when you just updated Virtual Box on your host system, you should update the gust additions right away. However, you may need to reload the box to get the guest additions working.
 
 If you want to check the guest additions versions, without installing them, you may run:
 
-    $ vagrant vbguest --no-install
-    
+```bash
+$ vagrant vbguest --no-install
+```
+
 Telling you either about a version mismatch:
 
-<pre><code><span style="color:rgb(196,160,0)">[default] Virtualbox Guest Additions on host: 4.1.14 - guest's version is 4.1.0</span></code></pre>
+    [default] Virtualbox Guest Additions on host: 4.1.14 - guest's version is 4.1.0
 
-or a macth: 
+or a match: 
 
-<pre><code><span style="color:rgb(78,154,6)">[default] Detected Virtualbox Guest Additions 4.1.14 --- OK</span></code></pre>
+    [default] Detected Virtualbox Guest Additions 4.1.14 --- OK
 
 ### ISO autodetection
 
