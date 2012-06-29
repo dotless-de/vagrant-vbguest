@@ -76,7 +76,7 @@ module VagrantVbguest
       case platform
       when :debian, :ubuntu
         File.expand_path("../../../files/setup_debian.sh", __FILE__)
-      when :gentoo, :redhat, :suse, :arch, :linux
+      when :gentoo, :redhat, :suse, :arch, :fedora, :linux
         @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.generic_install_script_for_platform", :platform => platform.to_s))
         File.expand_path("../../../files/setup_linux.sh", __FILE__)
       else
