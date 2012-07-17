@@ -44,7 +44,11 @@ module VagrantVbguest
             @vm.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_script", :from => File.basename(i_script), :to => installer_destination))
             @vm.channel.upload(i_script, installer_destination)
 
-            @vm.channel.sudo("sh #{installer_destination}") do |type, data|
+            @vm.channel.sudo("chmod 0755 #{installer_destination}") do |type, data|
+              @vm.ui.info(data, :prefix => false, :new_line => false)
+            end
+
+            @vm.channel.sudo("#{installer_destination}") do |type, data|
               @vm.ui.info(data, :prefix => false, :new_line => false)
             end
 
