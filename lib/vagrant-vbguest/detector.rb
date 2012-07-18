@@ -29,7 +29,11 @@ module VagrantVbguest
         elsif Vagrant::Util::Platform.darwin?
           "/Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso"
         elsif Vagrant::Util::Platform.windows?
-          File.join((ENV["PROGRAM_FILES"] || ENV["PROGRAMFILES"]), "/Oracle/VirtualBox/VBoxGuestAdditions.iso")
+          if (p = ENV["VBOX_INSTALL_PATH"]) && !p.empty?
+            File.join(p, "VBoxGuestAdditions.iso")
+          else
+            File.join((ENV["PROGRAM_FILES"] || ENV["ProgramW6432"] || ENV["PROGRAMFILES"]), "/Oracle/VirtualBox/VBoxGuestAdditions.iso")
+          end
         end
         File.exists?(path_platform) ? path_platform : nil
       end
