@@ -20,41 +20,41 @@ module VagrantVbguest
     end
 
     def run
+
+      return unless @options[:auto_update]
+
       raise Vagrant::Errors::VMNotCreatedError if !@vm.created?
       raise Vagrant::Errors::VMInaccessible if !@vm.state == :inaccessible
       raise Vagrant::Errors::VMNotRunningError if @vm.state != :running
 
-      if @options[:auto_update]
+      @vm.ui.success(I18n.t("vagrant.plugins.vbguest.guest_ok", :version => guest_version)) unless needs_update?
+      @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.check_failed", :host => vb_version, :guest => guest_version)) if @options[:no_install]
 
-        @vm.ui.success(I18n.t("vagrant.plugins.vbguest.guest_ok", :version => guest_version)) unless needs_update?
-        @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.check_failed", :host => vb_version, :guest => guest_version)) if @options[:no_install]
+      if @options[:force] || (!@options[:no_install] && needs_update?)
+        @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.installing#{@options[:force] ? '_forced' : ''}", :host => vb_version, :guest => guest_version))
 
-        if @options[:force] || (!@options[:no_install] && needs_update?)
-          @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.installing#{@options[:force] ? '_forced' : ''}", :host => vb_version, :guest => guest_version))
+        # :TODO:
+        # the whole installation process should be put into own classes
+        # like the vagrant system loading
+        if (i_script = installer_script)
+          @options[:iso_path] ||= VagrantVbguest::Detector.new(@vm, @options).iso_path
 
-          # :TODO:
-          # the whole installation process should be put into own classes
-          # like the vagrant system loading
-          if (i_script = installer_script)
-            @options[:iso_path] ||= VagrantVbguest::Detector.new(@vm, @options).iso_path
+          @vm.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => iso_path, :to => iso_destination))
+          @vm.channel.upload(iso_path, iso_destination)
 
-            @vm.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => iso_path, :to => iso_destination))
-            @vm.channel.upload(iso_path, iso_destination)
+          @vm.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_script", :from => File.basename(i_script), :to => installer_destination))
+          @vm.channel.upload(i_script, installer_destination)
 
-            @vm.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_script", :from => File.basename(i_script), :to => installer_destination))
-            @vm.channel.upload(i_script, installer_destination)
+          @vm.channel.sudo("chmod 0755 #{installer_destination}") do |type, data|
+            @vm.ui.info(data, :prefix => false, :new_line => false)
+          end
 
-            @vm.channel.sudo("chmod 0755 #{installer_destination}") do |type, data|
-              @vm.ui.info(data, :prefix => false, :new_line => false)
-            end
+          @vm.channel.sudo("#{installer_destination}") do |type, data|
+            @vm.ui.info(data, :prefix => false, :new_line => false)
+          end
 
-            @vm.channel.sudo("#{installer_destination}") do |type, data|
-              @vm.ui.info(data, :prefix => false, :new_line => false)
-            end
-
-            @vm.channel.execute("rm #{installer_destination} #{iso_destination}") do |type, data|
-              @vm.ui.error(data.chomp, :prefix => false)
-            end
+          @vm.channel.execute("rm #{installer_destination} #{iso_destination}") do |type, data|
+            @vm.ui.error(data.chomp, :prefix => false)
           end
         end
       end
