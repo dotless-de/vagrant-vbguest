@@ -1,5 +1,5 @@
 module VagrantVbguest
-  
+
   class Config < Vagrant::Config::Base
     attr_accessor :iso_path
     attr_accessor :auto_update
@@ -19,6 +19,6 @@ module VagrantVbguest
         :no_remote => no_remote
       }
     end
-    
+
   end
 end
