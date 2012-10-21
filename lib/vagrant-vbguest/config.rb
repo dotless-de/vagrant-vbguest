@@ -14,7 +14,7 @@ module VagrantVbguest
       def no_remote;   @no_remote.nil?   ? false : @no_remote   end
 
       def iso_path
-        return nil if !@iso_path
+        return nil if !@iso_path || @iso_path == :auto
         @iso_path
       end
     end
@@ -26,7 +26,7 @@ module VagrantVbguest
     def no_remote;   @no_remote.nil?   ? self.class.no_remote   : @no_remote   end
 
     def iso_path
-      return self.class.iso_path if !@iso_path
+      return self.class.iso_path if !@iso_path || @iso_path == :auto
       @iso_path
     end
 
