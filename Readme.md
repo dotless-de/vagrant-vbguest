@@ -52,6 +52,19 @@ vbguest will try to autodetect the best option for your system. WTF? see below.
 * `no_install` (Boolean, default: `false`) : Whether to check the correct additions version only. This will warn you about version mis-matches, but will not try to install anything.
 * `no_remote` (Boolean, default: `false`) : Whether to _not_ download the iso file from a remote location. This includes any `http` location!
 
+#### Global Configuration
+
+Using [Vagrantfile Load Order](http://vagrantup.com/v1/docs/vagrantfile.html#vagrantfile_load_order) you may change default configuration values.
+Edit (create, if missing) your `~/.vagrant.d/Vagrantfile` like this:
+
+```ruby
+# vagrant's autoloading may not have kicked in
+require 'vagrant-vbguest' unless defined? VagrantVbguest::Config
+VagrantVbguest::Config.auto_update = false
+```
+
+Settings in a project's `Vagrantfile` will overwrite those setting. When executed as a command, command line arguments will overwrite all of the above.
+
 
 ### Running as a middleware
 

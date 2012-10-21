@@ -13,7 +13,6 @@ module VagrantVbguest
 
     def call(env)
       options = @vm.config.vbguest.to_hash
-      options[:auto_update] = true if options[:auto_update].nil?
       VagrantVbguest::Installer.new(@vm, options).run
       @app.call(env)
     end
