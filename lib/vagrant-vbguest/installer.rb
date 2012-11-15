@@ -4,12 +4,14 @@ module VagrantVbguest
 
   class Installer
 
-    def initialize(vm, options = {})
+    def initialize(vm, run_env, options = {})
       @env = {
         :ui => vm.ui,
         :tmp_path => vm.env.tmp_path
       }
       @vm = vm
+      @action_runner = run_env[:action_runner]
+      @run_env = run_env
       @iso_path = nil
       @options = options
     end
@@ -56,6 +58,9 @@ module VagrantVbguest
           @vm.channel.execute("rm #{installer_destination} #{iso_destination}") do |type, data|
             @vm.ui.error(data.chomp, :prefix => false)
           end
+
+          @vm.ui.info(I18n.t("vagrant.plugins.vbguest.restart_vm"))
+          reboot_vm 
         end
       end
     ensure
@@ -120,6 +125,10 @@ module VagrantVbguest
     def cleanup
       @download.cleanup if @download
     end
-
+    
+    def reboot_vm
+       @action_runner.run(Vagrant::Action::VM::Halt, @run_env)
+       @action_runner.run(Vagrant::Action::VM::Boot, @run_env)
+    end
   end
 end
