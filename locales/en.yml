@@ -8,6 +8,7 @@ en:
         installing_forced: "Forcing installation of Virtualbox Guest Additions %{host} - guest's version is %{guest}"
         start_copy_iso: "Copy iso file %{from} into the box %{to}"
         start_copy_script: "Copy installer file %{from} into the box %{to}"
+        restart_vm: "Restarting VM to apply changes..."
         no_install_script_for_platform: "Sorry, don't know how to install on a %{platform} system. Stopping installation."
         generic_install_script_for_platform: "%{platform} is currently not supported, will try generic Linux method..."
 
