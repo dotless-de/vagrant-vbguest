@@ -3,13 +3,14 @@ module VagrantVbguest
   class Config < Vagrant::Config::Base
 
     module Attributes
-      attr_accessor :iso_path, :auto_update, :no_install, :no_remote
+      attr_accessor :iso_path, :auto_update, :auto_reboot, :no_install, :no_remote
     end
 
     class << self
       include Attributes
 
       def auto_update; @auto_update.nil? ? true  : @auto_update end
+      def auto_reboot; @auto_reboot.nil? ? true  : @auto_reboot end
       def no_install;  @no_install.nil?  ? false : @no_install  end
       def no_remote;   @no_remote.nil?   ? false : @no_remote   end
 
@@ -22,6 +23,7 @@ module VagrantVbguest
     include Attributes
 
     def auto_update; @auto_update.nil? ? self.class.auto_update : @auto_update end
+    def auto_reboot; @auto_reboot.nil? ? self.class.auto_reboot : @auto_reboot end
     def no_install;  @no_install.nil?  ? self.class.no_install  : @no_install  end
     def no_remote;   @no_remote.nil?   ? self.class.no_remote   : @no_remote   end
 
@@ -35,6 +37,7 @@ module VagrantVbguest
       {
         :iso_path => iso_path,
         :auto_update => auto_update,
+        :auto_reboot => auto_reboot,
         :no_install => no_install,
         :no_remote => no_remote
       }

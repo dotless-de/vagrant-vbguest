@@ -7,13 +7,19 @@ module VagrantVbguest
     # Runs the vbguest installer on the VMs that are represented
     # by this environment.
     def execute
-      options = {}
+      options = {
+        :auto_reboot => false
+      }
       opts = OptionParser.new do |opts|
         opts.banner = "Usage: vagrant vbguest [vm-name] [-f|--force] [-I|--no-install] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]"
         opts.separator ""
 
         opts.on("-f", "--force", "Whether to force the installation") do
           options[:force] = true
+        end
+
+        opts.on("--auto-reboot", "Reboot VM after installation") do
+          options[:auto_reboot] = true
         end
 
         opts.on("--no-install", "-I", "Only check for the installed version. Do not attempt to install anything") do
