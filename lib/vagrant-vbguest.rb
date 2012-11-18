@@ -1,7 +1,7 @@
 require 'vagrant'
 require "vagrant-vbguest/errors"
 require "vagrant-vbguest/config"
-require "vagrant-vbguest/detector"
+require "vagrant-vbguest/helpers"
 require "vagrant-vbguest/download"
 require "vagrant-vbguest/installer"
 require 'vagrant-vbguest/command'

@@ -1,29 +1,23 @@
 module VagrantVbguest
+  module Helpers
+    class << self
 
-  class Detector
-
-    def initialize(vm, options)
-      @vm = vm
-      @options = options
-    end
-
-    def iso_path
-      @iso_path ||= autodetect_iso
-    end
-
-    private
-
-      def autodetect_iso
-        path = media_manager_iso || guess_iso || web_iso
-        raise VagrantVbguest::IsoPathAutodetectionError if !path || path.empty?
-        path
+      def local_iso_path_for(vm, options = nil)
+        options ||= {}
+        @local_iso_paths ||= Hash.new
+        @local_iso_paths[vm.uuid] ||= media_manager_iso(vm) || guess_iso(vm)
       end
 
-      def media_manager_iso
-        (m = @vm.driver.execute('list', 'dvds').match(/^.+:\s+(.*VBoxGuestAdditions.iso)$/i)) && m[1]
+      def web_iso_path_for(vm, options = nil)
+        options ||= {}
+        "http://download.virtualbox.org/virtualbox/$VBOX_VERSION/VBoxGuestAdditions_$VBOX_VERSION.iso"
       end
 
-      def guess_iso
+      def media_manager_iso(vm)
+        (m = vm.driver.execute('list', 'dvds').match(/^.+:\s+(.*VBoxGuestAdditions.iso)$/i)) && m[1]
+      end
+
+      def guess_iso(vm)
         path_platform = if Vagrant::Util::Platform.linux?
           "/usr/share/virtualbox/VBoxGuestAdditions.iso"
         elsif Vagrant::Util::Platform.darwin?
@@ -38,9 +32,10 @@ module VagrantVbguest
         File.exists?(path_platform) ? path_platform : nil
       end
 
-      def web_iso
-        "http://download.virtualbox.org/virtualbox/$VBOX_VERSION/VBoxGuestAdditions_$VBOX_VERSION.iso" unless @options[:no_remote]
+      def kernel_module_running?(vm, &block)
+        vm.channel.test('lsmod | grep vboxsf', :sudo => true, &block)
       end
 
+    end
   end
 end
