@@ -11,7 +11,7 @@ module VagrantVbguest
         :auto_reboot => false
       }
       opts = OptionParser.new do |opts|
-        opts.banner = "Usage: vagrant vbguest [vm-name] [-f|--force] [-I|--no-install] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]"
+        opts.banner = "Usage: vagrant vbguest [vm-name] [-f|--force] [--auto-reboot] [-I|--no-install] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]"
         opts.separator ""
 
         opts.on("-f", "--force", "Whether to force the installation") do
