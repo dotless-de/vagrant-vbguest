@@ -78,7 +78,7 @@ module VagrantVbguest
           @@rebooted[@vm.name] = true
           @vm.reload
         else
-          @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.suggest_restart"))
+          @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.suggest_restart", :name => @vm.name))
         end
       end
     end

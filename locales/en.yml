@@ -9,7 +9,7 @@ en:
         start_copy_iso: "Copy iso file %{from} into the box %{to}"
         start_copy_script: "Copy installer file %{from} into the box %{to}"
         restart_vm: "Restarting VM to apply changes..."
-        suggest_restart: "Guest Additions got installed. However, they seem not be loaded correctly. Please restart the box runing `vagrant reload`"
+        suggest_restart: "Guest Additions got installed. However, they seem not be loaded correctly. Please restart the box runing `vagrant reload %{name}`"
         restart_loop_guard_activated: "Guest Additions will not load, even after reboot."
         no_install_script_for_platform: "Sorry, don't know how to install on a %{platform} system. Stopping installation."
         generic_install_script_for_platform: "%{platform} is currently not supported, will try generic Linux method..."
