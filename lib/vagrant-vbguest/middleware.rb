@@ -13,6 +13,7 @@ module VagrantVbguest
 
     def call(env)
       options = @vm.config.vbguest.to_hash
+      options[:run_env] = env
       VagrantVbguest::Installer.new(@vm, options).run
 
       @app.call(env)
