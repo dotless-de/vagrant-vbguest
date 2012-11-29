@@ -3,7 +3,6 @@ module VagrantVbguest
   # Handles the guest addins installation process
 
   class Installer
-    @@rebooted = {}
 
     def initialize(vm, options = {})
       @env = {
@@ -32,12 +31,8 @@ module VagrantVbguest
       @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.check_failed", :host => vb_version, :guest => guest_version)) if @options[:no_install]
 
       if @options[:force] || (!@options[:no_install] && needs_update?)
-        if rebooted?
-          @vm.ui.error(I18n.t("vagrant.plugins.vbguest.restart_loop_guard_activated"))
-        else
-          @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.installing#{@options[:force] ? '_forced' : ''}", :host => vb_version, :guest => guest_version))
-          install
-        end
+        @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.installing#{@options[:force] ? '_forced' : ''}", :host => vb_version, :guest => guest_version))
+        install
       end
     ensure
       cleanup
@@ -67,24 +62,7 @@ module VagrantVbguest
         end
 
         cleanup
-        reboot
       end
-    end
-
-    def reboot
-      if !VagrantVbguest::Helpers.kernel_module_running?(@vm)
-        if @options[:auto_reboot]
-          @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.restart_vm"))
-          @@rebooted[@vm.name] = true
-          @vm.reload(@options[:run_env])
-        else
-          @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.suggest_restart", :name => @vm.name))
-        end
-      end
-    end
-
-    def rebooted?
-      !!@@rebooted[@vm.name]
     end
 
     def needs_update?
