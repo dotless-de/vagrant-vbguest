@@ -1,8 +1,11 @@
 require 'optparse'
+require 'vagrant/command/start_mixins'
 
 module VagrantVbguest
 
   class Command < Vagrant::Command::Base
+    include Vagrant::Command::StartMixins
+    include VagrantVbguest::Helpers::Rebootable
 
     # Runs the vbguest installer on the VMs that are represented
     # by this environment.
@@ -33,6 +36,8 @@ module VagrantVbguest
         opts.on("--iso file_or_uri", "Full path or URI to the VBoxGuestAdditions.iso") do |file_or_uri|
           options[:iso_path] = file_or_uri
         end
+
+        build_start_options(opts, options)
       end
 
       argv = parse_options(opts)
@@ -54,6 +59,13 @@ module VagrantVbguest
     def execute_on_vm(vm, options)
       options = vm.config.vbguest.to_hash.merge(options)
       VagrantVbguest::Installer.new(vm, options).run!
+      reboot(vm, options) if need_reboot?(vm)
+    end
+
+    def reboot vm, options
+      if super
+        vm.reload(options)
+      end
     end
   end
 end

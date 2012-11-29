@@ -5,6 +5,8 @@ module VagrantVbguest
   # host system.
 
   class Middleware
+    include VagrantVbguest::Helpers::Rebootable
+
     def initialize(app, env, options = {})
       @app = app
       @env = env
@@ -13,10 +15,24 @@ module VagrantVbguest
 
     def call(env)
       options = @vm.config.vbguest.to_hash
-      options[:run_env] = env
       VagrantVbguest::Installer.new(@vm, options).run
 
+      if need_reboot?(@vm)
+        if rebooted?(@vm)
+          @vm.ui.error(I18n.t("vagrant.plugins.vbguest.restart_loop_guard_activated"))
+        else
+          reboot(@vm, options) if need_reboot?(@vm)
+        end
+      end
+
       @app.call(env)
+    end
+
+    def reboot vm, options
+      if super
+        @env[:action_runner].run(Vagrant::Action::VM::Halt, @env)
+        @env[:action_runner].run(Vagrant::Action::VM::Boot, @env)
+      end
     end
 
   end

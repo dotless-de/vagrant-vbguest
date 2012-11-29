@@ -37,5 +37,29 @@ module VagrantVbguest
       end
 
     end
+
+    module Rebootable
+      @@rebooted = {}
+
+      def rebooted?(vm)
+        !!@@rebooted[vm.name]
+      end
+
+      def need_reboot?(vm)
+        !VagrantVbguest::Helpers.kernel_module_running?(vm)
+      end
+
+      def reboot(vm, options)
+        if options[:auto_reboot]
+          vm.ui.warn(I18n.t("vagrant.plugins.vbguest.restart_vm"))
+          @@rebooted[vm.name] = true
+          true
+        else
+          @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.suggest_restart", :name => vm.name))
+          false
+        end
+      end
+    end
+
   end
 end
