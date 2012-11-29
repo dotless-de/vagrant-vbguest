@@ -158,6 +158,13 @@ The `auto-reboot` is tured off by default, when running as a command. Vbguest wi
 $ vagrant vbguest --auto-reboot
 ```
 
+You can also pass vagrant's `reload` options like:
+
+```bash
+$ vagrant vbguest --auto-reboot --no-provision
+```
+
+
 
 ### ISO autodetection
 
