@@ -1,3 +1,9 @@
+## 0.5.1 (2012-11-30)
+
+ - Fix: Provisioning will not run twice when rebooted due
+   to incomplete GuestAdditions installation [GH-27]
+   (thanks @gregsymons for pointing)
+
 ## 0.5.0 (2012-11-19)
 
   - Box will be rebooted if the GuestAdditions installation
