@@ -13,6 +13,11 @@ en:
         restart_loop_guard_activated: "Guest Additions will not load, even after reboot."
         no_install_script_for_platform: "Sorry, don't know how to install on a %{platform} system. Stopping installation."
         generic_install_script_for_platform: "%{platform} is currently not supported, will try generic Linux method..."
+        guest_version_reports_differ: |-
+          Got different reports about installed GuestAdditions version:
+          Virtualbox on your host claims:   %{driver}
+          VBoxService inside the vm claims: %{service}
+          Going on, assuming VBoxService is correct...
 
         errors:
           autodetect_iso_path: |-
