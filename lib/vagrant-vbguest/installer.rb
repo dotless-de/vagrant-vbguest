@@ -70,8 +70,19 @@ module VagrantVbguest
     end
 
     def guest_version
+      return @guest_version if @guest_version
+
       guest_version = @vm.driver.read_guest_additions_version
-      !guest_version ? nil : guest_version.gsub(/[-_]ose/i, '')
+      guest_version = !guest_version ? nil : guest_version.gsub(/[-_]ose/i, '')
+
+      @vm.channel.sudo('VBoxService --version', :error_check => false) do |type, data|
+        if (v = data.to_s.match(/^(\d+\.\d+.\d+)/)) && guest_version != v[1]
+          @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.guest_version_reports_differ", :driver => guest_version, :service => v[1]))
+          guest_version = v[1]
+        end
+      end
+
+      @guest_version = guest_version
     end
 
     def vb_version
