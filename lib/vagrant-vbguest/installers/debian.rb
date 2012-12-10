@@ -9,12 +9,11 @@ module VagrantVbguest
       # installes the correct linux-headers package
       # installes `dkms` package for dynamic kernel module loading
       def install(opts=nil, &block)
-        install_cmd = 'apt-get install -y linux-headers-`uname -r` dkms'
         begin
-          vm.channel.sudo(install_cmd, opts, &block)
+          vm.channel.sudo(install_dependencies_cmd, opts, &block)
         rescue
           vm.channel.sudo('apt-get update', opts, &block)
-          vm.channel.sudo(install_cmd, opts, &block)
+          vm.channel.sudo(install_dependencies_cmd, opts, &block)
         end
         upload(iso_file)
         vm.channel.sudo("mount #{tmp_path} -o loop #{mount_point}", opts, &block)
@@ -22,6 +21,18 @@ module VagrantVbguest
         vm.channel.sudo("umount #{mount_point}", opts, &block)
       end
 
+    protected
+      def install_dependencies_cmd
+        "apt-get install -y #{dependencies}"
+      end
+
+      def dependencies
+        packages = ['linux-headers-`uname -r`']
+        # some Debian system (lenny) dont come with a dkms packe so we neet to skip that.
+        # apt-cache search will exit with 0 even if nothing was found, so we need to grep.
+        packages << 'dkmx' if vm.channel.test('apt-cache search --names-only \'^dkms$\' | grep dkms')
+        packages.join ' '
+      end
     end
   end
 end
