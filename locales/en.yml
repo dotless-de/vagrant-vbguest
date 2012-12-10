@@ -11,8 +11,6 @@ en:
         restart_vm: "Restarting VM to apply changes..."
         suggest_restart: "Guest Additions got installed. However, they seem not be loaded correctly. Please restart the box runing `vagrant reload %{name}`"
         restart_loop_guard_activated: "Guest Additions will not load, even after reboot."
-        no_install_script_for_platform: "Sorry, don't know how to install on a %{platform} system. Stopping installation."
-        generic_install_script_for_platform: "%{platform} is currently not supported, will try generic Linux method..."
         guest_version_reports_differ: |-
           Got different reports about installed GuestAdditions version:
           Virtualbox on your host claims:   %{driver}
@@ -33,6 +31,14 @@ en:
             %{from}
             Please configure a local path to the iso using `config.vbguest.iso_path` 
             in your Vagrantfile or the `--iso` command line option.
+
+          installer:
+            no_installer_for_platform: |-
+              Sorry, don't know how to %{method} Virtualbox Guest Additions on this platform. Stopping installation.
+            generic_linux_installer: |-
+              The guest's platform is currently not supported, will try generic Linux method...
+            do_not_inherit_match_method: |-
+              Installer classes must proviode their own `match?` method.
 
         download:
           with: "Downloading VirtualBox Guest Additions ISO with %{class}..."

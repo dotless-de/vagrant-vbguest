@@ -4,6 +4,47 @@ module VagrantVbguest
 
   class Installer
 
+    class NoInstallerFoundError < Vagrant::Errors::VagrantError
+      error_namespace "vagrant.plugins.vbguest.errors.installer"
+      error_key "no_install_script_for_platform"
+    end
+
+    class << self
+
+      ##
+      # Register an Installer implementation.
+      # All Installer classes which wish to get picked automaticly
+      # using their `#match?` method have to register.
+      # Ad-hoc or small custom Installer meight not need to get
+      # registered, but need to get passed as an config option (`installer`)
+      #
+      # Registration takes a priority which defines how specific
+      # the Installer matches a system. Low level installers, like
+      # "linux" or "bsd" use a small priority (2), while distribution
+      # installers use higher priority (5). Installers matching a
+      # specific version of a distribution should use heigher
+      # priority numbers.
+      #
+      # @param [Class] installer_class A reference to the Installer class.
+      # @param [Fixnum] prio Priority describing how specific the Installer matches. (default: `5`)
+      def register(installer_class, prio = 5)
+        @installers ||= {}
+        @installers[prio] ||= []
+        @installers[prio] << installer_class
+      end
+
+      ##
+      # Returns an instance of the registrated Installer class which
+      # matches first (according to it's priority) or `nil` if none matches.
+      def detect(vm, options)
+        @installers.keys.sort.reverse.each do |prio|
+          klass = @installers[prio].detect { |k| k.match?(vm) }
+          return klass.new(vm, options) if klass
+        end
+        return nil
+      end
+    end
+
     def initialize(vm, options = {})
       @env = {
         :ui => vm.ui,
@@ -20,7 +61,6 @@ module VagrantVbguest
     end
 
     def run
-
       return unless @options[:auto_update]
 
       raise Vagrant::Errors::VMNotCreatedError if !@vm.created?
@@ -39,36 +79,46 @@ module VagrantVbguest
     end
 
     def install
-      # :TODO:
-      # the whole installation process should be put into own classes
-      # like the vagrant system loading
-      if (i_script = installer_script)
-        @vm.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => iso_path, :to => iso_destination))
-        @vm.channel.upload(iso_path, iso_destination)
+      installer = guest_installer
+      raise NoInstallerFoundError, :method => 'install' if !installer
 
-        @vm.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_script", :from => File.basename(i_script), :to => installer_destination))
-        @vm.channel.upload(i_script, installer_destination)
-
-        @vm.channel.sudo("chmod 0755 #{installer_destination}") do |type, data|
-          @vm.ui.info(data, :prefix => false, :new_line => false)
-        end
-
-        @vm.channel.sudo("#{installer_destination}") do |type, data|
-          @vm.ui.info(data, :prefix => false, :new_line => false)
-        end
-
-        @vm.channel.execute("rm #{installer_destination} #{iso_destination}") do |type, data|
-          @vm.ui.error(data.chomp, :prefix => false)
-        end
-
-        cleanup
+      # @vm.ui.info "Installing using #{installer.class.to_s}"
+      installer.install do |type, data|
+        @vm.ui.info(data, :prefix => false, :new_line => false)
       end
+    end
+
+    def rebuild
+      installer = guest_installer
+      raise NoInstallerFoundError, :method => 'rebuild' if !installer
+
+      installer.rebuild do |type, data|
+        @vm.ui.info(data, :prefix => false, :new_line => false)
+      end
+    end
+
+    def needs_rebuild?
+      installer = guest_installer
+      raise NoInstallerFoundError, :method => 'check installation of' if !installer
+
+      installer.needs_rebuild?
+    end
+
+    def need_reboot?
+      installer = guest_installer
+      raise NoInstallerFoundError, :method => 'check installation of' if !installer
+
+      installer.need_reboot?
     end
 
     def needs_update?
       !(guest_version && vb_version == guest_version)
     end
 
+    ##
+    #
+    # @return [String] The version code of the VirtualBox Guest Additions
+    #                  available on the guest, or `nil` if none installed.
     def guest_version
       return @guest_version if @guest_version
 
@@ -85,59 +135,26 @@ module VagrantVbguest
       @guest_version = guest_version
     end
 
+    # Returns the version code of the Virtual Box *host*
     def vb_version
       @vm.driver.version
     end
 
-    def installer_script
-      platform = @vm.guest.distro_dispatch
-      case platform
-      when :debian, :ubuntu
-        File.expand_path("../../../files/setup_debian.sh", __FILE__)
-      when :gentoo, :redhat, :suse, :arch, :fedora, :linux
-        @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.generic_install_script_for_platform", :platform => platform.to_s))
-        File.expand_path("../../../files/setup_linux.sh", __FILE__)
+    # Returns an installer instance for the current vm
+    # This is either the one configured via `installer` option or
+    # detected from all registered installers (see {Installer.detect})
+    #
+    # @return [Installers::Base]
+    def guest_installer
+      @guest_installer ||= if @options[:installer].is_a? Class
+        @options[:installer].new(@vm)
       else
-        @vm.ui.error(I18n.t("vagrant.plugins.vbguest.no_install_script_for_platform", :platform => platform.to_s))
-        nil
+        Installer.detect(@vm, @options)
       end
-    end
-
-    def installer_destination
-      '/tmp/install_vbguest.sh'
-    end
-
-    def iso_destination
-      '/tmp/VBoxGuestAdditions.iso'
-    end
-
-    def iso_path
-      @iso_path ||= begin
-        @options[:iso_path] ||= VagrantVbguest::Helpers.local_iso_path_for @vm, @options
-        if !@options[:iso_path] || @options[:iso_path].empty? && !@options[:no_remote]
-          @options[:iso_path] = VagrantVbguest::Helpers.web_iso_path_for @vm, @options
-        end
-        raise VagrantVbguest::IsoPathAutodetectionError if !@options[:iso_path] || @options[:iso_path].empty?
-        @env[:iso_url] ||= @options[:iso_path].gsub '$VBOX_VERSION', vb_version
-
-        if local_iso?
-          @env[:iso_url]
-        else
-          # :TODO: This will also raise, if the iso_url points to an invalid local path
-          raise VagrantVbguest::DownloadingDisabledError.new(:from => @env[:iso_url]) if @options[:no_remote]
-          @download = VagrantVbguest::Download.new(@env)
-          @download.download
-          @download.temp_path
-        end
-      end
-    end
-
-    def local_iso?
-      ::File.file?(@env[:iso_url])
     end
 
     def cleanup
-      @download.cleanup if @download
+      @guest_installer.cleanup if @guest_installer
     end
 
   end

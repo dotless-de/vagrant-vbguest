@@ -58,8 +58,9 @@ module VagrantVbguest
     # Executes a command on a specific VM.
     def execute_on_vm(vm, options)
       options = vm.config.vbguest.to_hash.merge(options)
-      VagrantVbguest::Installer.new(vm, options).run!
-      reboot(vm, options) if need_reboot?(vm)
+      installer = VagrantVbguest::Installer.new(vm, options)
+      installer.run!
+      reboot(vm, options) if installer.need_reboot?
     end
 
     def reboot vm, options

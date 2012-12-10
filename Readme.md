@@ -52,6 +52,7 @@ vbguest will try to autodetect the best option for your system. WTF? see below.
 * `auto_reboot` (Boolean, dafult: `true` when running as a middleware, `false` when running as a command) : Whether to reboot the box after GuestAdditions has been installed, but not loaded.
 * `no_install` (Boolean, default: `false`) : Whether to check the correct additions version only. This will warn you about version mis-matches, but will not try to install anything.
 * `no_remote` (Boolean, default: `false`) : Whether to _not_ download the iso file from a remote location. This includes any `http` location!
+* `installer` (`VagrantVbguest::Installers::Base`, optional) : Reference to a (custom) installer class
 
 #### Global Configuration
 
@@ -183,6 +184,30 @@ Those places will be checked in order:
 The VirtualBox GuestAdditions Installer will try to load the newly build kernel module. However the installer my fail to do, just as it is happening when updating GuestAdditions from version 4.1 to 4.2.
 
 Hency, vbguest will check for a loaded kernel module after the installation has finished and reboots the box, if it could not find one.
+
+
+## Advanced Usage
+
+vagrant-vbguest provides installers for generic linux and debian/ubuntu.  
+Installers take care of the whole installation process, that includes where to save the iso file inside the guest and where to mount it.
+
+```ruby
+class MyInstaller < VagrantVbguest::Installers::Linux
+  # use /temp instead of /tmp
+  def tmp_path
+    '/temp/VBoxGuestAdditions.iso'
+  end
+
+  # use /media instead of /mnt
+  def mount_point
+    '/media'
+  end
+end
+
+Vagrant::Config.run do |config|
+  config.vbguest.installer = MyInstaller
+end
+```
 
 
 ## Knows Issues

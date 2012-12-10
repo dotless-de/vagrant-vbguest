@@ -1,11 +1,18 @@
 require 'vagrant'
 require "vagrant-vbguest/errors"
-require "vagrant-vbguest/config"
-require "vagrant-vbguest/helpers"
-require "vagrant-vbguest/download"
-require "vagrant-vbguest/installer"
+require 'vagrant-vbguest/helpers'
+
+require 'vagrant-vbguest/installer'
+require 'vagrant-vbguest/installers/base'
+require 'vagrant-vbguest/installers/linux'
+require 'vagrant-vbguest/installers/debian'
+require 'vagrant-vbguest/installers/ubuntu'
+
+require 'vagrant-vbguest/config'
 require 'vagrant-vbguest/command'
 require 'vagrant-vbguest/middleware'
+
+require 'vagrant-vbguest/download'
 
 Vagrant.config_keys.register(:vbguest) { VagrantVbguest::Config }
 
