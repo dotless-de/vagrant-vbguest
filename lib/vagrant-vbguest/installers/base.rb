@@ -94,7 +94,7 @@ module VagrantVbguest
         !installed?(opts, &block)
       end
 
-      def need_reboot?(opts=nil, &block)
+      def needs_reboot?(opts=nil, &block)
         !installed?(opts, &block)
       end
 

@@ -18,7 +18,7 @@ module VagrantVbguest
       installer = VagrantVbguest::Installer.new(@vm, options)
       installer.run
 
-      if installer.need_reboot?
+      if installer.needs_reboot?
         if rebooted?(@vm)
           @vm.ui.error(I18n.t("vagrant.plugins.vbguest.restart_loop_guard_activated"))
         else

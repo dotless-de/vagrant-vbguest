@@ -104,11 +104,11 @@ module VagrantVbguest
       installer.needs_rebuild?
     end
 
-    def need_reboot?
+    def needs_reboot?
       installer = guest_installer
       raise NoInstallerFoundError, :method => 'check installation of' if !installer
 
-      installer.need_reboot?
+      installer.needs_reboot?
     end
 
     def needs_update?

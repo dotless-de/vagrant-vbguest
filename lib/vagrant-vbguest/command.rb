@@ -60,7 +60,7 @@ module VagrantVbguest
       options = vm.config.vbguest.to_hash.merge(options)
       installer = VagrantVbguest::Installer.new(vm, options)
       installer.run!
-      reboot(vm, options) if installer.need_reboot?
+      reboot(vm, options) if installer.needs_reboot?
     end
 
     def reboot vm, options
