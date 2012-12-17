@@ -30,7 +30,7 @@ module VagrantVbguest
         packages = ['linux-headers-`uname -r`']
         # some Debian system (lenny) dont come with a dkms packe so we neet to skip that.
         # apt-cache search will exit with 0 even if nothing was found, so we need to grep.
-        packages << 'dkmx' if vm.channel.test('apt-cache search --names-only \'^dkms$\' | grep dkms')
+        packages << 'dkms' if vm.channel.test('apt-cache search --names-only \'^dkms$\' | grep dkms')
         packages.join ' '
       end
     end
