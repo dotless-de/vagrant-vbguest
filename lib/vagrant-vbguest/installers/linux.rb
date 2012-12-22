@@ -47,15 +47,35 @@ module VagrantVbguest
         vm.channel.sudo("umount #{mount_point}", opts, &block)
       end
 
-      def installed?(opts=nil, &block)
+      def running?(opts=nil, &block)
         opts = {
           :sudo => true
         }.merge(opts || {})
         vm.channel.test('lsmod | grep vboxsf', opts, &block)
       end
 
+      # @return [String] The version code of the VirtualBox Guest Additions
+      #                  available on the guest, or `nil` if none installed.
+      def guest_version(reload = false)
+        return @guest_version if @guest_version && !reload
+        driver_version = super
+
+        @vm.channel.sudo('VBoxService --version', :error_check => false) do |type, data|
+          if (v = data.to_s.match(/^(\d+\.\d+.\d+)/)) && driver_version != v[1]
+            @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.guest_version_reports_differ", :driver => driver_version, :service => v[1]))
+            @guest_version = v[1]
+          end
+        end
+      end
+
+
       def rebuild(opts=nil, &block)
         vm.channel.sudo('/etc/init.d/vboxadd setup', opts, &block)
+      end
+
+      def start(opts=nil, &block)
+        opts = {:error_check => false}.merge(opts || {})
+        vm.channel.sudo('/etc/init.d/vboxadd start', opts, &block)
       end
 
     end

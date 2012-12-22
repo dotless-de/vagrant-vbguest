@@ -15,17 +15,13 @@ module VagrantVbguest
 
     def call(env)
       options = @vm.config.vbguest.to_hash
-      installer = VagrantVbguest::Installer.new(@vm, options)
-      installer.run
-
-      if installer.needs_reboot?
-        if rebooted?(@vm)
-          @vm.ui.error(I18n.t("vagrant.plugins.vbguest.restart_loop_guard_activated"))
-        else
-          reboot(@vm, options)
-        end
+      if options[:auto_update]
+        machine = VagrantVbguest::Machine.new @vm, options
+        status  = machine.state
+        @vm.ui.send (:ok == status ? :success : :warn), I18n.t("vagrant.plugins.vbguest.status.#{status}", machine.info)
+        machine.run
+        reboot(@vm, options) if machine.reboot?
       end
-
       @app.call(env)
     end
 

@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
   # specify any dependencies here; for example:
   # s.add_development_dependency "rspec"
   # s.add_runtime_dependency "rest-client"
+  s.add_runtime_dependency "micromachine"
 
   s.add_development_dependency "bundler", ">= 1.0.0"
 

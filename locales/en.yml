@@ -2,12 +2,13 @@ en:
   vagrant:
     plugins:
       vbguest:
-        guest_ok: "Detected Virtualbox Guest Additions %{version} --- OK."
-        check_failed: "Virtualbox Guest Additions on host: %{host} - guest's version is %{guest}"
-        installing: "Installing Virtualbox Guest Additions %{host} - guest's version is %{guest}"
-        installing_forced: "Forcing installation of Virtualbox Guest Additions %{host} - guest's version is %{guest}"
+        skiped_installation: "Updating GuestAdditions skipped."
+        skiped_rebuild: "Rebuilding GuestAdditions skipped."
+        installing: "Installing Virtualbox Guest Additions %{installer_version} - guest's version is %{guest_version}"
+        installing_forced: "Forcing installation of Virtualbox Guest Additions %{installer_version} - guest's version is %{guest_version}"
+        rebuild: "Rebuilding Virtualbox Guest Additions %{guest_version} (Your host's version is %{host_version})"
+        rebuild_forced: "Forcing rebuilding of Virtualbox Guest Additions %{guest_version} (Your host's version is %{host_version})"
         start_copy_iso: "Copy iso file %{from} into the box %{to}"
-        start_copy_script: "Copy installer file %{from} into the box %{to}"
         restart_vm: "Restarting VM to apply changes..."
         suggest_restart: "Guest Additions got installed. However, they seem not be loaded correctly. Please restart the box runing `vagrant reload %{name}`"
         restart_loop_guard_activated: "Guest Additions will not load, even after reboot."
@@ -16,6 +17,12 @@ en:
           Virtualbox on your host claims:   %{driver}
           VBoxService inside the vm claims: %{service}
           Going on, assuming VBoxService is correct...
+
+        status:
+          clean: "No installation found."
+          unmatched: "GuestAdditions versions on your host (%{host_version}) and guest (%{guest_version}) does not match."
+          not_running: "GuestAdditions seems to be installed (%{guest_version}) correctly, but don't run."
+          ok: "GuestAdditions %{guest_version} running --- OK."
 
         errors:
           autodetect_iso_path: |-

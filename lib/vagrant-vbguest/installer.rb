@@ -46,46 +46,24 @@ module VagrantVbguest
     end
 
     def initialize(vm, options = {})
+      @vm = vm
+      @options = options
+      @iso_path = nil
       @env = {
         :ui => vm.ui,
         :tmp_path => vm.env.tmp_path
       }
-      @vm = vm
-      @iso_path = nil
-      @options = options
-    end
-
-    def run!
-      @options[:auto_update] = true
-      run
-    end
-
-    def run
-      return unless @options[:auto_update]
-
-      raise Vagrant::Errors::VMNotCreatedError if !@vm.created?
-      raise Vagrant::Errors::VMInaccessible if !@vm.state == :inaccessible
-      raise Vagrant::Errors::VMNotRunningError if @vm.state != :running
-
-      @vm.ui.success(I18n.t("vagrant.plugins.vbguest.guest_ok", :version => guest_version)) unless needs_update?
-      @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.check_failed", :host => vb_version, :guest => guest_version)) if @options[:no_install]
-
-      if @options[:force] || (!@options[:no_install] && needs_update?)
-        @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.installing#{@options[:force] ? '_forced' : ''}", :host => vb_version, :guest => guest_version))
-        install
-      end
-    ensure
-      cleanup
     end
 
     def install
       installer = guest_installer
       raise NoInstallerFoundError, :method => 'install' if !installer
 
-      # @vm.ui.info "Installing using #{installer.class.to_s}"
       installer.install do |type, data|
         @vm.ui.info(data, :prefix => false, :new_line => false)
       end
+    ensure
+      cleanup
     end
 
     def rebuild
@@ -97,47 +75,31 @@ module VagrantVbguest
       end
     end
 
-    def needs_rebuild?
+    def start
       installer = guest_installer
-      raise NoInstallerFoundError, :method => 'check installation of' if !installer
+      raise NoInstallerFoundError, :method => 'manual start' if !installer
 
-      installer.needs_rebuild?
-    end
-
-    def needs_reboot?
-      installer = guest_installer
-      raise NoInstallerFoundError, :method => 'check installation of' if !installer
-
-      installer.needs_reboot?
-    end
-
-    def needs_update?
-      !(guest_version && vb_version == guest_version)
-    end
-
-    ##
-    #
-    # @return [String] The version code of the VirtualBox Guest Additions
-    #                  available on the guest, or `nil` if none installed.
-    def guest_version
-      return @guest_version if @guest_version
-
-      guest_version = @vm.driver.read_guest_additions_version
-      guest_version = !guest_version ? nil : guest_version.gsub(/[-_]ose/i, '')
-
-      @vm.channel.sudo('VBoxService --version', :error_check => false) do |type, data|
-        if (v = data.to_s.match(/^(\d+\.\d+.\d+)/)) && guest_version != v[1]
-          @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.guest_version_reports_differ", :driver => guest_version, :service => v[1]))
-          guest_version = v[1]
-        end
+      installer.start do |type, data|
+        @vm.ui.info(data, :prefix => false, :new_line => false)
       end
-
-      @guest_version = guest_version
     end
 
-    # Returns the version code of the Virtual Box *host*
-    def vb_version
-      @vm.driver.version
+    def guest_version(reload=false)
+      installer = guest_installer
+      raise NoInstallerFoundError, :method => 'check installation of' if !installer
+      installer.guest_version(reload)
+    end
+
+    def host_version
+      installer = guest_installer
+      raise NoInstallerFoundError, :method => 'check installation of' if !installer
+      installer.host_version
+    end
+
+    def running?
+      installer = guest_installer
+      raise NoInstallerFoundError, :method => 'check installation of' if !installer
+      installer.running?
     end
 
     # Returns an installer instance for the current vm
@@ -146,6 +108,10 @@ module VagrantVbguest
     #
     # @return [Installers::Base]
     def guest_installer
+      raise Vagrant::Errors::VMNotCreatedError if !@vm.created?
+      raise Vagrant::Errors::VMInaccessible if !@vm.state == :inaccessible
+      raise Vagrant::Errors::VMNotRunningError if @vm.state != :running
+
       @guest_installer ||= if @options[:installer].is_a? Class
         @options[:installer].new(@vm)
       else

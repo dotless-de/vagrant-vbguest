@@ -17,7 +17,12 @@ module VagrantVbguest
         end
         upload(iso_file)
         vm.channel.sudo("mount #{tmp_path} -o loop #{mount_point}", opts, &block)
-        vm.channel.sudo("#{mount_point}/VBoxLinuxAdditions.run --nox11", opts, &block)
+
+        installer = File.join(mount_point, 'VBoxLinuxAdditions.run')
+        yield_installation_waring(installer)
+
+        vm.channel.sudo("#{installer} --nox11", opts, &block)
+
         vm.channel.sudo("umount #{mount_point}", opts, &block)
       end
 

@@ -24,7 +24,7 @@ module VagrantVbguest
         false
       end
 
-      attr_reader :vm
+      attr_reader :vm, :options
 
       def initialize(vm, options=nil)
         @vm = vm
@@ -60,9 +60,9 @@ module VagrantVbguest
       def install(iso_fileO=nil, opts=nil, &block)
       end
 
-      # Handels the rebuild of allready installed GuestAdditions
+      # Handels the rebuild of allready running GuestAdditions
       # It may happen, that the guest has the correct GuestAdditions
-      # version installed, but not the kernel module is not loaded.
+      # version running, but not the kernel module is not running.
       # This method should perform a rebuild or try to reload the
       # kernel module _without_ the GuestAdditions iso file.
       # If there is no way of rebuidling or reloading the
@@ -77,6 +77,22 @@ module VagrantVbguest
       def rebuild(opts=nil, &block)
       end
 
+      # Restarts the allready installed GuestAdditions
+      # It may happen, that the guest has the correct GuestAdditions
+      # version installed, but for some reason are not (yet) runnig.
+      # This method should execute the GuestAdditions system specific
+      # init script in order to start it manually.
+      # If there is no way of doing this on a specific system,
+      # this method should left empty.
+      # Subclasses should override this method.
+      #
+      # @param [Hash] opts Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
+      # @yield [type, data] Takes a Block like {Vagrant::Communication::Base#execute} for realtime output of the command being executed
+      # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
+      # @yieldparam [String] data Data for the given output.
+      def start(opts=nil, &block)
+      end
+
       # Determinates if the GuestAdditions kernel module is loaded.
       # This method tests if there is a working GuestAdditions
       # kernel module. If there is none, {#rebuild} is beeing called.
@@ -86,33 +102,71 @@ module VagrantVbguest
       # Subclasses should override this method.
       #
       # @return [Boolean] `true` if the kernel module is loaded (and thus seems to work), `false` otherwise.
-      def installed?(opts=nil, &block)
+      def running?(opts=nil, &block)
         true
       end
 
-      def needs_rebuild?(opts=nil, &block)
-        !installed?(opts, &block)
+      # Determinates the GuestAdditions version installed on the
+      # guest system.
+      #
+      # @param [Boolean] reload Whether to read the value again or use
+      #                  the cached value form an erlier call.
+      # @return [String] The version code of the VirtualBox Guest Additions
+      #                  available on the guest, or `nil` if none installed.
+      def guest_version(reload=false)
+        return @guest_version if @guest_version && !reload
+
+        guest_version = vm.driver.read_guest_additions_version
+        guest_version = !guest_version ? nil : guest_version.gsub(/[-_]ose/i, '')
+
+        @guest_version = guest_version
       end
 
-      def needs_reboot?(opts=nil, &block)
-        !installed?(opts, &block)
+      # Determinates the host's version
+      #
+      # @return [String] The version code of the Virtual Box *host*
+      def host_version
+        vm.driver.version
+      end
+
+      def installer_version(path_to_installer)
+        version = nil
+        @vm.channel.sudo("#{path_to_installer} --info", :error_check => false) do |type, data|
+          if (v = data.to_s.match(/\AIdentification.*\s(\d+\.\d+.\d+)/i))
+            version = v[1]
+          end
+        end
+        version
+      end
+
+      def yield_installation_waring(path_to_installer)
+        @vm.ui.warn I18n.t("vagrant.plugins.vbguest.installing#{@options[:force] ? '_forced' : ''}",
+          :guest_version => guest_version,
+          :installer_version => installer_version(path_to_installer) || "unknown")
+      end
+
+      def yield_rebuild_warning
+        @vm.ui.warn I18n.t("vagrant.plugins.vbguest.rebuild#{@options[:force] ? '_forced' : ''}",
+          :guest_version => guest_version(true),
+          :host_version => host_version)
       end
 
       def iso_file
         @iso_file ||= begin
-          iso_path = @options[:iso_path] || local_iso_path
+          iso_path = options[:iso_path] || local_iso_path
 
-          if !iso_path || iso_path.empty? && !@options[:no_remote]
-            iso_path = VagrantVbguest::Helpers.web_iso_path_for @vm, @options
+          if !iso_path || iso_path.empty? && !options[:no_remote]
+            iso_path = VagrantVbguest::Helpers.web_iso_path_for vm, options
           end
           raise VagrantVbguest::IsoPathAutodetectionError if !iso_path || iso_path.empty?
 
-          iso_path.gsub! '$VBOX_VERSION', vm.driver.version
+          version = host_version
+          iso_path = iso_path.gsub('$VBOX_VERSION', version) % {:version => version}
           if Vagrant::Downloaders::File.match? iso_path
             iso_path
           else
             # :TODO: This will also raise, if the iso_url points to an invalid local path
-            raise VagrantVbguest::DownloadingDisabledError.new(:from => iso_url) if @options[:no_remote]
+            raise VagrantVbguest::DownloadingDisabledError.new(:from => iso_url) if options[:no_remote]
             env = {
               :ui => vm.ui,
               :tmp_path => vm.env.tmp_path,
@@ -125,16 +179,12 @@ module VagrantVbguest
         end
       end
 
-      def local_iso?
-        ::File.file?(@env[:iso_url])
+      def web_iso_path
+        "http://download.virtualbox.org/virtualbox/%{version}/VBoxGuestAdditions_%{version}.iso"
       end
 
       def local_iso_path
         media_manager_iso || guess_iso
-      end
-
-      def web_iso_path
-        "http://download.virtualbox.org/virtualbox/$VBOX_VERSION/VBoxGuestAdditions_$VBOX_VERSION.iso"
       end
 
       def media_manager_iso
@@ -166,8 +216,7 @@ module VagrantVbguest
       # from the guest
       def cleanup
         @download.cleanup if @download
-
-        vm.channel.execute("rm #{tmp_path}", :error_check => false) do |type, data|
+        vm.channel.execute("test -f #{tmp_path} && rm #{tmp_path}", :error_check => false) do |type, data|
           vm.ui.error(data.chomp, :prefix => false)
         end
       end
