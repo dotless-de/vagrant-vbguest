@@ -28,21 +28,6 @@ module VagrantVbguest
           options[:_rebootable] = false
         end
 
-        # opts.on("--start", "Try to start the GuestAdditions servcice manually.") do
-        #   options[:_method] = :start
-        #   options[:_rebootable] = false
-        # end
-
-        # opts.on("--rebuild", "Rebuild the existing GuestAdditions.") do
-        #   options[:_method] = :rebuild
-        #   options[:force] = true
-        # end
-
-        # opts.on("--install", "Install GuestAdditions matching your host system.") do
-        #   options[:_method] = :install
-        #   options[:force] = true
-        # end
-
         opts.on("-f", "--force", "Whether to force the installation. (Implied by --install and --rebuild)") do
           options[:force] = true
         end
