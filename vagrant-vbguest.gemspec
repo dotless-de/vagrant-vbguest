@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   # s.add_runtime_dependency "rest-client"
   s.add_runtime_dependency "micromachine"
 
-  s.add_development_dependency "bundler", ">= 1.0.0"
+  s.add_development_dependency "bundler", ">= 1.2.0"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
