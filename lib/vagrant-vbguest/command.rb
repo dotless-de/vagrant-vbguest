@@ -11,22 +11,44 @@ module VagrantVbguest
     # by this environment.
     def execute
       options = {
+        :_method => :run,
+        :_rebootable => true,
         :auto_reboot => false
       }
       opts = OptionParser.new do |opts|
-        opts.banner = "Usage: vagrant vbguest [vm-name] [-f|--force] [--auto-reboot] [-I|--no-install] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]"
+        opts.banner = "Usage: vagrant vbguest [vm-name] [--do start|rebuild|install] [--status] [-f|--force] [-b|--auto-reboot] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]"
         opts.separator ""
 
-        opts.on("-f", "--force", "Whether to force the installation") do
+        opts.on("--do COMMAND", [:start, :rebuild, :install], "Manually `start`, `rebuild` or `install` GueastAdditions.") do |command|
+          options[:_method] = command
+        end
+
+        opts.on("--status", "Print current GuestAdditions status and exit.") do
+          options[:_method] = :status
+          options[:_rebootable] = false
+        end
+
+        # opts.on("--start", "Try to start the GuestAdditions servcice manually.") do
+        #   options[:_method] = :start
+        #   options[:_rebootable] = false
+        # end
+
+        # opts.on("--rebuild", "Rebuild the existing GuestAdditions.") do
+        #   options[:_method] = :rebuild
+        #   options[:force] = true
+        # end
+
+        # opts.on("--install", "Install GuestAdditions matching your host system.") do
+        #   options[:_method] = :install
+        #   options[:force] = true
+        # end
+
+        opts.on("-f", "--force", "Whether to force the installation. (Implied by --install and --rebuild)") do
           options[:force] = true
         end
 
-        opts.on("--auto-reboot", "Reboot VM after installation") do
+        opts.on("--auto-reboot", "-b", "Allow rebooting the VM after installation. (when GuestAdditions won't start)") do
           options[:auto_reboot] = true
-        end
-
-        opts.on("--no-install", "-I", "Only check for the installed version. Do not attempt to install anything") do
-          options[:no_install] = true
         end
 
         opts.on("--no-remote", "-R", "Do not attempt do download the iso file from a webserver") do
@@ -39,6 +61,7 @@ module VagrantVbguest
 
         build_start_options(opts, options)
       end
+
 
       argv = parse_options(opts)
       return if !argv
@@ -57,10 +80,21 @@ module VagrantVbguest
 
     # Executes a command on a specific VM.
     def execute_on_vm(vm, options)
+      options     = options.clone
+      _method     = options.delete(:_method)
+      _rebootable = options.delete(:_rebootable)
+
+
       options = vm.config.vbguest.to_hash.merge(options)
-      installer = VagrantVbguest::Installer.new(vm, options)
-      installer.run!
-      reboot(vm, options) if installer.needs_reboot?
+      machine = VagrantVbguest::Machine.new(vm, options)
+      status  = machine.state
+      vm.ui.send (:ok == status ? :success : :warn), I18n.t("vagrant.plugins.vbguest.status.#{status}", machine.info)
+
+      if _method != :status
+        machine.send(_method)
+      end
+
+      reboot(vm, options) if _rebootable && machine.reboot?
     end
 
     def reboot vm, options
@@ -69,4 +103,5 @@ module VagrantVbguest
       end
     end
   end
+
 end
