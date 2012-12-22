@@ -21,6 +21,7 @@ module VagrantVbguest
 
         opts.on("--do COMMAND", [:start, :rebuild, :install], "Manually `start`, `rebuild` or `install` GueastAdditions.") do |command|
           options[:_method] = command
+          options[:force] = true
         end
 
         opts.on("--status", "Print current GuestAdditions status and exit.") do
@@ -28,7 +29,7 @@ module VagrantVbguest
           options[:_rebootable] = false
         end
 
-        opts.on("-f", "--force", "Whether to force the installation. (Implied by --install and --rebuild)") do
+        opts.on("-f", "--force", "Whether to force the installation. (Implied by --do start|rebuild|install)") do
           options[:force] = true
         end
 
