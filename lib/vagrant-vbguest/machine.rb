@@ -6,6 +6,8 @@ module VagrantVbguest
     attr_reader :installer, :vm, :options
 
     def initialize vm, options
+      @logger = Log4r::Logger.new("vagrant::plugins::vbguest-machine")
+      @logger.debug("initialize vbguest machine for VM '#{vm.name}' (#{vm.uuid})")
       @vm = vm
       @options = options
       @installer = Installer.new @vm, @options
@@ -26,7 +28,9 @@ module VagrantVbguest
     def run
       current_state = state
       runlist = steps(current_state)
+      @logger.debug("Runlist for state #{current_state} is: #{runlist}")
       while (command = runlist.shift)
+        @logger.debug("Running command #{command} from runlist")
         if !self.send(command)
           vm.ui.error('vagrant.plugins.vbguest.machine_loop_gard', :command => command, :state => current_state)
           return false
@@ -72,6 +76,7 @@ module VagrantVbguest
       guest_version = installer.guest_version(true)
       host_version  = installer.host_version
       running = installer.running?
+      @logger.debug("Current states for VM '#{vm.name}' are : guest_version=#{guest_version} : host_version=#{host_version} : running=#{running}")
 
       return :clean       if !guest_version
       return :unmatched   if host_version != guest_version
