@@ -66,6 +66,7 @@ module VagrantVbguest
             @guest_version = v[1]
           end
         end
+        @guest_version
       end
 
 
