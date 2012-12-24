@@ -24,8 +24,8 @@ module VagrantVbguest
     end
 
     def run
-      runlist = steps
       current_state = state
+      runlist = steps(current_state)
       while (command = runlist.shift)
         self.send(command)
         return run if current_state != state
@@ -53,7 +53,7 @@ module VagrantVbguest
     def reboot;  @box_machine.trigger :reboot end
     def reboot?; @box_machine.state == :rebooted end
 
-    def steps
+    def steps(state)
       case state
       when :clean, :unmatched
         [:install]
@@ -66,10 +66,12 @@ module VagrantVbguest
 
     def state
       guest_version = installer.guest_version(true)
+      host_version  = installer.host_version
+      running = installer.running?
 
       return :clean       if !guest_version
-      return :unmatched   if installer.host_version != guest_version
-      return :not_running if !installer.running?
+      return :unmatched   if host_version != guest_version
+      return :not_running if !running
       return :ok
     end
 
