@@ -12,6 +12,7 @@ en:
         restart_vm: "Restarting VM to apply changes..."
         suggest_restart: "Guest Additions got installed. However, they seem not be loaded correctly. Please restart the box runing `vagrant reload %{name}`"
         restart_loop_guard_activated: "Guest Additions will not load, even after reboot."
+        machine_loop_gard: "Could not execute %{command} from current state %{state}. To prevent running in circles, we'll stop."
         guest_version_reports_differ: |-
           Got different reports about installed GuestAdditions version:
           Virtualbox on your host claims:   %{driver}

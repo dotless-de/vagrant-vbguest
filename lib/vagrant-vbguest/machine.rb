@@ -27,9 +27,13 @@ module VagrantVbguest
       current_state = state
       runlist = steps(current_state)
       while (command = runlist.shift)
-        self.send(command)
+        if !self.send(command)
+          vm.ui.error('vagrant.plugins.vbguest.machine_loop_gard', :command => command, :state => current_state)
+          return false
+        end
         return run if current_state != state
       end
+      true
     end
 
     def install
