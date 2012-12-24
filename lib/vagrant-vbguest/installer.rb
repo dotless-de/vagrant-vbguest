@@ -108,9 +108,6 @@ module VagrantVbguest
     #
     # @return [Installers::Base]
     def guest_installer
-      raise Vagrant::Errors::VMNotCreatedError if !@vm.created?
-      raise Vagrant::Errors::VMInaccessible if !@vm.state == :inaccessible
-      raise Vagrant::Errors::VMNotRunningError if @vm.state != :running
 
       @guest_installer ||= if @options[:installer].is_a? Class
         @options[:installer].new(@vm)
