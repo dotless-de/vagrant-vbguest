@@ -4,10 +4,10 @@ en:
       vbguest:
         skiped_installation: "Updating GuestAdditions skipped."
         skiped_rebuild: "Rebuilding GuestAdditions skipped."
-        installing: "Installing Virtualbox Guest Additions %{installer_version} - guest's version is %{guest_version}"
-        installing_forced: "Forcing installation of Virtualbox Guest Additions %{installer_version} - guest's version is %{guest_version}"
-        rebuild: "Rebuilding Virtualbox Guest Additions %{guest_version} (Your host's version is %{host_version})"
-        rebuild_forced: "Forcing rebuilding of Virtualbox Guest Additions %{guest_version} (Your host's version is %{host_version})"
+        installing: "Installing Virtualbox Guest Additions %{installer_version} - guest version is %{guest_version}"
+        installing_forced: "Forcing installation of Virtualbox Guest Additions %{installer_version} - guest version is %{guest_version}"
+        rebuild: "Rebuilding Virtualbox Guest Additions %{guest_version} (Your host version is %{host_version})"
+        rebuild_forced: "Forcing rebuilding of Virtualbox Guest Additions %{guest_version} (Your host version is %{host_version})"
         start_copy_iso: "Copy iso file %{from} into the box %{to}"
         restart_vm: "Restarting VM to apply changes..."
         suggest_restart: "Guest Additions got installed. However, they seem not be loaded correctly. Please restart the box runing `vagrant reload %{name}`"
@@ -21,8 +21,8 @@ en:
 
         status:
           clean: "No installation found."
-          unmatched: "GuestAdditions versions on your host (%{host_version}) and guest (%{guest_version}) does not match."
-          not_running: "GuestAdditions seems to be installed (%{guest_version}) correctly, but don't run."
+          unmatched: "GuestAdditions versions on your host (%{host_version}) and guest (%{guest_version}) do not match."
+          not_running: "GuestAdditions seems to be installed (%{guest_version}) correctly, but not running."
           ok: "GuestAdditions %{guest_version} running --- OK."
 
         errors:
