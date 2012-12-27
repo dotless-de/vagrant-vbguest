@@ -1,0 +1,54 @@
+fr:
+  vagrant:
+    plugins:
+      vbguest:
+        skiped_installation: "Installation des GuestAdditions ignorée."
+        skiped_rebuild: "Recompilation des GuestAdditions ignorée."
+        installing: "Installation en cours des Virtualbox GuestAdditions %{installer_version} - VM version est %{guest_version}"
+        installing_forced: "Installation forcée en cours des Virtualbox GuestAdditions %{installer_version} - VM version est %{guest_version}"
+        rebuild: "Recompilation en cours des Virtualbox GuestAdditions %{guest_version} (Votre version locale est %{host_version})"
+        rebuild_forced: "Recompilation forcée en cours des Virtualbox GuestAdditions %{guest_version} (Votre version locale est %{host_version})"
+        start_copy_iso: "Copie de l'iso %{from} dans la VM %{to}"
+        restart_vm: "Redémarrage de la VM pour appliquer les changements..."
+        suggest_restart: "Les GuestAdditions ont été installés. Cependant, ils semblent pas être correctement chargés. Veuillez redémarrer la VM en utilisant `vagrant reload %{name}`"
+        restart_loop_guard_activated: "Les GuestAdditions ne vont pas être chargés, même après le redémarrage."
+        machine_loop_gard: "Impossibilité d'exécuter %{command} du statut %{state}. Par sécurité, cela a été arrêté."
+        guest_version_reports_differ: |-
+          Différents retours concernant la version des GuestAdditions:
+          Virtualbox sur votre machine rapporte: %{driver}
+          VBoxService dans la VM rapporte: %{service}
+          Continuation, assumant que VBoxService est correct...
+
+        status:
+          clean: "Aucune installation trouvée."
+          unmatched: "Les versions des GuestAdditions sur votre machine (%{host_version}) and VM (%{guest_version}) sont différentes."
+          not_running: "Les GuestAdditions semblent être installés correctement (%{guest_version}), mais ne sont pas pas chargés."
+          ok: "Chargement des GuestAdditions %{guest_version} --- OK."
+
+        errors:
+          autodetect_iso_path: |-
+            Aucune ISO des Virtualbox GuestAdditions trouvée.
+            Veuillez configurer un chemin pour l'ISO en utilisant `config.vbguest.iso_path`
+            dans votre Vagrantfile ou le paramètre `--iso` sur la ligne de commande.
+            Si vous pensez que cela est un bug and que 'vbguest' aurait du trouver le chemin de l'ISO,
+            veuillez remplir ouvrir un bug sur: https://github.com/dotless-de/vagrant-vbguest/issues
+
+          downloading_disabled: |-
+            Aucune ISO des Virtualbox GuestAdditions trouvée.
+            Cependant, l'option 'no_remote' est active et le téléchargement ne s'effectuera pas de
+            %{from}
+            Veuillez configurer un chemin pour l'ISO en utilisant `config.vbguest.iso_path`
+            dans votre Vagrantfile ou le paramètre `--iso` sur la ligne de commande.
+
+          installer:
+            no_installer_for_platform: |-
+              Désolé, impossible d'exécuter %{method} des Virtualbox GuestAdditions sur cette platforme. Installation arrêtée.
+            generic_linux_installer: |-
+              La platforme de la VM n'est pas supportée encore, utilisation d'une méthode générique pour Linux...
+            do_not_inherit_match_method: |-
+              Installer classes must provide their own `match?` method.
+
+        download:
+          with: "Téléchargment de l'ISO VirtualBox GuestAdditions avec %{class}..."
+          cleaning: "Nettoyage du téléchargement de l'ISO..."
+          unknown_type: "URL inconnue ou non supportée pour le téléchargement de l'ISO VirtualBox GuestAdditions."
