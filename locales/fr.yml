@@ -46,7 +46,7 @@ fr:
             generic_linux_installer: |-
               La platforme de la VM n'est pas supportée encore, utilisation d'une méthode générique pour Linux...
             do_not_inherit_match_method: |-
-              Installer classes must provide their own `match?` method.
+              Veuillez créer votre propre fonction `match?`.
 
         download:
           with: "Téléchargment de l'ISO VirtualBox GuestAdditions avec %{class}..."
