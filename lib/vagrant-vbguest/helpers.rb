@@ -4,7 +4,7 @@ module VagrantVbguest
       @@rebooted = {}
 
       def rebooted?(vm)
-        !!@@rebooted[vm.name]
+        !!@@rebooted[vm.uuid]
       end
 
       def reboot(vm, options)
@@ -13,9 +13,9 @@ module VagrantVbguest
           false
         elsif options[:auto_reboot]
           vm.ui.warn(I18n.t("vagrant.plugins.vbguest.restart_vm"))
-          @@rebooted[vm.name] = true
+          @@rebooted[vm.uuid] = true
         else
-          @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.suggest_restart", :name => vm.name))
+          vm.ui.warn(I18n.t("vagrant.plugins.vbguest.suggest_restart", :name => vm.name))
           false
         end
       end
