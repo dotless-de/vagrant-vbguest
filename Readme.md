@@ -133,7 +133,7 @@ When everything is fine, and no update is needed, you see log like:
 When you switched off the middleware auto update, or you have a box up and running you may also run the installer manually.
 
 ```bash
-$ vagrant vbguest [vm-name] [-f|--force] [--auto-reboot] [-I|--no-install] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]
+$ vagrant vbguest [vm-name] [--do start|rebuild|install] [--status] [-f|--force] [-b|--auto-reboot] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]
 ```
 
 For example, when you just updated Virtual Box on your host system, you should update the gust additions right away. However, you may need to reload the box to get the guest additions working.
@@ -141,14 +141,14 @@ For example, when you just updated Virtual Box on your host system, you should u
 If you want to check the guest additions versions, without installing them, you may run:
 
 ```bash
-$ vagrant vbguest --no-install
+$ vagrant vbguest --status
 ```
 
 Telling you either about a version mismatch:
 
     [default] Virtualbox Guest Additions on host: 4.1.14 - guest's version is 4.1.0
 
-or a match: 
+or a match:
 
     [default] Detected Virtualbox Guest Additions 4.1.14 --- OK
 
@@ -193,6 +193,11 @@ Installers take care of the whole installation process, that includes where to s
 
 ```ruby
 class MyInstaller < VagrantVbguest::Installers::Linux
+
+  def self.match?(vm)
+    super && vm.channel.test("test -d /temp")
+  end
+
   # use /temp instead of /tmp
   def tmp_path
     '/temp/VBoxGuestAdditions.iso'
