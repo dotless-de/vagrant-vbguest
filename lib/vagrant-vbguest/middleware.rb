@@ -7,20 +7,22 @@ module VagrantVbguest
   class Middleware
     include VagrantVbguest::Helpers::Rebootable
 
-    def initialize(app, env, options = {})
+    def initialize(app, env)
       @app = app
       @env = env
-      @vm  = env[:vm]
     end
 
     def call(env)
-      options = @vm.config.vbguest.to_hash
+      @env    = env
+      vm      = env[:vm]
+      options = vm.config.vbguest.to_hash
+
       if options[:auto_update]
-        machine = VagrantVbguest::Machine.new @vm, options
+        machine = VagrantVbguest::Machine.new vm, options
         status  = machine.state
-        @vm.ui.send (:ok == status ? :success : :warn), I18n.t("vagrant.plugins.vbguest.status.#{status}", machine.info)
+        vm.ui.send (:ok == status ? :success : :warn), I18n.t("vagrant.plugins.vbguest.status.#{status}", machine.info)
         machine.run
-        reboot(@vm, options) if machine.reboot?
+        reboot(vm, options) if machine.reboot?
       end
       @app.call(env)
     end
