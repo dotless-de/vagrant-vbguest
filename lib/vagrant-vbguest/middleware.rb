@@ -20,7 +20,7 @@ module VagrantVbguest
       if options[:auto_update]
         machine = VagrantVbguest::Machine.new vm, options
         status  = machine.state
-        vm.ui.send (:ok == status ? :success : :warn), I18n.t("vagrant.plugins.vbguest.status.#{status}", machine.info)
+        vm.ui.send((:ok == status ? :success : :warn), I18n.t("vagrant.plugins.vbguest.status.#{status}", machine.info))
         machine.run
         reboot(vm, options) if machine.reboot?
       end
