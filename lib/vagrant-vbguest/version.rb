@@ -1,3 +1,3 @@
 module VagrantVbguest
-  VERSION = "0.6.0.pre4"
+  VERSION = "0.6.0.pre5"
 end
