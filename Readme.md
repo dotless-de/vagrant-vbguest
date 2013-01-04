@@ -31,7 +31,7 @@ Vagrant::Config.run do |config|
   # However, if we cannot or you have a special one you may pass it like:
   # config.vbguest.iso_path = "#{ENV['HOME']}/Downloads/VBoxGuestAdditions.iso"
   # or
-  # config.vbguest.iso_path = "http://company.server/VirtualBox/$VBOX_VERSION/VBoxGuestAdditions.iso"
+  # config.vbguest.iso_path = "http://company.server/VirtualBox/%{version}/VBoxGuestAdditions.iso"
   
   # set auto_update to false, if do NOT want to check the correct additions 
   # version when booting this machine
@@ -45,8 +45,8 @@ end
 ### Config options
 
 * `iso_path` : The full path or URL to the VBoxGuestAdditions.iso file. <br/>
-The `iso_path` may contain the optional placeholder `$VBOX_VERSION` for the detected version (e.g. `4.1.8`).
-The URI for the actual iso download reads: `http://download.virtualbox.org/virtualbox/$VBOX_VERSION/VBoxGuestAdditions_$VBOX_VERSION.iso`<br/>
+The `iso_path` may contain the optional placeholder `%{version}` for the detected version (e.g. `4.1.8`).
+The URI for the actual iso download reads: `http://download.virtualbox.org/virtualbox/%{version}/VBoxGuestAdditions_%{version}.iso`<br/>
 vbguest will try to autodetect the best option for your system. WTF? see below.
 * `auto_update` (Boolean, default: `true`) : Whether to check the correct additions version on each start (where start is _not_ resuming a box).
 * `auto_reboot` (Boolean, dafult: `true` when running as a middleware, `false` when running as a command) : Whether to reboot the box after GuestAdditions has been installed, but not loaded.
