@@ -13,11 +13,7 @@ Gem::Specification.new do |s|
   s.description = %q{A Vagrant plugin which automatically installs the host's VirtualBox Guest Additions on the guest system.}
 
   s.required_rubygems_version = ">= 1.3.6"
-  #s.rubyforge_project = "vagrant-vbguest"
 
-  # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
-  # s.add_runtime_dependency "rest-client"
   s.add_dependency "micromachine", "~> 1.0.4"
   s.add_dependency "i18n", "~> 0.6.0"
   s.add_dependency "log4r", "~> 1.1.9"
