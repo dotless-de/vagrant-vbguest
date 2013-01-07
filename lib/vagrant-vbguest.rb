@@ -1,3 +1,5 @@
+require 'vagrant-vbguest/core_ext/string/interpolate'
+
 require 'vagrant'
 require "vagrant-vbguest/errors"
 require 'vagrant-vbguest/helpers'
