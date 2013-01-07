@@ -153,10 +153,10 @@ module VagrantVbguest
 
       def iso_file
         @iso_file ||= begin
-          iso_path = options[:iso_path] || local_iso_path
-
-          if !iso_path || iso_path.empty? && !options[:no_remote]
-            iso_path = VagrantVbguest::Helpers.web_iso_path_for vm, options
+          iso_path = options[:iso_path]
+          if !iso_path || iso_path.empty? || iso_path == :auto
+            iso_path = local_iso_path
+            iso_path = web_iso_path if !iso_path || iso_path.empty? && !options[:no_remote]
           end
           raise VagrantVbguest::IsoPathAutodetectionError if !iso_path || iso_path.empty?
 
@@ -166,13 +166,13 @@ module VagrantVbguest
             iso_path
           else
             # :TODO: This will also raise, if the iso_url points to an invalid local path
-            raise VagrantVbguest::DownloadingDisabledError.new(:from => iso_url) if options[:no_remote]
+            raise VagrantVbguest::DownloadingDisabledError.new(:from => iso_path) if options[:no_remote]
             env = {
               :ui => vm.ui,
               :tmp_path => vm.env.tmp_path,
-              :iso_url => iso_url
+              :iso_url => iso_path
             }
-            @download = VagrantVbguest::Download.new(@env)
+            @download = VagrantVbguest::Download.new(env)
             @download.download
             @download.temp_path
           end
