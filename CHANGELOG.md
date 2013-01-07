@@ -1,3 +1,21 @@
+## 0.6.0 (unreleased)
+
+ - Debian installer now cope with missing `dkms` package [GH-30]
+ - Fixed some issues when runnig on just creating boxes [GH-31]
+ - Fixed workding (thx @scalp42) [GH-32]
+ - Add debug logging
+ - Installers no longer are shell scripts, but ruby classes
+ - Users may pass in their own installer classes
+   (yes! plugins in plugins)
+ - New `sprintf` style `%{version}` placeholder for iso download path
+ - Revisited command arguments to not just mirror config values:
+   - New `--do` argument: force-run one of those commands:
+     * `start`   : Try to start the GuestAdditions Service
+     * `rebuild` : Rebuild the currently installed Guest Additions
+     * `install` : Run the installation process from "iso file"
+   - New `--status` argument
+   - Removed `-I|--no-install` argument (instead use `--status`)
+
 ## 0.5.1 (2012-11-30)
 
  - Fix: Provisioning will not run twice when rebooted due
@@ -8,6 +26,8 @@
 
   - Box will be rebooted if the GuestAdditions installation
     process does not load the kernel module [GH-25], [GH-24]
+  - Add `--auto-reboot` argument to allow rebooting when running as a
+    command (which is disabled by default when runnind as command)
   - Adds this Changelog
 
 ## 0.4.0 (2012-10-21)
