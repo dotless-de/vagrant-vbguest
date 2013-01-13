@@ -87,19 +87,19 @@ module VagrantVbguest
 
     def guest_version(reload=false)
       installer = guest_installer
-      raise NoInstallerFoundError, :method => 'check installation of' if !installer
+      raise NoInstallerFoundError, :method => 'check guest version of' if !installer
       installer.guest_version(reload)
     end
 
     def host_version
       installer = guest_installer
-      raise NoInstallerFoundError, :method => 'check installation of' if !installer
+      raise NoInstallerFoundError, :method => 'check host version of' if !installer
       installer.host_version
     end
 
     def running?
       installer = guest_installer
-      raise NoInstallerFoundError, :method => 'check installation of' if !installer
+      raise NoInstallerFoundError, :method => 'check current state of' if !installer
       installer.running?
     end
 
