@@ -109,7 +109,6 @@ module VagrantVbguest
     #
     # @return [Installers::Base]
     def guest_installer
-
       @guest_installer ||= if @options[:installer].is_a? Class
         @options[:installer].new(@vm)
       else
