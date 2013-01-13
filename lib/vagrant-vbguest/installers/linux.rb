@@ -39,12 +39,12 @@ module VagrantVbguest
 
       # a generic way of installing GuestAdditions assuming all
       # dependencies on the guest are installed
-      def install(iso_file = nil, opts=nil, &block)
-        vm.ui.warn I18n.t("vagrant.plugins.vbguest.installer.generic_linux_installer")
+      def install(opts=nil, &block)
+        vm.ui.warn I18n.t("vagrant.plugins.vbguest.installer.generic_linux_installer") if self.class == Linux
         upload(iso_file)
-        vm.channel.sudo("mount #{tmp_path} -o loop #{mount_point}", opts, &block)
-        vm.channel.sudo("#{mount_point}/VBoxLinuxAdditions.run --nox11", opts, &block)
-        vm.channel.sudo("umount #{mount_point}", opts, &block)
+        mount_iso
+        execute_installer
+        unmount_iso
       end
 
       def running?(opts=nil, &block)
@@ -69,7 +69,6 @@ module VagrantVbguest
         @guest_version
       end
 
-
       def rebuild(opts=nil, &block)
         vm.channel.sudo('/etc/init.d/vboxadd setup', opts, &block)
       end
@@ -79,6 +78,29 @@ module VagrantVbguest
         vm.channel.sudo('/etc/init.d/vboxadd start', opts, &block)
       end
 
+
+      # A generic helper method to execute the installer. The iso file
+      # has to be mounted on +mount_point+.
+      # This also yields a installation warning to the user.
+      def execute_installer(opts=nil, &block)
+        installer = File.join(mount_point, 'VBoxLinuxAdditions.run')
+        yield_installation_waring(installer)
+        vm.channel.sudo("#{installer} --nox11", opts, &block)
+      end
+
+      # A generic helper method for mounting the GuestAdditions iso file
+      # on most linux system.
+      # Mounts the given uploaded file from +tmp_path+ on +mount_point+.
+      def mount_iso(opts=nil, &block)
+        vm.channel.sudo("mount #{tmp_path} -o loop #{mount_point}", opts, &block)
+      end
+
+      # A generic helper method for un-mounting the GuestAdditions iso file
+      # on most linux system
+      # Unmounts the +mount_point+.
+      def unmount_iso(opts=nil, &block)
+        vm.channel.sudo("umount #{mount_point}", opts, &block)
+      end
     end
   end
 end
