@@ -18,6 +18,7 @@ en:
           Virtualbox on your host claims:   %{driver}
           VBoxService inside the vm claims: %{service}
           Going on, assuming VBoxService is correct...
+        unknown: unknown
 
         status:
           clean: "No installation found."

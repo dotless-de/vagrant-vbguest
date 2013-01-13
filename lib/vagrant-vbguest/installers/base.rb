@@ -148,7 +148,7 @@ module VagrantVbguest
       def yield_installation_waring(path_to_installer)
         @vm.ui.warn I18n.t("vagrant.plugins.vbguest.installing#{@options[:force] ? '_forced' : ''}",
           :guest_version => guest_version,
-          :installer_version => installer_version(path_to_installer) || "unknown")
+          :installer_version => installer_version(path_to_installer) || I18n.t("vagrant.plugins.vbguest.unknown"))
       end
 
       # Helper to yield a warning message to the user, that the installation
