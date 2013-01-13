@@ -1,4 +1,4 @@
-## 0.6.0 (unreleased)
+## 0.6.0 (2012-01-13)
 
  - Debian installer now cope with missing `dkms` package [GH-30]
  - Fixed some issues when runnig on just creating boxes [GH-31]
