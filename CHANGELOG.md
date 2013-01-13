@@ -7,7 +7,8 @@
  - Installers no longer are shell scripts, but ruby classes
  - Users may pass in their own installer classes
    (yes! plugins in plugins)
- - New `sprintf` style `%{version}` placeholder for iso download path
+ - New `sprintf` style `%{version}` placeholder for iso download path.
+   (old `$VBOX_VERSION` placeholder still working)
  - Revisited command arguments to not just mirror config values:
    - New `--do` argument: force-run one of those commands:
      * `start`   : Try to start the GuestAdditions Service
