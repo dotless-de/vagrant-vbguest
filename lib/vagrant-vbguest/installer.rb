@@ -1,7 +1,8 @@
 module VagrantVbguest
 
-  # Handles the guest addins installation process
-
+  ##
+  # Dispatches the installation process to a rigistered
+  # Installer implementation.
   class Installer
 
     class NoInstallerFoundError < Vagrant::Errors::VagrantError

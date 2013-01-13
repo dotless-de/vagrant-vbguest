@@ -129,6 +129,9 @@ module VagrantVbguest
         vm.driver.version
       end
 
+      # Determinates the version of the GuestAdditions installer in use
+      #
+      # @return [String] The version code of the GuestAdditions installer
       def installer_version(path_to_installer)
         version = nil
         @vm.channel.sudo("#{path_to_installer} --info", :error_check => false) do |type, data|
@@ -139,18 +142,39 @@ module VagrantVbguest
         version
       end
 
+      # Helper to yield a warning message to the user, that the installation
+      # will start _now_.
+      # The message includes the host and installer version strings.
       def yield_installation_waring(path_to_installer)
         @vm.ui.warn I18n.t("vagrant.plugins.vbguest.installing#{@options[:force] ? '_forced' : ''}",
           :guest_version => guest_version,
           :installer_version => installer_version(path_to_installer) || "unknown")
       end
 
+      # Helper to yield a warning message to the user, that the installation
+      # will be rebuild using the installed GuestAdditions.
+      # The message includes the host and installer version strings.
       def yield_rebuild_warning
         @vm.ui.warn I18n.t("vagrant.plugins.vbguest.rebuild#{@options[:force] ? '_forced' : ''}",
           :guest_version => guest_version(true),
           :host_version => host_version)
       end
 
+      # GuestAdditions-iso-file-detection-magig.
+      #
+      # Detectio runs in those stages:
+      # 1. Uses the +iso_path+ config option, if present and not set to +:auto+
+      # 2. Look out for a local iso file
+      # 3. Use the default web URI
+      #
+      # If the detected or configured path is not a local file and remote downloads
+      # are allowed (the config option +:no_remote+ is NOT set) it will try to
+      # download that file into a temp file using Vagrants Downloaders.
+      # If remote downloads are prohibited (the config option +:no_remote+ IS set)
+      # a +VagrantVbguest::IsoPathAutodetectionError+ will be thrown
+      #
+      # @return [String] A absolute path to the GuestAdditions iso file.
+      #                  This might be a temp-file, e.g. when downloaded from web.
       def iso_file
         @iso_file ||= begin
           iso_path = options[:iso_path]
@@ -179,18 +203,35 @@ module VagrantVbguest
         end
       end
 
+      # Default web URI, where GuestAdditions iso file can be downloaded.
+      #
+      # @return [String] A URI template containing the versions placeholder.
       def web_iso_path
         "http://download.virtualbox.org/virtualbox/%{version}/VBoxGuestAdditions_%{version}.iso"
       end
 
+      # Finds GuestAdditions iso file on the host system.
+      # Returns +nil+ if none found.
+      #
+      # @return [String] Absolute path to the local GuestAdditions iso file, or +nil+ if not found.
       def local_iso_path
         media_manager_iso || guess_iso
       end
 
+      # Helper method which queries the VirtualBox media manager
+      # for a +VBoxGuestAdditions.iso+ file.
+      # Returns +nil+ if none found.
+      #
+      # @return [String] Absolute path to the local GuestAdditions iso file, or +nil+ if not found.
       def media_manager_iso
         (m = vm.driver.execute('list', 'dvds').match(/^.+:\s+(.*VBoxGuestAdditions.iso)$/i)) && m[1]
       end
 
+      # Makes an educated guess where the GuestAdditions iso file
+      # could be found on the host system depending on the OS.
+      # Returns +nil+ if no the file is not in it's place.
+      #
+      # @return [String] Absolute path to the local GuestAdditions iso file, or +nil+ if not found.
       def guess_iso
         path_platform = if Vagrant::Util::Platform.linux?
           "/usr/share/virtualbox/VBoxGuestAdditions.iso"
@@ -207,13 +248,20 @@ module VagrantVbguest
       end
 
       # A helper method to handle the GuestAdditions iso file upload
+      # into the guest box.
+      # The file will uploaded to the location given by the +tmp_path+ method.
+      #
+      # @example Default upload
+      #    upload(iso_file)
+      #
+      # @param [String] Path of the file to upload to the +tmp_path*
       def upload(file)
         vm.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => file, :to => tmp_path))
         vm.channel.upload(file, tmp_path)
       end
 
       # A helper method to delete the uploaded GuestAdditions iso file
-      # from the guest
+      # from the guest box
       def cleanup
         @download.cleanup if @download
         vm.channel.execute("test -f #{tmp_path} && rm #{tmp_path}", :error_check => false) do |type, data|
