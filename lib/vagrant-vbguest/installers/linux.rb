@@ -39,14 +39,22 @@ module VagrantVbguest
 
       # a generic way of installing GuestAdditions assuming all
       # dependencies on the guest are installed
+      # @param [Hash] opts Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
+      # @yield [type, data] Takes a Block like {Vagrant::Communication::Base#execute} for realtime output of the command being executed
+      # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
+      # @yieldparam [String] data Data for the given output.
       def install(opts=nil, &block)
         vm.ui.warn I18n.t("vagrant.plugins.vbguest.installer.generic_linux_installer") if self.class == Linux
         upload(iso_file)
-        mount_iso
-        execute_installer
-        unmount_iso
+        mount_iso(opts, &block)
+        execute_installer(opts, &block)
+        unmount_iso(opts, &block)
       end
 
+      # @param [Hash] opts Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
+      # @yield [type, data] Takes a Block like {Vagrant::Communication::Base#execute} for realtime output of the command being executed
+      # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
+      # @yieldparam [String] data Data for the given output.
       def running?(opts=nil, &block)
         opts = {
           :sudo => true
@@ -69,10 +77,18 @@ module VagrantVbguest
         @guest_version
       end
 
+      # @param [Hash] opts Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
+      # @yield [type, data] Takes a Block like {Vagrant::Communication::Base#execute} for realtime output of the command being executed
+      # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
+      # @yieldparam [String] data Data for the given output.
       def rebuild(opts=nil, &block)
         vm.channel.sudo('/etc/init.d/vboxadd setup', opts, &block)
       end
 
+      # @param [Hash] opts Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
+      # @yield [type, data] Takes a Block like {Vagrant::Communication::Base#execute} for realtime output of the command being executed
+      # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
+      # @yieldparam [String] data Data for the given output.
       def start(opts=nil, &block)
         opts = {:error_check => false}.merge(opts || {})
         vm.channel.sudo('/etc/init.d/vboxadd start', opts, &block)
@@ -82,6 +98,11 @@ module VagrantVbguest
       # A generic helper method to execute the installer. The iso file
       # has to be mounted on +mount_point+.
       # This also yields a installation warning to the user.
+      #
+      # @param [Hash] opts Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
+      # @yield [type, data] Takes a Block like {Vagrant::Communication::Base#execute} for realtime output of the command being executed
+      # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
+      # @yieldparam [String] data Data for the given output.
       def execute_installer(opts=nil, &block)
         installer = File.join(mount_point, 'VBoxLinuxAdditions.run')
         yield_installation_waring(installer)
@@ -91,6 +112,11 @@ module VagrantVbguest
       # A generic helper method for mounting the GuestAdditions iso file
       # on most linux system.
       # Mounts the given uploaded file from +tmp_path+ on +mount_point+.
+      #
+      # @param [Hash] opts Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
+      # @yield [type, data] Takes a Block like {Vagrant::Communication::Base#execute} for realtime output of the command being executed
+      # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
+      # @yieldparam [String] data Data for the given output.
       def mount_iso(opts=nil, &block)
         vm.channel.sudo("mount #{tmp_path} -o loop #{mount_point}", opts, &block)
       end
@@ -98,6 +124,11 @@ module VagrantVbguest
       # A generic helper method for un-mounting the GuestAdditions iso file
       # on most linux system
       # Unmounts the +mount_point+.
+      #
+      # @param [Hash] opts Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
+      # @yield [type, data] Takes a Block like {Vagrant::Communication::Base#execute} for realtime output of the command being executed
+      # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
+      # @yieldparam [String] data Data for the given output.
       def unmount_iso(opts=nil, &block)
         vm.channel.sudo("umount #{mount_point}", opts, &block)
       end

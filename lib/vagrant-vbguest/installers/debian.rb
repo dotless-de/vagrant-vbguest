@@ -8,6 +8,10 @@ module VagrantVbguest
 
       # installes the correct linux-headers package
       # installes `dkms` package for dynamic kernel module loading
+      # @param [Hash] opts Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
+      # @yield [type, data] Takes a Block like {Vagrant::Communication::Base#execute} for realtime output of the command being executed
+      # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
+      # @yieldparam [String] data Data for the given output.
       def install(opts=nil, &block)
         begin
           vm.channel.sudo(install_dependencies_cmd, opts, &block)

@@ -50,14 +50,14 @@ module VagrantVbguest
       # All necessary steps for an installation must be defined here.
       # This includes uploading the iso into the box, mounting,
       # installing and cleaning up.
+      # The path to the local iso file should be obtained by calling +iso_file+
       # Subclasses must override this method!
       #
-      # @param [String] iso_file Optional path to the local GuestAdditions iso file
       # @param [Hash] opts Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
       # @yield [type, data] Takes a Block like {Vagrant::Communication::Base#execute} for realtime output of the command being executed
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
-      def install(iso_fileO=nil, opts=nil, &block)
+      def install(opts=nil, &block)
       end
 
       # Handels the rebuild of allready running GuestAdditions
