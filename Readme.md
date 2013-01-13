@@ -79,24 +79,29 @@ This is a per box settings. On multi vm environments you need to set that for ea
 
 When *vagrant-vbguest* is running it will provide you some logs:
 
-    ...
+    [...]
+    [default] Booting VM...
     [default] Booting VM...
     [default] Waiting for VM to boot. This can take a few minutes.
     [default] VM booted and ready for use!
-    [default] Installing Virtualbox Guest Additions 4.1.14 - guest's version is 4.1.12
-    [default] Copy iso file /Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso into the box /tmp/VBoxGuestAdditions.iso
-    [default] Copy installer file setup_debian.sh into the box /tmp/install_vbguest.sh
+    [default] GuestAdditions versions on your host (4.2.6) and guest (4.1.0) do not match.
     stdin: is not a tty
     Reading package lists...
     Building dependency tree...
     Reading state information...
-    linux-headers-2.6.32-30-server is already the newest version.
-    dkms is already the newest version.
-    0 upgraded, 0 newly installed, 0 to remove and 142 not upgraded.
+    The following extra packages will be installed:
+      fakeroot linux-headers-2.6.32-33 patch
+
+    [...]
+
+    [default] Copy iso file /Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso into the box /tmp/VBoxGuestAdditions.iso
+    stdin: is not a tty
+    [default] Installing Virtualbox Guest Additions 4.2.6 - guest version is 4.1.0
+    stdin: is not a tty
     Verifying archive integrity... All good.
-    Uncompressing VirtualBox 4.1.14 Guest Additions for Linux..........
+    Uncompressing VirtualBox 4.2.6 Guest Additions for Linux...........
     VirtualBox Guest Additions installer
-    Removing installed version 4.1.12 of VirtualBox Guest Additions...
+    Removing installed version 4.1.0 of VirtualBox Guest Additions...
     tar: Record size = 8 blocks
     Removing existing VirtualBox DKMS kernel modules ...done.
     Removing existing VirtualBox non-DKMS kernel modules ...done.
@@ -106,7 +111,21 @@ When *vagrant-vbguest* is running it will provide you some logs:
 
     Installing the Window System drivers ...fail!
     (Could not find the X.Org or XFree86 Window System.)
-    ...
+    stdin: is not a tty
+    [default] Restarting VM to apply changes...
+    [default] Attempting graceful shutdown of VM...
+    [default] Booting VM...
+    [default] Waiting for VM to boot. This can take a few minutes.
+    [default] VM booted and ready for use!
+    [default] Configuring and enabling network interfaces...
+    [default] Setting host name...
+    [default] Mounting shared folders...
+    [default] -- v-root: /vagrant
+    [default] -- v-csc-1: /tmp/vagrant-chef-1/chef-solo-1/cookbooks
+    [default] Running provisioner: Vagrant::Provisioners::ChefSolo...
+    [default] Generating chef JSON and uploading...
+    [default] Running chef-solo...
+    [...]
 
 
 The plugin's part starts at `[default] Installing Virtualbox Guest Additions 4.1.14 - guest's version is 4.1.1`, telling you that:
@@ -124,7 +143,7 @@ When everything is fine, and no update is needed, you see log like:
     [default] Booting VM...
     [default] Waiting for VM to boot. This can take a few minutes.
     [default] VM booted and ready for use!
-    [default] Detected Virtualbox Guest Additions 4.1.14 --- OK.
+    [default] GuestAdditions 4.2.6 running --- OK.
     ...
 
 
@@ -146,11 +165,11 @@ $ vagrant vbguest --status
 
 Telling you either about a version mismatch:
 
-    [default] Virtualbox Guest Additions on host: 4.1.14 - guest's version is 4.1.0
+    [default] GuestAdditions versions on your host (4.2.6) and guest (4.1.0) do not match.
 
 or a match:
 
-    [default] Detected Virtualbox Guest Additions 4.1.14 --- OK
+    [default] GuestAdditions 4.2.6 running --- OK.
 
 
 The `auto-reboot` is tured off by default, when running as a command. Vbguest will suggest you to reboot the box when needed. To turn it on simply pass the `--auto-reboot` parameter:
