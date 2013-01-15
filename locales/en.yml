@@ -36,9 +36,9 @@ en:
 
           downloading_disabled: |-
             Could not locate a local Virtualbox Guest Additions iso file.
-            However, the no_remote option was set and thus I will not download it from 
+            However, the no_remote option was set and thus I will not download it from
             %{from}
-            Please configure a local path to the iso using `config.vbguest.iso_path` 
+            Please configure a local path to the iso using `config.vbguest.iso_path`
             in your Vagrantfile or the `--iso` command line option.
 
           installer:
