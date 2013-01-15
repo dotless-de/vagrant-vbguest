@@ -32,7 +32,7 @@ module VagrantVbguest
       while (command = runlist.shift)
         @logger.debug("Running command #{command} from runlist")
         if !self.send(command)
-          vm.ui.error('vagrant.plugins.vbguest.machine_loop_gard', :command => command, :state => current_state)
+          vm.ui.error('vagrant.plugins.vbguest.machine_loop_guard', :command => command, :state => current_state)
           return false
         end
         return run if current_state != state
@@ -41,12 +41,12 @@ module VagrantVbguest
     end
 
     def install
-      return @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.skiped_installation")) if options[:no_install] && !options[:force]
+      return @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.skipped_installation")) if options[:no_install] && !options[:force]
       @ga_machine.trigger :install
     end
 
     def rebuild
-      return @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.skiped_rebuild")) if options[:no_install] && !options[:force]
+      return @vm.ui.warn(I18n.t("vagrant.plugins.vbguest.skipped_rebuild")) if options[:no_install] && !options[:force]
       @ga_machine.trigger :rebuild
     end
 

@@ -2,17 +2,17 @@ en:
   vagrant:
     plugins:
       vbguest:
-        skiped_installation: "Updating GuestAdditions skipped."
-        skiped_rebuild: "Rebuilding GuestAdditions skipped."
+        skipped_installation: "Updating GuestAdditions skipped."
+        skipped_rebuild: "Rebuilding GuestAdditions skipped."
         installing: "Installing Virtualbox Guest Additions %{installer_version} - guest version is %{guest_version}"
         installing_forced: "Forcing installation of Virtualbox Guest Additions %{installer_version} - guest version is %{guest_version}"
         rebuild: "Rebuilding Virtualbox Guest Additions %{guest_version} (Your host version is %{host_version})"
         rebuild_forced: "Forcing rebuilding of Virtualbox Guest Additions %{guest_version} (Your host version is %{host_version})"
         start_copy_iso: "Copy iso file %{from} into the box %{to}"
         restart_vm: "Restarting VM to apply changes..."
-        suggest_restart: "Guest Additions got installed. However, they seem not be loaded correctly. Please restart the box runing `vagrant reload %{name}`"
+        suggest_restart: "Guest Additions got installed. However, they seem not be loaded correctly. Please restart the box running `vagrant reload %{name}`"
         restart_loop_guard_activated: "Guest Additions will not load, even after reboot."
-        machine_loop_gard: "Could not execute %{command} from current state %{state}. To prevent running in circles, we'll stop."
+        machine_loop_guard: "Could not execute %{command} from current state %{state}. To prevent running in circles, we'll stop."
         guest_version_reports_differ: |-
           Got different reports about installed GuestAdditions version:
           Virtualbox on your host claims:   %{driver}
