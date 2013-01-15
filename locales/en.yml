@@ -36,7 +36,7 @@ en:
 
           downloading_disabled: |-
             Could not locate a local Virtualbox Guest Additions iso file.
-            However, the no_remote option was set and thus I will not downlownload it from 
+            However, the no_remote option was set and thus I will not download it from 
             %{from}
             Please configure a local path to the iso using `config.vbguest.iso_path` 
             in your Vagrantfile or the `--iso` command line option.
@@ -47,7 +47,7 @@ en:
             generic_linux_installer: |-
               The guest's platform is currently not supported, will try generic Linux method...
             do_not_inherit_match_method: |-
-              Installer classes must proviode their own `match?` method.
+              Installer classes must provide their own `match?` method.
 
         download:
           with: "Downloading VirtualBox Guest Additions ISO with %{class}..."
