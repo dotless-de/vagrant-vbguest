@@ -28,11 +28,11 @@ en:
 
         errors:
           autodetect_iso_path: |-
-            Could not autodetect a local of the Virtualbox Guest Additions iso file.
-            Please configure a local path to the iso using `config.vbguest.iso_path` 
+            Could not locate a local Virtualbox Guest Additions iso file.
+            Please configure a local path to the iso using `config.vbguest.iso_path`
             in your Vagrantfile or the `--iso` command line option.
             If you think this is a bug and vbguest could have guessed the iso_path,
-            please file a bug: https://github.com/dotless-de/vagrant-vbguest/issues
+            please file an issue at: https://github.com/dotless-de/vagrant-vbguest/issues
 
           downloading_disabled: |-
             Could not locate a local Virtualbox Guest Additions iso file.
