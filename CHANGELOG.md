@@ -1,3 +1,8 @@
+## 0.6.2 (2013-01-18)
+
+  - Fix typos and wording in error messages and I18n keys
+    et al. [GH-38]
+
 ## 0.6.1 (2012-01-13)
 
   - Fix missing command output block and parameters for
