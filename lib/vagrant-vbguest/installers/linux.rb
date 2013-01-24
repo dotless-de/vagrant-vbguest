@@ -62,6 +62,13 @@ module VagrantVbguest
         vm.channel.test('lsmod | grep vboxsf', opts, &block)
       end
 
+      # This overrides {VagrantVbguest::Installers::Base#guest_version}
+      # to also query the `VBoxService` on the host system (if available)
+      # for it's version.
+      # In some scenarios the results of the VirtualBox driver and the
+      # additions installed on the host may differ. If this happens, we
+      # assume, that the host binaries are right and yield a warning message.
+      #
       # @return [String] The version code of the VirtualBox Guest Additions
       #                  available on the guest, or `nil` if none installed.
       def guest_version(reload = false)
