@@ -1,3 +1,7 @@
+## 0.6.4 (2013-01-24)
+
+  - Fix passing a installer class as an config option [GH-40]
+
 ## 0.6.3 (2013-01-19)
 
   - Fix generic linux installer for not explicitly supported
