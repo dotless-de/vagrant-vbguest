@@ -3,7 +3,7 @@ module VagrantVbguest
   class Config < Vagrant::Config::Base
 
     module Attributes
-      attr_accessor :iso_path, :auto_update, :auto_reboot, :no_install, :no_remote
+      attr_accessor :iso_path, :auto_update, :auto_reboot, :no_install, :no_remote, :installer
     end
 
     class << self
@@ -35,6 +35,7 @@ module VagrantVbguest
     # explicit hash, to get symbols in hash keys
     def to_hash
       {
+        :installer => installer,
         :iso_path => iso_path,
         :auto_update => auto_update,
         :auto_reboot => auto_reboot,
