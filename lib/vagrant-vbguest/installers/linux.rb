@@ -113,6 +113,7 @@ module VagrantVbguest
       def execute_installer(opts=nil, &block)
         installer = File.join(mount_point, 'VBoxLinuxAdditions.run')
         yield_installation_waring(installer)
+        opts = {:error_check => false}.merge(opts || {})
         vm.channel.sudo("#{installer} --nox11", opts, &block)
       end
 
