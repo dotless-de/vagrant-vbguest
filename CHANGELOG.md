@@ -1,6 +1,7 @@
 ## 0.7.0
 
-  - Add support for redhat-based distributions (Scientific Linux and presumably CentOS)
+  - Add support for redhat-based distributions (Scientific Linux and
+    presumably CentOS) [GH-47], [GH-46] / (thanks @neerolyte)
 
 ## 0.6.4 (2013-01-24)
 
