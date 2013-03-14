@@ -1,3 +1,7 @@
+## 0.7.0
+
+  - Add support for redhat-based distributions (Scientific Linux and presumably CentOS)
+
 ## 0.6.4 (2013-01-24)
 
   - Fix passing a installer class as an config option [GH-40]
