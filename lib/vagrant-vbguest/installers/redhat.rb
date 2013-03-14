@@ -27,5 +27,3 @@ module VagrantVbguest
   end
 end
 VagrantVbguest::Installer.register(VagrantVbguest::Installers::RedHat, 5)
-
-# vim: ts=2 sw=2 et
