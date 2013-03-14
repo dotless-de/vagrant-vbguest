@@ -2,6 +2,15 @@
 
   - Add support for redhat-based distributions (Scientific Linux and
     presumably CentOS) [GH-47], [GH-46] / (thanks @neerolyte)
+  - Fix an issue with VirtualBox GuestAdditions 4.2.8 [GH-44] /
+    (thanks @jimmycuadra)
+
+### heads-up
+
+  - [GH-44] changes the behavior of vbguest to that effect, that it
+    will no longer halt vagrant workflow if running the VirtualBox
+    GuestAdditions Installer returns an error-code.
+    Instead it will print a human readable waring message.
 
 ## 0.6.4 (2013-01-24)
 
