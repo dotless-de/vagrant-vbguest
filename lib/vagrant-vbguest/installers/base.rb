@@ -167,7 +167,7 @@ module VagrantVbguest
       # knows there could be a problem. The message includles the installer
       # version.
       def yield_installation_error_warning(path_to_installer)
-        @vm.ui.warn I18n.t("vagrant.plugins.vbguest.install_error"),
+        @vm.ui.warn I18n.t("vagrant.plugins.vbguest.install_error",
           :installer_version => installer_version(path_to_installer) || I18n.t("vagrant.plugins.vbguest.unknown"))
       end
 
