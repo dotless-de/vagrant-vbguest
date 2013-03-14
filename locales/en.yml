@@ -8,6 +8,7 @@ en:
         installing_forced: "Forcing installation of Virtualbox Guest Additions %{installer_version} - guest version is %{guest_version}"
         rebuild: "Rebuilding Virtualbox Guest Additions %{guest_version} (Your host version is %{host_version})"
         rebuild_forced: "Forcing rebuilding of Virtualbox Guest Additions %{guest_version} (Your host version is %{host_version})"
+        install_error: "An error occurred during installation of VirtualBox Guest Additions %{installer_version}. Some functionality may not work as intended."
         start_copy_iso: "Copy iso file %{from} into the box %{to}"
         restart_vm: "Restarting VM to apply changes..."
         suggest_restart: "Guest Additions got installed. However, they seem not be loaded correctly. Please restart the box running `vagrant reload %{name}`"

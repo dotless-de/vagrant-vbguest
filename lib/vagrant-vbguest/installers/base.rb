@@ -160,6 +160,17 @@ module VagrantVbguest
           :host_version => host_version)
       end
 
+      # Helper to yield a warning message to the user in the event that the
+      # installer returned a non-zero exit status. Because lack of a window
+      # system will cause this result in VirtualBox 4.2.8+, we don't want to
+      # kill the entire boot process, but we do want to make sure the user
+      # knows there could be a problem. The message includles the installer
+      # version.
+      def yield_installation_error_warning(path_to_installer)
+        @vm.ui.warn I18n.t("vagrant.plugins.vbguest.install_error",
+          :installer_version => installer_version(path_to_installer) || I18n.t("vagrant.plugins.vbguest.unknown"))
+      end
+
       # GuestAdditions-iso-file-detection-magig.
       #
       # Detectio runs in those stages:
