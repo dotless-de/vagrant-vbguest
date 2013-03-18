@@ -35,25 +35,22 @@ module VagrantVbguest
       end
 
       ##
-      # Returns an instance of the registrated Installer class which
+      # Returns the class of the registrated Installer class which
       # matches first (according to it's priority) or `nil` if none matches.
       def detect(vm, options)
         @installers.keys.sort.reverse.each do |prio|
           klass = @installers[prio].detect { |k| k.match?(vm) }
-          return klass.new(vm, options) if klass
+          return klass if klass
         end
         return nil
       end
     end
 
-    def initialize(vm, options = {})
-      @vm = vm
+    def initialize(env, options = {})
+      @env = env
+      @vm = env[:machine]
       @options = options
       @iso_path = nil
-      @env = {
-        :ui => vm.ui,
-        :tmp_path => vm.env.tmp_path
-      }
     end
 
     def install
@@ -61,7 +58,7 @@ module VagrantVbguest
       raise NoInstallerFoundError, :method => 'install' if !installer
 
       installer.install do |type, data|
-        @vm.ui.info(data, :prefix => false, :new_line => false)
+        @env[:ui].info(data, :prefix => false, :new_line => false)
       end
     ensure
       cleanup
@@ -72,7 +69,7 @@ module VagrantVbguest
       raise NoInstallerFoundError, :method => 'rebuild' if !installer
 
       installer.rebuild do |type, data|
-        @vm.ui.info(data, :prefix => false, :new_line => false)
+        @env[:ui].info(data, :prefix => false, :new_line => false)
       end
     end
 
@@ -81,7 +78,7 @@ module VagrantVbguest
       raise NoInstallerFoundError, :method => 'manual start' if !installer
 
       installer.start do |type, data|
-        @vm.ui.info(data, :prefix => false, :new_line => false)
+        @env[:ui].info(data, :prefix => false, :new_line => false)
       end
     end
 
@@ -112,7 +109,7 @@ module VagrantVbguest
       @guest_installer ||= if @options[:installer].is_a? Class
         @options[:installer].new(@vm, @options)
       else
-        Installer.detect(@vm, @options)
+        installer_klass = Installer.detect(@vm, @options) and installer_klass.new(@env, @options)
       end
     end
 

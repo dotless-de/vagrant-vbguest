@@ -214,7 +214,7 @@ Installers take care of the whole installation process, that includes where to s
 class MyInstaller < VagrantVbguest::Installers::Linux
 
   def self.match?(vm)
-    super && vm.channel.test("test -d /temp")
+    super && vm.communicate.test("test -d /temp")
   end
 
   # use /temp instead of /tmp

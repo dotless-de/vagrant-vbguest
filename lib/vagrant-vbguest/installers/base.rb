@@ -24,10 +24,11 @@ module VagrantVbguest
         false
       end
 
-      attr_reader :vm, :options
+      attr_reader :env, :vm, :options
 
-      def initialize(vm, options=nil)
-        @vm = vm
+      def initialize(env, options=nil)
+        @env = env
+        @vm = env[:machine]
         @options = options
       end
 
@@ -116,7 +117,7 @@ module VagrantVbguest
       def guest_version(reload=false)
         return @guest_version if @guest_version && !reload
 
-        guest_version = vm.driver.read_guest_additions_version
+        guest_version = vm.provider.driver.read_guest_additions_version
         guest_version = !guest_version ? nil : guest_version.gsub(/[-_]ose/i, '')
 
         @guest_version = guest_version
@@ -126,7 +127,7 @@ module VagrantVbguest
       #
       # @return [String] The version code of the Virtual Box *host*
       def host_version
-        vm.driver.version
+        vm.provider.driver.version
       end
 
       # Determinates the version of the GuestAdditions installer in use
@@ -134,7 +135,7 @@ module VagrantVbguest
       # @return [String] The version code of the GuestAdditions installer
       def installer_version(path_to_installer)
         version = nil
-        @vm.channel.sudo("#{path_to_installer} --info", :error_check => false) do |type, data|
+        @vm.communicate.sudo("#{path_to_installer} --info", :error_check => false) do |type, data|
           if (v = data.to_s.match(/\AIdentification.*\s(\d+\.\d+.\d+)/i))
             version = v[1]
           end
@@ -146,7 +147,7 @@ module VagrantVbguest
       # will start _now_.
       # The message includes the host and installer version strings.
       def yield_installation_waring(path_to_installer)
-        @vm.ui.warn I18n.t("vagrant.plugins.vbguest.installing#{@options[:force] ? '_forced' : ''}",
+        @env[:ui].warn I18n.t("vagrant.plugins.vbguest.installing#{@options[:force] ? '_forced' : ''}",
           :guest_version => guest_version,
           :installer_version => installer_version(path_to_installer) || I18n.t("vagrant.plugins.vbguest.unknown"))
       end
@@ -155,7 +156,7 @@ module VagrantVbguest
       # will be rebuild using the installed GuestAdditions.
       # The message includes the host and installer version strings.
       def yield_rebuild_warning
-        @vm.ui.warn I18n.t("vagrant.plugins.vbguest.rebuild#{@options[:force] ? '_forced' : ''}",
+        @env[:ui].warn I18n.t("vagrant.plugins.vbguest.rebuild#{@options[:force] ? '_forced' : ''}",
           :guest_version => guest_version(true),
           :host_version => host_version)
       end
@@ -167,7 +168,7 @@ module VagrantVbguest
       # knows there could be a problem. The message includles the installer
       # version.
       def yield_installation_error_warning(path_to_installer)
-        @vm.ui.warn I18n.t("vagrant.plugins.vbguest.install_error",
+        @env[:ui].warn I18n.t("vagrant.plugins.vbguest.install_error",
           :installer_version => installer_version(path_to_installer) || I18n.t("vagrant.plugins.vbguest.unknown"))
       end
 
@@ -202,12 +203,12 @@ module VagrantVbguest
           else
             # :TODO: This will also raise, if the iso_url points to an invalid local path
             raise VagrantVbguest::DownloadingDisabledError.new(:from => iso_path) if options[:no_remote]
-            env = {
-              :ui => vm.ui,
-              :tmp_path => vm.env.tmp_path,
+            downloader_env = {
+              :ui => env[:ui],
+              :tmp_path => vm.env.temp_path,
               :iso_url => iso_path
             }
-            @download = VagrantVbguest::Download.new(env)
+            @download = VagrantVbguest::Download.new(downloader_env)
             @download.download
             @download.temp_path
           end
@@ -263,23 +264,23 @@ module VagrantVbguest
 
       # A helper method to handle the GuestAdditions iso file upload
       # into the guest box.
-      # The file will uploaded to the location given by the +tmp_path+ method.
+      # The file will uploaded to the location given by the +temp_path+ method.
       #
       # @example Default upload
       #    upload(iso_file)
       #
       # @param [String] Path of the file to upload to the +tmp_path*
       def upload(file)
-        vm.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => file, :to => tmp_path))
-        vm.channel.upload(file, tmp_path)
+        env[:ui].info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => file, :to => tmp_path))
+        vm.communicate.upload(file, tmp_path)
       end
 
       # A helper method to delete the uploaded GuestAdditions iso file
       # from the guest box
       def cleanup
         @download.cleanup if @download
-        vm.channel.execute("test -f #{tmp_path} && rm #{tmp_path}", :error_check => false) do |type, data|
-          vm.ui.error(data.chomp, :prefix => false)
+        vm.communicate.execute("test -f #{tmp_path} && rm #{tmp_path}", :error_check => false) do |type, data|
+          env[:ui].error(data.chomp, :prefix => false)
         end
       end
 
