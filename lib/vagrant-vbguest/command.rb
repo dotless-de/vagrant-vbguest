@@ -1,5 +1,5 @@
 require 'optparse'
-require 'vagrant/command/start_mixins'
+require Vagrant.source_root.join("plugins/commands/up/start_mixins")
 
 module VagrantVbguest
 
