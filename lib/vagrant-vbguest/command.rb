@@ -3,8 +3,8 @@ require Vagrant.source_root.join("plugins/commands/up/start_mixins")
 
 module VagrantVbguest
 
-  class Command < Vagrant::Command::Base
-    include Vagrant::Command::StartMixins
+  class Command < Vagrant.plugin("2", :command)
+    include VagrantPlugins::CommandUp::StartMixins
     include VagrantVbguest::Helpers::Rebootable
 
     # Runs the vbguest installer on the VMs that are represented
