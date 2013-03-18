@@ -14,11 +14,16 @@ module VagrantVbguest
 
     def call(env)
       @env    = env
-      vm      = env[:vm]
+      vm      = if Vagrant::VERSION < "1.1.0"
+        env[:vm]
+      else
+        env[:machine]
+      end
+
       options = vm.config.vbguest.to_hash.freeze
 
       if options[:auto_update]
-        machine = VagrantVbguest::Machine.new vm, options
+        machine = VagrantVbguest::Machine.new @env, options
         status  = machine.state
         env[:ui].send((:ok == status ? :success : :warn), I18n.t("vagrant.plugins.vbguest.status.#{status}", machine.info))
         machine.run
