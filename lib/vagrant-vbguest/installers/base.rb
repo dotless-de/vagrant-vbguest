@@ -28,7 +28,7 @@ module VagrantVbguest
 
       def initialize(env, options=nil)
         @env = env
-        @vm = env[:machine]
+        @vm = env[:vm]
         @options = options
       end
 
@@ -272,14 +272,14 @@ module VagrantVbguest
       # @param [String] Path of the file to upload to the +tmp_path*
       def upload(file)
         env[:ui].info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => file, :to => tmp_path))
-        vm.communicate.upload(file, tmp_path)
+        vm.channel.upload(file, tmp_path)
       end
 
       # A helper method to delete the uploaded GuestAdditions iso file
       # from the guest box
       def cleanup
         @download.cleanup if @download
-        vm.communicate.execute("test -f #{tmp_path} && rm #{tmp_path}", :error_check => false) do |type, data|
+        vm.channel.execute("test -f #{tmp_path} && rm #{tmp_path}", :error_check => false) do |type, data|
           env[:ui].error(data.chomp, :prefix => false)
         end
       end

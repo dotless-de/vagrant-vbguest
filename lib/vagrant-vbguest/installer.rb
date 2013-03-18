@@ -48,7 +48,7 @@ module VagrantVbguest
 
     def initialize(env, options = {})
       @env = env
-      @vm = env[:machine]
+      @vm = env[:vm]
       @options = options
       @iso_path = nil
     end

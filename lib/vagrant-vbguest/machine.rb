@@ -7,7 +7,7 @@ module VagrantVbguest
 
     def initialize env, options
       @env      = env
-      @vm       = env[:machine]
+      @vm       = env[:vm]
       @options  = options
 
       @logger = Log4r::Logger.new("vagrant::plugins::vbguest-machine")

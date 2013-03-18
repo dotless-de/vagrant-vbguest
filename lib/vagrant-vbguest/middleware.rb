@@ -14,7 +14,7 @@ module VagrantVbguest
 
     def call(env)
       @env    = env
-      vm      = env[:machine]
+      vm      = env[:vm]
       options = vm.config.vbguest.to_hash.freeze
 
       if options[:auto_update]
