@@ -235,7 +235,7 @@ module VagrantVbguest
       #
       # @return [String] Absolute path to the local GuestAdditions iso file, or +nil+ if not found.
       def media_manager_iso
-        (m = vm.driver.execute('list', 'dvds').match(/^.+:\s+(.*VBoxGuestAdditions.iso)$/i)) && m[1]
+        (m = vm.driver.execute('list', 'dvds').match(/^.+:\s+(.*VBoxGuestAdditions(|_#{guest_version}).iso)$/i)) && m[1]
       end
 
       # Makes an educated guess where the GuestAdditions iso file
