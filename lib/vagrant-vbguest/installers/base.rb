@@ -254,7 +254,7 @@ module VagrantVbguest
         elsif Vagrant::Util::Platform.windows?
           if (p = ENV["VBOX_INSTALL_PATH"]) && !p.empty?
             File.join(p, "VBoxGuestAdditions.iso")
-          else
+          elsif ENV["PROGRAM_FILES"] || ENV["ProgramW6432"] || ENV["PROGRAMFILES"]
             File.join((ENV["PROGRAM_FILES"] || ENV["ProgramW6432"] || ENV["PROGRAMFILES"]), "/Oracle/VirtualBox/VBoxGuestAdditions.iso")
           end
         end
