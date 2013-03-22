@@ -1,5 +1,12 @@
 ## 0.7.0
 
+  - When looking for a GuestAdditions iso file in media manager
+    allow version number in filename. [GH-48], [GH-49] /
+    (thanks @neerolyte)
+  - Support multiple locations to be searched while "guessing"
+    GuestAdditions iso file
+  - On Linux guests also search "$HOME/.VirtualBox" for
+    GuestAdditions iso file. [GH-48]
   - Add support for redhat-based distributions (Scientific Linux and
     presumably CentOS) [GH-47], [GH-46] / (thanks @neerolyte)
   - Fix an issue with VirtualBox GuestAdditions 4.2.8 [GH-44] /
