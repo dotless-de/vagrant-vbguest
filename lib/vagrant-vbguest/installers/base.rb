@@ -244,8 +244,11 @@ module VagrantVbguest
       #
       # @return [String] Absolute path to the local GuestAdditions iso file, or +nil+ if not found.
       def guess_iso
-        path_platform = if Vagrant::Util::Platform.linux?
-          "/usr/share/virtualbox/VBoxGuestAdditions.iso"
+        paths = if Vagrant::Util::Platform.linux?
+          [
+            (File.join(ENV['HOME'], '.VirtualBox', "VBoxGuestAdditions_#{guest_version}.iso") if ENV['HOME']),
+            "/usr/share/virtualbox/VBoxGuestAdditions.iso"
+          ]
         elsif Vagrant::Util::Platform.darwin?
           "/Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso"
         elsif Vagrant::Util::Platform.windows?
@@ -255,7 +258,7 @@ module VagrantVbguest
             File.join((ENV["PROGRAM_FILES"] || ENV["ProgramW6432"] || ENV["PROGRAMFILES"]), "/Oracle/VirtualBox/VBoxGuestAdditions.iso")
           end
         end
-        File.exists?(path_platform) ? path_platform : nil
+        Array(paths).find { |path| path && File.exists?(path) }
       end
 
       # A helper method to handle the GuestAdditions iso file upload
