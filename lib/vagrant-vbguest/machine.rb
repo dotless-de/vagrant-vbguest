@@ -5,15 +5,15 @@ module VagrantVbguest
 
     attr_reader :installer, :env, :vm, :options
 
-    def initialize env, options
-      @env      = env
-      @vm       = env[:vm]
+    def initialize vm, options
+      @vm       = vm
+      @env      = vm.env
       @options  = options
 
       @logger = Log4r::Logger.new("vagrant::plugins::vbguest-machine")
       @logger.debug("initialize vbguest machine for VM '#{vm.name}' (#{vm.to_s})")
 
-      @installer = Installer.new env, options
+      @installer = Installer.new vm, options
 
       @ga_machine = MicroMachine.new(:pending).tap { |m|
         m.when :install, :pending => :installed
@@ -37,7 +37,7 @@ module VagrantVbguest
       while (command = runlist.shift)
         @logger.debug("Running command #{command} from runlist")
         if !self.send(command)
-          env[:ui].error('vagrant.plugins.vbguest.machine_loop_guard', :command => command, :state => current_state)
+          env.ui.error('vagrant.plugins.vbguest.machine_loop_guard', :command => command, :state => current_state)
           return false
         end
         return run if current_state != state
@@ -46,12 +46,12 @@ module VagrantVbguest
     end
 
     def install
-      return env[:ui].warn(I18n.t("vagrant.plugins.vbguest.skipped_installation")) if options[:no_install] && !options[:force]
+      return env.ui.warn(I18n.t("vagrant.plugins.vbguest.skipped_installation")) if options[:no_install] && !options[:force]
       @ga_machine.trigger :install
     end
 
     def rebuild
-      return env[:ui].warn(I18n.t("vagrant.plugins.vbguest.skipped_rebuild")) if options[:no_install] && !options[:force]
+      return env.ui.warn(I18n.t("vagrant.plugins.vbguest.skipped_rebuild")) if options[:no_install] && !options[:force]
       @ga_machine.trigger :rebuild
     end
 

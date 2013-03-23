@@ -18,7 +18,7 @@ module VagrantVbguest
       options = vm.config.vbguest.to_hash.freeze
 
       if options[:auto_update]
-        machine = VagrantVbguest::Machine.new @env, options
+        machine = VagrantVbguest::Machine.new vm, options
         status  = machine.state
         env[:ui].send((:ok == status ? :success : :warn), I18n.t("vagrant.plugins.vbguest.status.#{status}", machine.info))
         machine.run

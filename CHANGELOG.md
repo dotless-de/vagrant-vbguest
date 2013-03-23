@@ -11,6 +11,8 @@
     presumably CentOS) [GH-47], [GH-46] / (thanks @neerolyte)
   - Fix an issue with VirtualBox GuestAdditions 4.2.8 [GH-44] /
     (thanks @jimmycuadra)
+  - Reworked bunch of internals, particularly how vagrants's
+    environemnt is passed arround
 
 ### heads-up
 
@@ -18,6 +20,10 @@
     will no longer halt vagrant workflow if running the VirtualBox
     GuestAdditions Installer returns an error-code.
     Instead it will print a human readable waring message.
+  - The environment (`env`) in custom installers is no longer the
+    actions environment `Hash`, but the `Environment` instance.
+    Which has some implications on how you can access e.g. the `ui`:
+    instead of `env[:ui]` use `env.ui`
 
 ## 0.6.4 (2013-01-24)
 

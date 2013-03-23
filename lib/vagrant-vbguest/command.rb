@@ -75,7 +75,7 @@ module VagrantVbguest
       _rebootable = options.delete(:_rebootable)
 
       options = vm.config.vbguest.to_hash.merge(options)
-      machine = VagrantVbguest::Machine.new(@env, options)
+      machine = VagrantVbguest::Machine.new(vm, options)
       status  = machine.state
       vm.ui.send((:ok == status ? :success : :warn), I18n.t("vagrant.plugins.vbguest.status.#{status}", machine.info))
 

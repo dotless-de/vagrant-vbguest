@@ -46,9 +46,9 @@ module VagrantVbguest
       end
     end
 
-    def initialize(env, options = {})
-      @env = env
-      @vm = env[:vm]
+    def initialize(vm, options = {})
+      @vm = vm
+      @env = vm.env
       @options = options
       @iso_path = nil
     end
@@ -58,7 +58,7 @@ module VagrantVbguest
       raise NoInstallerFoundError, :method => 'install' if !installer
 
       installer.install do |type, data|
-        @env[:ui].info(data, :prefix => false, :new_line => false)
+        @env.ui.info(data, :prefix => false, :new_line => false)
       end
     ensure
       cleanup
@@ -69,7 +69,7 @@ module VagrantVbguest
       raise NoInstallerFoundError, :method => 'rebuild' if !installer
 
       installer.rebuild do |type, data|
-        @env[:ui].info(data, :prefix => false, :new_line => false)
+        @env.ui.info(data, :prefix => false, :new_line => false)
       end
     end
 
@@ -78,7 +78,7 @@ module VagrantVbguest
       raise NoInstallerFoundError, :method => 'manual start' if !installer
 
       installer.start do |type, data|
-        @env[:ui].info(data, :prefix => false, :new_line => false)
+        @env.ui.info(data, :prefix => false, :new_line => false)
       end
     end
 
@@ -109,7 +109,7 @@ module VagrantVbguest
       @guest_installer ||= if @options[:installer].is_a? Class
         @options[:installer].new(@vm, @options)
       else
-        installer_klass = Installer.detect(@vm, @options) and installer_klass.new(@env, @options)
+        installer_klass = Installer.detect(@vm, @options) and installer_klass.new(@vm, @options)
       end
     end
 
