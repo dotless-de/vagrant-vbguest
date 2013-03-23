@@ -43,7 +43,7 @@ module VagrantVbguest
       # The mountpoint path
       # Subclasses shall override this method, if they need to mount the uploaded file!
       #
-      # @retunn [String]
+      # @return [String]
       def mount_point
       end
 
