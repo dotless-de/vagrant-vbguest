@@ -1,9 +1,11 @@
-require 'vagrant'
+begin
+  require "vagrant"
+rescue LoadError
+  raise "The Vagrant VBGuest plugin must be run within Vagrant."
+end
 
 # Add our custom translations to the load path
 I18n.load_path << File.expand_path("../../locales/en.yml", __FILE__)
-
-require 'vagrant-vbguest/core_ext/string/interpolate'
 
 require "vagrant-vbguest/errors"
 require 'vagrant-vbguest/helpers'
