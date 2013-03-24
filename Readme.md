@@ -4,8 +4,17 @@
 
 ## Installation
 
-Requires vagrant 0.9.4 or later (including 1.0)    
-Since vagrant v1.0.0 the preferred installation method for vagrant is using the provided packages or installers. 
+Requires vagrant 0.9.4 or later (including 1.0 and 1.1)    
+
+On Vagrant 1.1.x use:
+
+```bash
+$ vagrant plugin install vagrant-vbguest
+```
+
+### Vagrant 1.0 and older
+
+Since vagrant v1.0.0 the preferred installation method for vagrant is using the provided packages or installers.
 If you installed vagrant that way, you need to use vagrant's gem wrapper:
 
 ```bash
@@ -213,10 +222,6 @@ Installers take care of the whole installation process, that includes where to s
 ```ruby
 class MyInstaller < VagrantVbguest::Installers::Linux
 
-  def self.match?(vm)
-    super && vm.channel.test("test -d /temp")
-  end
-
   # use /temp instead of /tmp
   def tmp_path
     '/temp/VBoxGuestAdditions.iso'
@@ -225,6 +230,14 @@ class MyInstaller < VagrantVbguest::Installers::Linux
   # use /media instead of /mnt
   def mount_point
     '/media'
+  end
+
+  def install(opts=nil, &block)
+    communicate.sudo('my_distos_way_of_preparing_guestadditions_installation', opts, &block)
+    # calling `super` will run the installation
+    # also it takes care of uploading the right iso file into the box
+    # and cleaning up afterward
+    super
   end
 end
 

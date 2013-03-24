@@ -10,7 +10,7 @@ module VagrantVbguest
 
       # Install missing deps and yield up to regular linux installation
       def install(opts=nil, &block)
-        vm.channel.sudo(install_dependencies_cmd, opts, &block)
+        communicate.sudo(install_dependencies_cmd, opts, &block)
         super
       end
 

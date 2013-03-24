@@ -42,6 +42,9 @@ en:
             Please configure a local path to the iso using `config.vbguest.iso_path`
             in your Vagrantfile or the `--iso` command line option.
 
+          no_virtualbox_machine: |-
+            The VBGuest plugin must be used with VirtualBox Machines only.
+
           installer:
             no_installer_for_platform: |-
               Sorry, don't know how to %{method} Virtualbox Guest Additions on this platform. Stopping installation.
