@@ -66,18 +66,15 @@ module VagrantVbguest
 
     # Executes a command on a specific VM.
     def execute_on_vm(vm, options)
-      raise Vagrant::Errors::VMNotCreatedError if !vm.created?
-      raise Vagrant::Errors::VMInaccessible if !vm.state == :inaccessible
-      raise Vagrant::Errors::VMNotRunningError if vm.state != :running
 
       options     = options.clone
       _method     = options.delete(:_method)
       _rebootable = options.delete(:_rebootable)
 
       options = vm.config.vbguest.to_hash.merge(options)
-      machine = VagrantVbguest::Machine.new(@env, options)
+      machine = VagrantVbguest::Machine.new(vm, options)
       status  = machine.state
-      vm.ui.send((:ok == status ? :success : :warn), I18n.t("vagrant.plugins.vbguest.status.#{status}", machine.info))
+      vm.env.ui.send((:ok == status ? :success : :warn), I18n.t("vagrant.plugins.vbguest.status.#{status}", machine.info))
 
       if _method != :status
         machine.send(_method)
