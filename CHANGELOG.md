@@ -13,6 +13,8 @@
     (thanks @jimmycuadra)
   - Reworked bunch of internals, particularly how vagrants's
     environemnt is passed arround
+  - Intodruce a vagrant 1.0 compatibility layer for Installers and
+    other vbguest internals
 
 ### heads-up
 
@@ -24,6 +26,13 @@
     actions environment `Hash`, but the `Environment` instance.
     Which has some implications on how you can access e.g. the `ui`:
     instead of `env[:ui]` use `env.ui`
+  - To achieve compatibility to both vagrant 1.0 and 1.1, custom
+    Installers, when executing shell commands on the guest system,
+    should use vbguests `communicate` wrapper. e.g.:
+        A call like `vm.channel.sudo 'apt-get update'` should be
+        changed to `channel.sudo 'apt-get update'`
+    The old `vm.channel` syntax will continue to work on vagrant 1.0.x
+    but will fail on vagrant 1.1.x.
 
 ## 0.6.4 (2013-01-24)
 
