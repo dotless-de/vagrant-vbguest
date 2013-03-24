@@ -1,10 +1,8 @@
 require 'optparse'
-require Vagrant.source_root.join("plugins/commands/up/start_mixins")
 
 module VagrantVbguest
 
-  class Command < Vagrant.plugin("2", :command)
-    include VagrantPlugins::CommandUp::StartMixins
+  module CommandCommons
     include VagrantVbguest::Helpers::Rebootable
 
     # Runs the vbguest installer on the VMs that are represented
@@ -66,6 +64,7 @@ module VagrantVbguest
 
     # Executes a command on a specific VM.
     def execute_on_vm(vm, options)
+      check_runable_on(vm)
 
       options     = options.clone
       _method     = options.delete(:_method)
@@ -88,6 +87,40 @@ module VagrantVbguest
         vm.reload(options)
       end
     end
+
+    def check_runable_on(vm); end
+  end
+
+
+  if Vagrant::VERSION < "1.1.0"
+    require 'vagrant/command/start_mixins'
+
+    class Command < Vagrant::Command::Base
+      include CommandCommons
+      include Vagrant::Command::StartMixins
+
+      def check_runable_on(vm)
+        raise Vagrant::Errors::VMNotCreatedError if !vm.created?
+        raise Vagrant::Errors::VMInaccessible if !vm.state == :inaccessible
+        raise Vagrant::Errors::VMNotRunningError if vm.state != :running
+      end
+    end
+
+  else
+    require Vagrant.source_root.join("plugins/commands/up/start_mixins")
+
+    class Command < Vagrant.plugin("2", :command)
+      include CommandCommons
+      include VagrantPlugins::CommandUp::StartMixins
+
+      def check_runable_on(vm)
+        raise Vagrant::Errors::VMNotCreatedError if vm.state.id == :not_created
+        raise Vagrant::Errors::VMInaccessible if vm.state.id == :inaccessible
+        raise Vagrant::Errors::VMNotRunningError if vm.state.id != :running
+        raise VagrantVbguest::NoVirtualBoxMachineError if vm.provider.class != VagrantPlugins::ProviderVirtualBox::Provider
+      end
+    end
+
   end
 
 end

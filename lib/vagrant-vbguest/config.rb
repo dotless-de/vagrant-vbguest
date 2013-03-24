@@ -1,6 +1,6 @@
 module VagrantVbguest
 
-  class Config < Vagrant.plugin("2", :config)
+  class Config <( Vagrant::VERSION < "1.1.0" ? Vagrant::Config::Base : Vagrant.plugin("2", :config) )
 
     module Attributes
       attr_accessor :iso_path, :auto_update, :auto_reboot, :no_install, :no_remote, :installer

@@ -8,6 +8,7 @@ module VagrantVbguest
     # It defines the basic structure of an Installer and should
     # never be used directly
     class Base
+      include VagrantVbguest::Helpers::VmCompatible
 
       # Tests whether this installer class is applicable to the
       # current environment. Usually, testing for a specific OS.
@@ -117,7 +118,7 @@ module VagrantVbguest
       def guest_version(reload=false)
         return @guest_version if @guest_version && !reload
 
-        guest_version = vm.provider.driver.read_guest_additions_version
+        guest_version = driver.read_guest_additions_version
         guest_version = !guest_version ? nil : guest_version.gsub(/[-_]ose/i, '')
 
         @guest_version = guest_version
@@ -127,7 +128,7 @@ module VagrantVbguest
       #
       # @return [String] The version code of the Virtual Box *host*
       def host_version
-        vm.provider.driver.version
+        driver.version
       end
 
       # Determinates the version of the GuestAdditions installer in use
@@ -135,7 +136,7 @@ module VagrantVbguest
       # @return [String] The version code of the GuestAdditions installer
       def installer_version(path_to_installer)
         version = nil
-        @vm.communicate.sudo("#{path_to_installer} --info", :error_check => false) do |type, data|
+        communicate.sudo("#{path_to_installer} --info", :error_check => false) do |type, data|
           if (v = data.to_s.match(/\AIdentification.*\s(\d+\.\d+.\d+)/i))
             version = v[1]
           end
@@ -236,7 +237,7 @@ module VagrantVbguest
       #
       # @return [String] Absolute path to the local GuestAdditions iso file, or +nil+ if not found.
       def media_manager_iso
-        (m = vm.driver.execute('list', 'dvds').match(/^.+:\s+(.*VBoxGuestAdditions(?:_#{guest_version})?\.iso)$/i)) && m[1]
+        (m = driver.execute('list', 'dvds').match(/^.+:\s+(.*VBoxGuestAdditions(?:_#{guest_version})?\.iso)$/i)) && m[1]
       end
 
       # Makes an educated guess where the GuestAdditions iso file
@@ -272,14 +273,14 @@ module VagrantVbguest
       # @param [String] Path of the file to upload to the +tmp_path*
       def upload(file)
         env.ui.info(I18n.t("vagrant.plugins.vbguest.start_copy_iso", :from => file, :to => tmp_path))
-        vm.channel.upload(file, tmp_path)
+        communicate.upload(file, tmp_path)
       end
 
       # A helper method to delete the uploaded GuestAdditions iso file
       # from the guest box
       def cleanup
         @download.cleanup if @download
-        vm.channel.execute("test -f #{tmp_path} && rm #{tmp_path}", :error_check => false) do |type, data|
+        communicate.execute("test -f #{tmp_path} && rm #{tmp_path}", :error_check => false) do |type, data|
           env.ui.error(data.chomp, :prefix => false)
         end
       end

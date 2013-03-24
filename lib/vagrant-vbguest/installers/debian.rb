@@ -14,10 +14,10 @@ module VagrantVbguest
       # @yieldparam [String] data Data for the given output.
       def install(opts=nil, &block)
         begin
-          vm.communicate.sudo(install_dependencies_cmd, opts, &block)
+          communicate.sudo(install_dependencies_cmd, opts, &block)
         rescue
-          vm.communicate.sudo('apt-get update', opts, &block)
-          vm.communicate.sudo(install_dependencies_cmd, opts, &block)
+          communicate.sudo('apt-get update', opts, &block)
+          communicate.sudo(install_dependencies_cmd, opts, &block)
         end
         super
       end
@@ -31,7 +31,7 @@ module VagrantVbguest
         packages = ['linux-headers-`uname -r`']
         # some Debian system (lenny) dont come with a dkms packe so we neet to skip that.
         # apt-cache search will exit with 0 even if nothing was found, so we need to grep.
-        packages << 'dkms' if vm.communicate.test('apt-cache search --names-only \'^dkms$\' | grep dkms')
+        packages << 'dkms' if communicate.test('apt-cache search --names-only \'^dkms$\' | grep dkms')
         packages.join ' '
       end
     end

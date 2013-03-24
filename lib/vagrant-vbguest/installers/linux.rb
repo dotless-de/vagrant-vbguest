@@ -13,7 +13,7 @@ module VagrantVbguest
       # @return [Symbol] One of `:debian`, `:ubuntu`, `:gentoo`, `:fedora`, `:redhat`, `:suse`, `:arch`
       def self.distro(vm)
         @@ditro ||= {}
-        @@ditro[vm.id] ||= vm.guest.distro_dispatch
+        @@ditro[ VagrantVbguest::Helpers::VmCompatible.vm_id(vm) ] ||= vm.guest.distro_dispatch
       end
 
       # Matches if the operating system name prints "Linux"
@@ -24,7 +24,7 @@ module VagrantVbguest
       # therefore should do a more specific check.
       def self.match?(vm)
         raise Error, :_key => :do_not_inherit_match_method if self != Linux
-        vm.communicate.test("uname | grep 'Linux'")
+        communicate.test("uname | grep 'Linux'")
       end
 
       # defaults the temp path to "/tmp/VBoxGuestAdditions.iso" for all Linux based systems
@@ -59,7 +59,7 @@ module VagrantVbguest
         opts = {
           :sudo => true
         }.merge(opts || {})
-        vm.communicate.test('lsmod | grep vboxsf', opts, &block)
+        communicate.test('lsmod | grep vboxsf', opts, &block)
       end
 
       # This overrides {VagrantVbguest::Installers::Base#guest_version}
@@ -75,7 +75,7 @@ module VagrantVbguest
         return @guest_version if @guest_version && !reload
         driver_version = super
 
-        @vm.communicate.sudo('VBoxService --version', :error_check => false) do |type, data|
+        communicate.sudo('VBoxService --version', :error_check => false) do |type, data|
           if (v = data.to_s.match(/^(\d+\.\d+.\d+)/)) && driver_version != v[1]
             @env.ui.warn(I18n.t("vagrant.plugins.vbguest.guest_version_reports_differ", :driver => driver_version, :service => v[1]))
             @guest_version = v[1]
@@ -89,7 +89,7 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def rebuild(opts=nil, &block)
-        vm.communicate.sudo('/etc/init.d/vboxadd setup', opts, &block)
+        communicate.sudo('/etc/init.d/vboxadd setup', opts, &block)
       end
 
       # @param [Hash] opts Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
@@ -98,7 +98,7 @@ module VagrantVbguest
       # @yieldparam [String] data Data for the given output.
       def start(opts=nil, &block)
         opts = {:error_check => false}.merge(opts || {})
-        vm.communicate.sudo('/etc/init.d/vboxadd start', opts, &block)
+        communicate.sudo('/etc/init.d/vboxadd start', opts, &block)
       end
 
 
@@ -115,7 +115,7 @@ module VagrantVbguest
         installer = File.join(mount_point, 'VBoxLinuxAdditions.run')
         yield_installation_waring(installer)
         opts = {:error_check => false}.merge(opts || {})
-        exit_status = vm.communicate.sudo("#{installer} --nox11", opts, &block)
+        exit_status = communicate.sudo("#{installer} --nox11", opts, &block)
         yield_installation_error_warning(installer) unless exit_status == 0
         exit_status
       end
@@ -129,7 +129,7 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def mount_iso(opts=nil, &block)
-        vm.communicate.sudo("mount #{tmp_path} -o loop #{mount_point}", opts, &block)
+        communicate.sudo("mount #{tmp_path} -o loop #{mount_point}", opts, &block)
       end
 
       # A generic helper method for un-mounting the GuestAdditions iso file
@@ -141,7 +141,7 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def unmount_iso(opts=nil, &block)
-        vm.communicate.sudo("umount #{mount_point}", opts, &block)
+        communicate.sudo("umount #{mount_point}", opts, &block)
       end
     end
   end
