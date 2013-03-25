@@ -34,7 +34,7 @@ module VagrantVbguest
 
         # Use the class if it matches the given URI or if this
         # is the last class...
-        if classes.length == (i + 1) || klass.match?(@env[:iso_url])
+        if classes.length == (i + 1) || klass.match?(@env[:url])
           @env[:ui].info I18n.t("vagrant.plugins.vbguest.download.with", :class => klass.to_s)
           @downloader = klass.new(@env[:ui])
           break
@@ -45,7 +45,7 @@ module VagrantVbguest
       # just in case for now.
       raise Errors::BoxDownloadUnknownType if !@downloader
 
-      @downloader.prepare(@env[:iso_url]) if @downloader.respond_to?(:prepare)
+      @downloader.prepare(@env[:url]) if @downloader.respond_to?(:prepare)
       true
     end
 
@@ -66,17 +66,17 @@ module VagrantVbguest
     end
 
     def with_tempfile
-      File.open(iso_temp_path, Platform.tar_file_options) do |tempfile|
+      File.open(temp_filename, Platform.tar_file_options) do |tempfile|
         yield tempfile
       end
     end
 
-    def iso_temp_path
+    def temp_filename
       @env[:tmp_path].join(BASENAME + Time.now.to_i.to_s)
     end
 
     def download_to(f)
-      @downloader.download!(@env[:iso_url], f)
+      @downloader.download!(@env[:url], f)
     end
 
   end

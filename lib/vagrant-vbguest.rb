@@ -12,6 +12,9 @@ require 'vagrant-vbguest/helpers'
 
 require 'vagrant-vbguest/machine'
 
+require 'vagrant-vbguest/hosts/base'
+require 'vagrant-vbguest/hosts/virtualbox'
+
 require 'vagrant-vbguest/installer'
 require 'vagrant-vbguest/installers/base'
 require 'vagrant-vbguest/installers/linux'
