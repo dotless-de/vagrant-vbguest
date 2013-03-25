@@ -45,7 +45,7 @@ module VagrantVbguest
       # just in case for now.
       raise Errors::BoxDownloadUnknownType if !@downloader
 
-      @downloader.prepare(@env[:iso_url])
+      @downloader.prepare(@env[:iso_url]) if @downloader.respond_to?(:prepare)
       true
     end
 
