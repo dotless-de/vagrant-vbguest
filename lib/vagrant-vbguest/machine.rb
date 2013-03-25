@@ -14,20 +14,6 @@ module VagrantVbguest
       @logger.debug("initialize vbguest machine for VM '#{vm.name}' (#{vm.to_s})")
 
       @installer = Installer.new vm, options
-
-      @ga_machine = MicroMachine.new(:pending).tap { |m|
-        m.when :install, :pending => :installed
-        m.when :start,   :pending => :started
-        m.when :rebuild, :pending => :rebuilt, :started => :rebuilt
-
-        m.on(:installed) { installer.install }
-        m.on(:started)   { installer.start }
-        m.on(:rebuilt)   { installer.rebuild }
-      }
-
-      @box_machine = MicroMachine.new(:first_boot).tap { |m|
-        m.when :reboot, :first_boot => :rebooted
-      }
     end
 
     def run
@@ -47,24 +33,24 @@ module VagrantVbguest
 
     def install
       return env.ui.warn(I18n.t("vagrant.plugins.vbguest.skipped_installation")) if options[:no_install] && !options[:force]
-      @ga_machine.trigger :install
+      guest_additions_state.trigger :install
     end
 
     def rebuild
       return env.ui.warn(I18n.t("vagrant.plugins.vbguest.skipped_rebuild")) if options[:no_install] && !options[:force]
-      @ga_machine.trigger :rebuild
+      guest_additions_state.trigger :rebuild
     end
 
     def start
-      @ga_machine.trigger :start
+      guest_additions_state.trigger :start
     end
 
-    def installation_ran?; @ga_machine == :installed end
-    def started?; @ga_machine == :started end
-    def rebuilt?; @ga_machine == :rebuilt end
+    def installation_ran?; guest_additions_state == :installed end
+    def started?; guest_additions_state == :started end
+    def rebuilt?; guest_additions_state == :rebuilt end
 
-    def reboot;  @box_machine.trigger :reboot end
-    def reboot?; @box_machine.state == :rebooted end
+    def reboot;  box_state.trigger :reboot end
+    def reboot?; box_state.state == :rebooted end
 
     def steps(state)
       case state
@@ -95,5 +81,25 @@ module VagrantVbguest
         :guest_version => installer.guest_version
       }
     end
+
+    protected
+
+      def guest_additions_state
+        @guest_additions_state ||= MicroMachine.new(:pending).tap { |m|
+          m.when :install, :pending => :installed
+          m.when :start,   :pending => :started
+          m.when :rebuild, :pending => :rebuilt, :started => :rebuilt
+
+          m.on(:installed) { installer.install }
+          m.on(:started)   { installer.start }
+          m.on(:rebuilt)   { installer.rebuild }
+        }
+      end
+
+      def box_state
+        @box_state ||= MicroMachine.new(:first_boot).tap { |m|
+          m.when :reboot, :first_boot => :rebooted
+        }
+      end
   end
 end

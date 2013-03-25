@@ -246,20 +246,21 @@ module VagrantVbguest
       #
       # @return [String] Absolute path to the local GuestAdditions iso file, or +nil+ if not found.
       def guess_iso
-        paths = if Vagrant::Util::Platform.linux?
-          [
-            (File.join(ENV['HOME'], '.VirtualBox', "VBoxGuestAdditions_#{guest_version}.iso") if ENV['HOME']),
-            "/usr/share/virtualbox/VBoxGuestAdditions.iso"
-          ]
+        paths = Array.new
+
+        if Vagrant::Util::Platform.linux?
+          paths << File.join(ENV['HOME'], '.VirtualBox', "VBoxGuestAdditions_#{guest_version}.iso") if ENV['HOME']
+          paths << "/usr/share/virtualbox/VBoxGuestAdditions.iso"
         elsif Vagrant::Util::Platform.darwin?
-          "/Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso"
+          paths << "/Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso"
         elsif Vagrant::Util::Platform.windows?
           if (p = ENV["VBOX_INSTALL_PATH"]) && !p.empty?
-            File.join(p, "VBoxGuestAdditions.iso")
-          elsif ENV["PROGRAM_FILES"] || ENV["ProgramW6432"] || ENV["PROGRAMFILES"]
-            File.join((ENV["PROGRAM_FILES"] || ENV["ProgramW6432"] || ENV["PROGRAMFILES"]), "/Oracle/VirtualBox/VBoxGuestAdditions.iso")
+            paths << File.join(p, "VBoxGuestAdditions.iso")
+          elsif (p = ENV["PROGRAM_FILES"] || ENV["ProgramW6432"] || ENV["PROGRAMFILES"]) && !p.empty?
+            paths << File.join(p, "/Oracle/VirtualBox/VBoxGuestAdditions.iso")
           end
         end
+
         Array(paths).find { |path| path && File.exists?(path) }
       end
 
