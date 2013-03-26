@@ -12,7 +12,8 @@
   - Fix an issue with VirtualBox GuestAdditions 4.2.8 [GH-44] /
     (thanks @jimmycuadra)
   - Reworked bunch of internals, particularly how vagrants's
-    environemnt is passed arround
+    environemnt is passed arround. Also decoupled GuestAdditions
+    finder into a seperate class.
   - Intodruce a vagrant 1.0 compatibility layer for Installers and
     other vbguest internals
 
