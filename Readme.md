@@ -6,7 +6,7 @@
 
 Requires vagrant 0.9.4 or later (including 1.0 and 1.1)    
 
-On Vagrant 1.1.x use:
+### Vagrant 1.1
 
 ```bash
 $ vagrant plugin install vagrant-vbguest
@@ -249,7 +249,7 @@ end
 
 ## Knows Issues
 
-* The installer script, which mounts and runs the GuestAdditions Installer Binary, works on linux only. Most likely it will run on most unix-like plattform. 
+* The installer script, which mounts and runs the GuestAdditions Installer Binary, works on linux only. Most likely it will run on most unix-like plattform.
 * The installer script requires a directory `/mnt` on the guest system
 * On multi vm boxes, the iso file will be downloaded for each vm
 * The plugin installation on Windows host systems my not work as expected (using `vagrant gem install vagrant-vbguest`). Try `C:\vagrant\vagrant\embedded\bin\gem.bat install vagrant-vbguest` instead. (See [issue #19](https://github.com/dotless-de/vagrant-vbguest/issues/19#issuecomment-7040304))
