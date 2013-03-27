@@ -31,7 +31,7 @@
     Installers, when executing shell commands on the guest system,
     should use vbguests `communicate` wrapper. e.g.:
         A call like `vm.channel.sudo 'apt-get update'` should be
-        changed to `channel.sudo 'apt-get update'`
+        changed to `communicate.sudo 'apt-get update'`
     The old `vm.channel` syntax will continue to work on vagrant 1.0.x
     but will fail on vagrant 1.1.x.
 
