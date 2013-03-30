@@ -82,12 +82,6 @@ module VagrantVbguest
       reboot(vm, options) if _rebootable && machine.reboot?
     end
 
-    def reboot vm, options
-      if super
-        vm.reload(options)
-      end
-    end
-
     def check_runable_on(vm); end
   end
 

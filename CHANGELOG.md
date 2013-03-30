@@ -1,3 +1,9 @@
+## 0.7.1
+
+  - Fix auto-reloading for vagrant 1.1 [GH-52]
+    Also changes the reload method for vagrant 1.0 when ran
+    as middleware (to not run buildin actions manually).
+
 ## 0.7.0
 
   - When looking for a GuestAdditions iso file in media manager

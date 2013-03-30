@@ -28,12 +28,5 @@ module VagrantVbguest
       @app.call(env)
     end
 
-    def reboot vm, options
-      if super
-        @env[:action_runner].run(Vagrant::Action::VM::Halt, @env)
-        @env[:action_runner].run(Vagrant::Action::VM::Boot, @env)
-      end
-    end
-
   end
 end

@@ -9,15 +9,22 @@ module VagrantVbguest
       end
 
       def reboot(vm, options)
-        if rebooted?(vm)
-          vm.ui.error(I18n.t("vagrant.plugins.vbguest.restart_loop_guard_activated"))
+        run_reboot = if rebooted?(vm)
+          vm.env.ui.error(I18n.t("vagrant.plugins.vbguest.restart_loop_guard_activated"))
           false
         elsif options[:auto_reboot]
-          vm.ui.warn(I18n.t("vagrant.plugins.vbguest.restart_vm"))
+          vm.env.ui.warn(I18n.t("vagrant.plugins.vbguest.restart_vm"))
           @@rebooted[ VmCompatible.vm_id(vm) ] = true
         else
-          vm.ui.warn(I18n.t("vagrant.plugins.vbguest.suggest_restart", :name => vm.name))
+          vm.env.ui.warn(I18n.t("vagrant.plugins.vbguest.suggest_restart", :name => vm.name))
           false
+        end
+        return unless run_reboot
+
+        if Vagrant::VERSION < '1.1.0'
+          vm.reload(options)
+        else
+          vm.action(:reload, options)
         end
       end
     end
