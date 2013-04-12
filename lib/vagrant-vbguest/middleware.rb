@@ -16,7 +16,7 @@ module VagrantVbguest
       @env    = env
       vm      = env[:vm] || env[:machine]
 
-      options = vm.config.vbguest.to_hash.freeze
+      options = override_config(vm.config.vbguest.to_hash).freeze
 
       if options[:auto_update]
         machine = VagrantVbguest::Machine.new vm, options
@@ -25,7 +25,16 @@ module VagrantVbguest
         machine.run
         reboot(vm, options) if machine.reboot?
       end
+
       @app.call(env)
+    end
+
+    def override_config(opts)
+      if opts[:auto_reboot] && Vagrant::VERSION.between?("1.1.0", "1.1.5")
+        @env[:ui].warn I18n.t("vagrant.plugins.vbguest.vagrant_11_reload_issues")
+        opts.merge!({:auto_reboot => false})
+      end
+      opts
     end
 
   end

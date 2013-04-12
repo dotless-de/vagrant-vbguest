@@ -79,7 +79,7 @@ module VagrantVbguest
         machine.send(_method)
       end
 
-      reboot(vm, options) if _rebootable && machine.reboot?
+      reboot!(vm, options) if _rebootable && machine.reboot?
     end
 
     def check_runable_on(vm); end
