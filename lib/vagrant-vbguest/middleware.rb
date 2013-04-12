@@ -30,7 +30,7 @@ module VagrantVbguest
     end
 
     def override_config(opts)
-      if opts[:auto_reboot] && Vagrant::VERSION.between?("1.1.0", "1.1.5")
+      if opts[:auto_reboot] && Vagrant::VERSION.between?("1.1.0", "1.1.5") && Vagrant::VERSION != "1.1.4"
         @env[:ui].warn I18n.t("vagrant_vbguest.vagrant_11_reload_issues")
         opts.merge!({:auto_reboot => false})
       end
