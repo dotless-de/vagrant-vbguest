@@ -35,7 +35,7 @@ module VagrantVbguest
         # Use the class if it matches the given URI or if this
         # is the last class...
         if classes.length == (i + 1) || klass.match?(@env[:url])
-          @env[:ui].info I18n.t("vagrant.plugins.vbguest.download.with", :class => klass.to_s)
+          @env[:ui].info I18n.t("vagrant_vbguest.download.with", :class => klass.to_s)
           @downloader = klass.new(@env[:ui])
           break
         end
@@ -60,7 +60,7 @@ module VagrantVbguest
 
     def cleanup
       if temp_path && File.exist?(temp_path)
-        @env[:ui].info I18n.t("vagrant.plugins.vbguest.download.cleaning")
+        @env[:ui].info I18n.t("vagrant_vbguest.download.cleaning")
         File.unlink(temp_path)
       end
     end

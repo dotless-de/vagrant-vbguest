@@ -1,60 +1,58 @@
 en:
-  vagrant:
-    plugins:
-      vbguest:
-        skipped_installation: "Updating GuestAdditions skipped."
-        skipped_rebuild: "Rebuilding GuestAdditions skipped."
-        installing: "Installing Virtualbox Guest Additions %{installer_version} - guest version is %{guest_version}"
-        installing_forced: "Forcing installation of Virtualbox Guest Additions %{installer_version} - guest version is %{guest_version}"
-        rebuild: "Rebuilding Virtualbox Guest Additions %{guest_version} (Your host version is %{host_version})"
-        rebuild_forced: "Forcing rebuilding of Virtualbox Guest Additions %{guest_version} (Your host version is %{host_version})"
-        install_error: "An error occurred during installation of VirtualBox Guest Additions %{installer_version}. Some functionality may not work as intended."
-        start_copy_iso: "Copy iso file %{from} into the box %{to}"
-        restart_vm: "Restarting VM to apply changes..."
-        suggest_restart: "Guest Additions got installed. However, they seem not be loaded correctly. Please restart the box running `vagrant reload %{name}`"
-        restart_loop_guard_activated: "Guest Additions will not load, even after reboot."
-        machine_loop_guard: "Could not execute %{command} from current state %{state}. To prevent running in circles, we'll stop."
-        guest_version_reports_differ: |-
-          Got different reports about installed GuestAdditions version:
-          Virtualbox on your host claims:   %{driver}
-          VBoxService inside the vm claims: %{service}
-          Going on, assuming VBoxService is correct...
-        vagrant_11_reload_issues: This version of vagrant has issues with reloading boxes. `auto_reboot` got disabled as a precaution.
-        unknown: unknown
+  vagrant_vbguest:
+    skipped_installation: "Updating GuestAdditions skipped."
+    skipped_rebuild: "Rebuilding GuestAdditions skipped."
+    installing: "Installing Virtualbox Guest Additions %{installer_version} - guest version is %{guest_version}"
+    installing_forced: "Forcing installation of Virtualbox Guest Additions %{installer_version} - guest version is %{guest_version}"
+    rebuild: "Rebuilding Virtualbox Guest Additions %{guest_version} (Your host version is %{host_version})"
+    rebuild_forced: "Forcing rebuilding of Virtualbox Guest Additions %{guest_version} (Your host version is %{host_version})"
+    install_error: "An error occurred during installation of VirtualBox Guest Additions %{installer_version}. Some functionality may not work as intended."
+    start_copy_iso: "Copy iso file %{from} into the box %{to}"
+    restart_vm: "Restarting VM to apply changes..."
+    suggest_restart: "Guest Additions got installed. However, they seem not be loaded correctly. Please restart the box running `vagrant reload %{name}`"
+    restart_loop_guard_activated: "Guest Additions will not load, even after reboot."
+    machine_loop_guard: "Could not execute %{command} from current state %{state}. To prevent running in circles, we'll stop."
+    guest_version_reports_differ: |-
+      Got different reports about installed GuestAdditions version:
+      Virtualbox on your host claims:   %{driver}
+      VBoxService inside the vm claims: %{service}
+      Going on, assuming VBoxService is correct...
+    vagrant_11_reload_issues: This version of vagrant has issues with reloading boxes. `auto_reboot` got disabled as a precaution.
+    unknown: unknown
 
-        status:
-          clean: "No installation found."
-          unmatched: "GuestAdditions versions on your host (%{host_version}) and guest (%{guest_version}) do not match."
-          not_running: "GuestAdditions seems to be installed (%{guest_version}) correctly, but not running."
-          ok: "GuestAdditions %{guest_version} running --- OK."
+    status:
+      clean: "No installation found."
+      unmatched: "GuestAdditions versions on your host (%{host_version}) and guest (%{guest_version}) do not match."
+      not_running: "GuestAdditions seems to be installed (%{guest_version}) correctly, but not running."
+      ok: "GuestAdditions %{guest_version} running --- OK."
 
-        errors:
-          autodetect_iso_path: |-
-            Could not locate a local Virtualbox Guest Additions iso file.
-            Please configure a local path to the iso using `config.vbguest.iso_path`
-            in your Vagrantfile or the `--iso` command line option.
-            If you think this is a bug and vbguest could have guessed the iso_path,
-            please file an issue at: https://github.com/dotless-de/vagrant-vbguest/issues
+    errors:
+      autodetect_iso_path: |-
+        Could not locate a local Virtualbox Guest Additions iso file.
+        Please configure a local path to the iso using `config.vbguest.iso_path`
+        in your Vagrantfile or the `--iso` command line option.
+        If you think this is a bug and vbguest could have guessed the iso_path,
+        please file an issue at: https://github.com/dotless-de/vagrant-vbguest/issues
 
-          downloading_disabled: |-
-            Could not locate a local Virtualbox Guest Additions iso file.
-            However, the no_remote option was set and thus I will not download it from
-            %{from}
-            Please configure a local path to the iso using `config.vbguest.iso_path`
-            in your Vagrantfile or the `--iso` command line option.
+      downloading_disabled: |-
+        Could not locate a local Virtualbox Guest Additions iso file.
+        However, the no_remote option was set and thus I will not download it from
+        %{from}
+        Please configure a local path to the iso using `config.vbguest.iso_path`
+        in your Vagrantfile or the `--iso` command line option.
 
-          no_virtualbox_machine: |-
-            The VBGuest plugin must be used with VirtualBox Machines only.
+      no_virtualbox_machine: |-
+        The VBGuest plugin must be used with VirtualBox Machines only.
 
-          installer:
-            no_installer_for_platform: |-
-              Sorry, don't know how to %{method} Virtualbox Guest Additions on this platform. Stopping installation.
-            generic_linux_installer: |-
-              The guest's platform is currently not supported, will try generic Linux method...
-            do_not_inherit_match_method: |-
-              Installer classes must provide their own `match?` method.
+      installer:
+        no_installer_for_platform: |-
+          Sorry, don't know how to %{method} Virtualbox Guest Additions on this platform. Stopping installation.
+        generic_linux_installer: |-
+          The guest's platform is currently not supported, will try generic Linux method...
+        do_not_inherit_match_method: |-
+          Installer classes must provide their own `match?` method.
 
-        download:
-          with: "Downloading VirtualBox Guest Additions ISO with %{class}..."
-          cleaning: "Cleaning up downloaded VirtualBox Guest Additions ISO..."
-          unknown_type: "Unknown or unsupported URI type given for VirtualBox Guest Additions ISO download."
+    download:
+      with: "Downloading VirtualBox Guest Additions ISO with %{class}..."
+      cleaning: "Cleaning up downloaded VirtualBox Guest Additions ISO..."
+      unknown_type: "Unknown or unsupported URI type given for VirtualBox Guest Additions ISO download."
