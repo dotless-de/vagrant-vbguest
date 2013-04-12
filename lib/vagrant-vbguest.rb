@@ -8,7 +8,7 @@ end
 I18n.load_path << File.expand_path("../../locales/en.yml", __FILE__)
 
 require "vagrant-vbguest/errors"
-require 'vagrant-vbguest/helpers'
+require 'vagrant-vbguest/vagrant_compat'
 
 require 'vagrant-vbguest/machine'
 
@@ -42,7 +42,6 @@ module VagrantVbguest
     end
 
     command('vbguest') do
-      require File.expand_path("../vagrant-vbguest/command", __FILE__)
       Command
     end
 

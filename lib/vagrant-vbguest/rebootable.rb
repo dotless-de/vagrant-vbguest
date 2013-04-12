@@ -2,10 +2,15 @@ module VagrantVbguest
   module Helpers
 
     module Rebootable
+      include VmCompatible
+      def self.included(base)
+        base.extend(ClassMethods)
+      end
+
       @@rebooted = {}
 
       def rebooted?(vm)
-        !!@@rebooted[ VmCompatible.vm_id(vm) ]
+        !!@@rebooted[ self.class.vm_id(vm) ]
       end
 
       def reboot?(vm, options)
@@ -14,7 +19,7 @@ module VagrantVbguest
           false
         elsif options[:auto_reboot]
           vm.env.ui.warn(I18n.t("vagrant_vbguest.restart_vm"))
-          @@rebooted[ VmCompatible.vm_id(vm) ] = true
+          @@rebooted[ self.class.vm_id(vm) ] = true
         else
           vm.env.ui.warn(I18n.t("vagrant_vbguest.suggest_restart", :name => vm.name))
           false

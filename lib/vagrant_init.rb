@@ -9,7 +9,7 @@ end
 require 'vagrant-vbguest/core_ext/string/interpolate'
 
 require "vagrant-vbguest/errors"
-require 'vagrant-vbguest/helpers'
+require 'vagrant-vbguest/vagrant_compat'
 
 require 'vagrant-vbguest/machine'
 

@@ -13,7 +13,7 @@ module VagrantVbguest
       # @return [Symbol] One of `:debian`, `:ubuntu`, `:gentoo`, `:fedora`, `:redhat`, `:suse`, `:arch`
       def self.distro(vm)
         @@ditro ||= {}
-        @@ditro[ VagrantVbguest::Helpers::VmCompatible.vm_id(vm) ] ||= distro_name vm
+        @@ditro[ vm_id(vm) ] ||= distro_name vm
       end
 
       # fix bug when the vagrant version is higher than 1.2
@@ -33,7 +33,7 @@ module VagrantVbguest
       # therefore should do a more specific check.
       def self.match?(vm)
         raise Error, :_key => :do_not_inherit_match_method if self != Linux
-        communicate.test("uname | grep 'Linux'")
+        communicate_to(vm).test("uname | grep 'Linux'")
       end
 
       # defaults the temp path to "/tmp/VBoxGuestAdditions.iso" for all Linux based systems
