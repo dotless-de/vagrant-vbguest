@@ -17,7 +17,9 @@ en:
       Virtualbox on your host claims:   %{driver}
       VBoxService inside the vm claims: %{service}
       Going on, assuming VBoxService is correct...
-    vagrant_11_reload_issues: This version of vagrant has issues with reloading boxes. `auto_reboot` got disabled as a precaution.
+    vagrant_11_reload_issues: |-
+      This version of vagrant has issues with reloading boxes. `auto_reboot` got disabled as a precaution.
+      Expect errors and run `vagrant halt` and `vagrant up` instead of `vagrant reload`!
     unknown: unknown
 
     status:
