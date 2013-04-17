@@ -19,7 +19,7 @@ module VagrantVbguest
     def initialize(env)
       @env = env
       @env["download.classes"] ||= []
-      @env["download.classes"] += [Vagrant::Downloaders::HTTP, Vagrant::Downloaders::File]
+      @env["download.classes"] += default_downloaders
       @downloader = nil
     end
 
@@ -77,6 +77,15 @@ module VagrantVbguest
 
     def download_to(f)
       @downloader.download!(@env[:url], f)
+    end
+
+    # fix bug when the vagrant version is higher than 1.2
+    def default_downloaders
+      if Gem::Version.new(Vagrant::VERSION) >= Gem::Version.new('1.2.0')
+        [Vagrant::Utils::Downloader]
+      else
+        [Vagrant::Downloaders::HTTP, Vagrant::Downloaders::File]
+      end
     end
 
   end
