@@ -1,3 +1,5 @@
+require 'uri'
+
 module VagrantVbguest
   module Hosts
     class Base
@@ -46,7 +48,7 @@ module VagrantVbguest
 
         path = versionize(path)
 
-        if Vagrant::Downloaders::File.match? path
+        if file_match? path
           @additions_file = path
         else
           # :TODO: This will also raise, if the iso_url points to an invalid local path
@@ -61,6 +63,15 @@ module VagrantVbguest
       end
 
       protected
+
+        # fix bug when the vagrant version is higher than 1.2, by moving method Vagrant::Vagrant::File.match? here
+        def file_match?(uri)
+          extracted = ::URI.extract(uri, "file")
+
+          return true if extracted && extracted.include?(uri)
+
+          return ::File.file?(::File.expand_path(uri))
+        end
 
         # Default web URI, where "additions file" can be downloaded.
         #

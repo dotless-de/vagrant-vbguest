@@ -13,7 +13,16 @@ module VagrantVbguest
       # @return [Symbol] One of `:debian`, `:ubuntu`, `:gentoo`, `:fedora`, `:redhat`, `:suse`, `:arch`
       def self.distro(vm)
         @@ditro ||= {}
-        @@ditro[ VagrantVbguest::Helpers::VmCompatible.vm_id(vm) ] ||= vm.guest.distro_dispatch
+        @@ditro[ VagrantVbguest::Helpers::VmCompatible.vm_id(vm) ] ||= distro_name vm
+      end
+
+      # fix bug when the vagrant version is higher than 1.2
+      def self.distro_name(vm)
+        if Gem::Version.new(Vagrant::VERSION) >= Gem::Version.new('1.2.0')
+          vm.guest.name
+        else
+          vm.guest.distro_dispatch
+        end
       end
 
       # Matches if the operating system name prints "Linux"
