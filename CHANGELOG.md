@@ -1,3 +1,11 @@
+## 0.7.2 (_unreleased_)
+
+  - Fix basic/fallback linux installer [GH-56]
+  - Guard auto-reload on broken vagrant builds.
+    Some varant 1.1.x versions have a bug regarding ssh and cleaning
+    up old connections, which results in varant crashing when a box
+    is reloaded.
+
 ## 0.7.1
 
   - Fix auto-reloading for vagrant 1.1 [GH-52]
