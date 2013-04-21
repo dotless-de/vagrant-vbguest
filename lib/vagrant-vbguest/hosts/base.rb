@@ -108,14 +108,9 @@ module VagrantVbguest
         #
         # @return [String] The path to the downloaded file
         def download(path)
-          downloader_env = {
-            :ui => @env.ui,
-            :tmp_path => @env.tmp_path,
-            :url => path
-          }
-          @download = VagrantVbguest::Download.new(downloader_env)
-          @download.download
-          @download.temp_path
+          @download = VagrantVbguest::Download.new(path, @env.tmp_path, :ui => @env.ui)
+          @download.download!
+          @download.destination
         end
 
     end

@@ -55,6 +55,7 @@ en:
           Installer classes must provide their own `match?` method.
 
     download:
+      started: "Downloading VirtualBox Guest Additions ISO from %{source}"
       with: "Downloading VirtualBox Guest Additions ISO with %{class}..."
       cleaning: "Cleaning up downloaded VirtualBox Guest Additions ISO..."
       unknown_type: "Unknown or unsupported URI type given for VirtualBox Guest Additions ISO download."

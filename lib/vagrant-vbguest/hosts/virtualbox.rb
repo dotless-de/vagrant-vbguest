@@ -20,6 +20,21 @@ module VagrantVbguest
           media_manager_iso || guess_local_iso
         end
 
+        # Kicks off +VagrantVbguest::Download+ to download the additions file
+        # into a temp file.
+        #
+        # To remove the created tempfile call +cleanup+
+        #
+        # @param [String] The path or URI to download
+        #
+        # @return [String] The path to the downloaded file
+        def download(path)
+          temp_path = File.join(@env.tmp_path, "VBoxGuestAdditions_#{version}.iso")
+          @download = VagrantVbguest::Download.new(path, temp_path, :ui => @env.ui)
+          @download.download!
+          @download.destination
+        end
+
       private
 
         # Helper method which queries the VirtualBox media manager

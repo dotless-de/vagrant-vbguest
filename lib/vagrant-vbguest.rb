@@ -24,8 +24,6 @@ require 'vagrant-vbguest/installers/redhat'
 
 require 'vagrant-vbguest/middleware'
 
-require 'vagrant-vbguest/download'
-
 module VagrantVbguest
 
   class Plugin < Vagrant.plugin("2")
