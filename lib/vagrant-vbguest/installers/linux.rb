@@ -16,15 +16,6 @@ module VagrantVbguest
         @@ditro[ vm_id(vm) ] ||= distro_name vm
       end
 
-      # fix bug when the vagrant version is higher than 1.2
-      def self.distro_name(vm)
-        if Gem::Version.new(Vagrant::VERSION) >= Gem::Version.new('1.2.0')
-          vm.guest.name
-        else
-          vm.guest.distro_dispatch
-        end
-      end
-
       # Matches if the operating system name prints "Linux"
       # Raises an Error if this class is beeing subclassed but
       # this method was not overridden. This is considered an

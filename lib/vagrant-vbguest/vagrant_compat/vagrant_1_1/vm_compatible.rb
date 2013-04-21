@@ -21,6 +21,10 @@ module VagrantVbguest
         def communicate_to(vm)
           vm.communicate
         end
+
+        def distro_name(vm)
+          vm.guest.distro_dispatch
+        end
       end
     end
   end
