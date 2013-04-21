@@ -1,5 +1,7 @@
-## 0.7.2 (_unreleased_)
+## 0.8.0
 
+  - Adds Vagrant 1.2 compatibility [GH-59], [GH-60], [GH-62] /
+    (thanks @Andrew8xx8 for pointing directions)
   - Fix basic/fallback linux installer [GH-56]
   - Guard auto-reload on broken vagrant builds.
     Some varant 1.1.x versions have a bug regarding ssh and cleaning
