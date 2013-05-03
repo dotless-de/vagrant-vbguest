@@ -7,7 +7,7 @@ module VagrantVbguest
 
     class NoInstallerFoundError < Vagrant::Errors::VagrantError
       error_namespace "vagrant_vbguest.errors.installer"
-      error_key "no_install_script_for_platform"
+      error_key "no_installer_for_platform"
     end
 
     class << self
