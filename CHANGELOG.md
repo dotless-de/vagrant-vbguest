@@ -149,7 +149,7 @@
 
 ## 0.3.0
 
-  - Removed dependency to the `virtualbox` gem by using 
+  - Removed dependency to the `virtualbox` gem by using
     `vagrant`s vm driver [GH-8]
 
 ## 0.2.1
