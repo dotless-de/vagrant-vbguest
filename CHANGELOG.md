@@ -1,3 +1,16 @@
+## 0.9.0
+
+  - Fix crash when using as a command [GH-68].
+
+### heads-up
+
+  - Be lax about missing installer for guest OS.
+    No longer throws an error when no Installer class
+    for the guest os was found. Keep the error message,
+    stop vbguest workflow, but keep vagrant running.
+    [GH-65]
+
+
 ## 0.8.0
 
   - Adds Vagrant 1.2 compatibility [GH-59], [GH-60], [GH-62] /
