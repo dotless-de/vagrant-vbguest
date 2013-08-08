@@ -4,6 +4,9 @@ module VagrantVbguest
 
   module CommandCommons
     include VagrantVbguest::Helpers::Rebootable
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
 
     # Runs the vbguest installer on the VMs that are represented
     # by this environment.
