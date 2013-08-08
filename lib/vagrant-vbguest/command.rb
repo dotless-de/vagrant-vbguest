@@ -80,6 +80,8 @@ module VagrantVbguest
       end
 
       reboot!(vm, options) if _rebootable && machine.reboot?
+    rescue VagrantVbguest::Installer::NoInstallerFoundError => e
+      vm.env.ui.error e.message
     end
 
     def check_runable_on(vm)
