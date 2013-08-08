@@ -25,7 +25,9 @@ module VagrantVbguest
         machine.run
         reboot(vm, options) if machine.reboot?
       end
-
+    rescue VagrantVbguest::Installer::NoInstallerFoundError => e
+      vm.env.ui.error e.message
+    ensure
       @app.call(env)
     end
 
