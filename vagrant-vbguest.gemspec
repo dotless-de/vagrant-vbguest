@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 
-  s.add_dependency "micromachine", "~> 1.0.4"
+  s.add_dependency "micromachine", "~> 1.1.0"
   s.add_dependency "i18n", "~> 0.6.0"
   s.add_dependency "log4r", "~> 1.1.9"
 
