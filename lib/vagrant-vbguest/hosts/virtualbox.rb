@@ -38,12 +38,14 @@ module VagrantVbguest
       private
 
         # Helper method which queries the VirtualBox media manager
-        # for a +VBoxGuestAdditions.iso+ file.
-        # Returns +nil+ if none found.
+        # for the first existing path that looks like a
+        # +VBoxGuestAdditions.iso+ file.
         #
         # @return [String] Absolute path to the local GuestAdditions iso file, or +nil+ if not found.
         def media_manager_iso
-          (m = driver.execute('list', 'dvds').match(/^.+:\s+(.*VBoxGuestAdditions(?:_#{version})?\.iso)$/i)) && m[1]
+          driver.execute('list', 'dvds').scan(/^.+:\s+(.*VBoxGuestAdditions(?:_#{version})?\.iso)$/i).map { |path, _|
+            path if File.exist?(path)
+          }.compact.first
         end
 
         # Find the first GuestAdditions iso file which exists on the host system

@@ -1,6 +1,8 @@
 ## 0.9.0
 
   - Fix crash when using as a command [GH-68].
+  - Don't trust VirtualBox Media Manager informations when
+    looking for a iso file. [GH-70]
 
 ### heads-up
 
