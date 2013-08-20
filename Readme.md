@@ -6,9 +6,9 @@
 
 ## Installation
 
-Requires vagrant 0.9.4 or later (including 1.0 and 1.1)    
+Requires vagrant 0.9.4 or later (including 1.x)
 
-### Vagrant 1.1
+### Vagrant ≥ 1.1
 
 ```bash
 $ vagrant plugin install vagrant-vbguest
