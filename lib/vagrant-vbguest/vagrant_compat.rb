@@ -2,7 +2,8 @@ vagrant_version = Gem::Version.new(Vagrant::VERSION)
 supported_version = {
   "< 1.1.0"  => "1_0",
   "~> 1.1.0" => "1_1",
-  "~> 1.2.0" => "1_2"
+  "~> 1.2.0" => "1_2",
+  "~> 1.3.0" => "1_3",
 }
 compat_version = supported_version.find { |requirement, version|
   Gem::Requirement.new(requirement).satisfied_by?(vagrant_version)
