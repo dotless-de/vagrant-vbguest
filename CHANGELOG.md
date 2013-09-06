@@ -1,5 +1,6 @@
 ## 0.9.0
 
+  - Adds support for vagrant 1.3 [GH-71], [GH-72]
   - Fix crash when using as a command [GH-68].
   - Don't trust VirtualBox Media Manager informations when
     looking for a iso file. [GH-70]
