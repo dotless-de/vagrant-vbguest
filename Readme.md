@@ -70,6 +70,16 @@ vbguest will try to autodetect the best option for your system. WTF? see below.
 Using [Vagrantfile Load Order](http://vagrantup.com/v1/docs/vagrantfile.html#vagrantfile_load_order) you may change default configuration values.
 Edit (create, if missing) your `~/.vagrant.d/Vagrantfile` like this:
 
+For Vagrant >= 1.1.0 use:
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vbguest.auto_update = false
+end
+```
+
+For older versions of Vagrant:
+
 ```ruby
 # vagrant's autoloading may not have kicked in
 require 'vagrant-vbguest' unless defined? VagrantVbguest::Config
