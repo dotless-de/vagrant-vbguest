@@ -20,7 +20,7 @@ module VagrantVbguest
         opts.banner = "Usage: vagrant vbguest [vm-name] [--do start|rebuild|install] [--status] [-f|--force] [-b|--auto-reboot] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]"
         opts.separator ""
 
-        opts.on("--do COMMAND", [:start, :rebuild, :install], "Manually `start`, `rebuild` or `install` GueastAdditions.") do |command|
+        opts.on("--do COMMAND", [:start, :rebuild, :install], "Manually `start`, `rebuild` or `install` GuestAdditions.") do |command|
           options[:_method] = command
           options[:force] = true
         end
