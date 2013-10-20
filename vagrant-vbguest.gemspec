@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "micromachine", "~> 1.1.0"
   s.add_development_dependency "bundler", ">= 1.2.0"
+  s.add_development_dependency "rake", "~> 10"
 
   # those should be satisfied by vagrant
   s.add_dependency "i18n"
