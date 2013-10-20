@@ -1,3 +1,15 @@
+## 0.10.0 (UNRELEASED)
+  
+  - Cope with UbuntuCloudImage by default [GH-86], [GH-64], [GH-43]
+    On Ubuntu, always try to remove conflicting installations of
+    GuestAdditions by removing those packages:
+    virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+  - Fix a typo in command description [GH-84]
+  - Tweak gem dependencies [GH-82]
+    - add rake as development dependency
+    - remove version locks on gems provided by vagrant
+  - Pass plugin name when registration the action hook for vagrant ≥1.1 [GH-80]
+
 ## 0.9.0
 
   - Adds support for vagrant 1.3 [GH-71], [GH-72]
