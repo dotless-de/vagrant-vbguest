@@ -45,8 +45,12 @@ module VagrantVbguest
 
     # hook after anything that boots:
     # that's all middlewares which will run the buildin "VM::Boot" action
-    action_hook(self::ALL_ACTIONS) do |hook|
-      hook.after(VagrantPlugins::ProviderVirtualBox::Action::Boot, VagrantVbguest::Middleware)
+    action_hook('vbguest') do |hook|
+      if defined?(Vagrant::Action::Builtin::WaitForCommunicator)
+        hook.after(Vagrant::Action::Builtin::WaitForCommunicator, VagrantVbguest::Middleware)
+      else
+        hook.after(VagrantPlugins::ProviderVirtualBox::Action::Boot, VagrantVbguest::Middleware)
+      end
     end
   end
 end
