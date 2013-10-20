@@ -15,11 +15,12 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
 
   s.add_dependency "micromachine", "~> 1.1.0"
-  s.add_dependency "i18n", "~> 0.6.0"
-  s.add_dependency "log4r", "~> 1.1.9"
-
   s.add_development_dependency "bundler", ">= 1.2.0"
-  s.add_development_dependency "rake", "~> 10"
+
+  # those should be satisfied by vagrant
+  s.add_dependency "i18n"
+  s.add_dependency "log4r"
+  s.add_development_dependency "rake"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
