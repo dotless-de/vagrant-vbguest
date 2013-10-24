@@ -7,19 +7,23 @@ end
 # Add our custom translations to the load path
 I18n.load_path << File.expand_path("../../locales/en.yml", __FILE__)
 
-require "vagrant-vbguest/errors"
+require 'vagrant-vbguest/errors'
 require 'vagrant-vbguest/vagrant_compat'
 
 
 module VagrantVbguest
-  autoload :Machine,    'vagrant-vbguest/machine'
+  autoload :CommandCommons, 'vagrant-vbguest/command'
+  autoload :Config,         'vagrant-vbguest/config'
+  autoload :DownloadBase,   'vagrant-vbguest/download'
+  autoload :Installer,      'vagrant-vbguest/installer'
+  autoload :Machine,        'vagrant-vbguest/machine'
+  autoload :Middleware,     'vagrant-vbguest/middleware'
 
   module Hosts
     autoload :Base,       'vagrant-vbguest/hosts/base'
     autoload :VirtualBox, 'vagrant-vbguest/hosts/virtual_box'
   end
 
-  autoload :Installer,  'vagrant-vbguest/installer'
 
   module Installers
     autoload :Base,   'vagrant-vbguest/installers/base'
@@ -28,10 +32,7 @@ module VagrantVbguest
     autoload :Redhat, 'vagrant-vbguest/installers/redhat'
     autoload :Ubuntu, 'vagrant-vbguest/installers/ubuntu'
   end
-  autoload :Middleware, 'vagrant-vbguest/middleware'
 
-  autoload :Config, 'vagrant-vbguest/config'
-  autoload :CommandCommons, 'vagrant-vbguest/command'
 
   class Plugin < Vagrant.plugin("2")
 
@@ -42,7 +43,6 @@ module VagrantVbguest
     DESC
 
     config('vbguest') do
-      # require File.expand_path("../vagrant-vbguest/config", __FILE__)
       Config
     end
 

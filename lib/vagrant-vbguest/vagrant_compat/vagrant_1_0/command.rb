@@ -1,4 +1,3 @@
-require 'vagrant-vbguest/command'
 require 'vagrant/command/start_mixins'
 
 module VagrantVbguest

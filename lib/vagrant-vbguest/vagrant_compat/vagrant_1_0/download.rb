@@ -1,4 +1,3 @@
-require 'vagrant-vbguest/download'
 module VagrantVbguest
   # This implementation is based on Action::Box::Download by vagrant
   #
