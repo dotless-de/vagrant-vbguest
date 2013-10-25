@@ -13,6 +13,9 @@ module VagrantVbguest
               end
             end
             b.use VagrantPlugins::ProviderVirtualBox::Action::Boot
+            if defined?(Vagrant::Action::Builtin::WaitForCommunicator)
+              b.use Vagrant::Action::Builtin::WaitForCommunicator, [:starting, :running]
+            end
           end
           @env[:action_runner].run(simle_reboot, @env)
         end
