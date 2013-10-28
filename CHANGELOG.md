@@ -13,6 +13,12 @@
     - remove version locks on gems provided by vagrant
   - Pass plugin name when registration the action hook for vagrant ≥1.1 [GH-80]
 
+### heads-up
+  
+  - With [GH-94] the **name**, `vagrant-vbguest` registers itself to vagrant's
+    (≥1.1) plugin-system changed from 'vbguest management' to
+    'vagrant-vbguest'
+
 ## 0.9.0
 
   - Adds support for vagrant 1.3 [GH-71], [GH-72]
