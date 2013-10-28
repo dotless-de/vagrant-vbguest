@@ -28,7 +28,7 @@ module VagrantVbguest
 
   class Plugin < Vagrant.plugin("2")
 
-    name "vbguest management"
+    name "vagrant-vbguest"
     description <<-DESC
     Provides automatic and/or manual management of the
     VirtualBox Guest Additions inside the Vagrant environment.
