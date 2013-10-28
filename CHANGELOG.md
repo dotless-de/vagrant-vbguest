@@ -93,13 +93,13 @@
   - Fix typos and wording in error messages and I18n keys
     et al. [GH-38]
 
-## 0.6.1 (2012-01-13)
+## 0.6.1 (2013-01-13)
 
   - Fix missing command output block and parameters for
     installation process [GH-37]
   - Update README to reflect new wording for status informations
 
-## 0.6.0 (2012-01-13)
+## 0.6.0 (2013-01-13)
 
  - Debian installer now cope with missing `dkms` package [GH-30]
  - Fixed some issues when runnig on just creating boxes [GH-31]
