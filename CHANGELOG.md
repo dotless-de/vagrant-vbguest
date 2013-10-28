@@ -4,6 +4,9 @@
     On Ubuntu, always try to remove conflicting installations of
     GuestAdditions by removing those packages:
     virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+  - Wait for SSH connection to be ready. Depends on vagrant's
+    `WaitForCommunicator` action, which is available from vagrant v1.3.0.
+    [GH-80], [GH-90]
   - Fix a typo in command description [GH-84]
   - Tweak gem dependencies [GH-82]
     - add rake as development dependency
