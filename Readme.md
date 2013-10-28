@@ -156,7 +156,7 @@ The plugin's part starts at `[default] Installing Virtualbox Guest Additions 4.1
 * which installer script will be used
 * all the VirtualBox Guest Additions installer output.
 
-No worries on the `Installing the Window System drivers ...fail!`. Most dev boxes you are using won't run a Window Server, thus it's absolutely save to ignore that error.
+No worries on the `Installing the Window System drivers ...fail!`. Most dev boxes you are using won't run a Window Server, thus it's absolutely safe to ignore that error.
 
 When everything is fine, and no update is needed, you see log like:
 
