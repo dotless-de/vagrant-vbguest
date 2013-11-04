@@ -63,7 +63,7 @@ If you installed vagrant that way, you need to use vagrant's gem wrapper:</p>
 <h2>
 <a name="configuration--usage" class="anchor" href="#configuration--usage"><span class="octicon octicon-link"></span></a>Configuration / Usage</h2>
 
-<p>If you're lucky, <em>vagrant-vbguest</em> does not require any configurations. 
+<p>If you're lucky, <em>vagrant-vbguest</em> does not require any configurations.
 However, here is an example for your <code>Vagrantfile</code>:</p>
 
 <div class="highlight highlight-ruby"><pre><span class="ss">Vagrant</span><span class="p">:</span><span class="ss">:Config</span><span class="o">.</span><span class="n">run</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
@@ -126,8 +126,8 @@ Edit (create, if missing) your <code>~/.vagrant.d/Vagrantfile</code> like this:<
 <h3>
 <a name="running-as-a-middleware" class="anchor" href="#running-as-a-middleware"><span class="octicon octicon-link"></span></a>Running as a middleware</h3>
 
-<p>Running as a middleware will is the default way using <em>vagrant-vbguest</em>. 
-It will run automatically right after the box started. This is each time the box boots, i.e. <code>vagrant up</code> or <code>vagrant reload</code>. 
+<p>Running as a middleware will is the default way using <em>vagrant-vbguest</em>.
+It will run automatically right after the box started. This is each time the box boots, i.e. <code>vagrant up</code> or <code>vagrant reload</code>.
 It won't run on <code>vagrant resume</code> (or <code>vagrant up</code> a suspended box) to save you some time resuming a box.</p>
 
 <p>You may switch off the middleware by setting the vm's config <code>vbguest.auto_update</code> to <code>false</code>.
@@ -312,6 +312,6 @@ Installers take care of the whole installation process, that includes where to s
       <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
     </footer>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
+
   </body>
 </html>
