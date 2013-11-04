@@ -1,0 +1,318 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Vagrant-vbguest by dotless-de</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Vagrant-vbguest</h1>
+        <p>A Vagrant plugin to keep your VirtualBox Guest Additions up to date</p>
+        <p class="view"><a href="https://github.com/dotless-de/vagrant-vbguest">View the Project on GitHub <small>dotless-de/vagrant-vbguest</small></a></p>
+        <ul>
+          <li><a href="https://github.com/dotless-de/vagrant-vbguest/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/dotless-de/vagrant-vbguest/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/dotless-de/vagrant-vbguest">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="vagrant-vbguest" class="anchor" href="#vagrant-vbguest"><span class="octicon octicon-link"></span></a>vagrant-vbguest</h1>
+
+<p><em>vagrant-vbguest</em> is a <a href="http://vagrantup.com">Vagrant</a> plugin which automatically installs the host's VirtualBox Guest Additions on the guest system.</p>
+
+<p><a href="https://codeclimate.com/github/dotless-de/vagrant-vbguest"><img src="https://codeclimate.com/github/dotless-de/vagrant-vbguest.png" alt="Code Climate"></a> <a href="https://gemnasium.com/dotless-de/vagrant-vbguest"><img src="https://gemnasium.com/dotless-de/vagrant-vbguest.png" alt="Dependency Status"></a></p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Requires vagrant 0.9.4 or later (including 1.x)</p>
+
+<h3>
+<a name="vagrant--11" class="anchor" href="#vagrant--11"><span class="octicon octicon-link"></span></a>Vagrant ≥ 1.1</h3>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>vagrant plugin install vagrant-vbguest
+</pre></div>
+
+<h3>
+<a name="vagrant-10-and-older" class="anchor" href="#vagrant-10-and-older"><span class="octicon octicon-link"></span></a>Vagrant 1.0 and older</h3>
+
+<p>Since vagrant v1.0.0 the preferred installation method for vagrant is using the provided packages or installers.
+If you installed vagrant that way, you need to use vagrant's gem wrapper:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>vagrant gem install vagrant-vbguest
+</pre></div>
+
+<p>If you installed vagrant using RubyGems, use:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>gem install vagrant-vbguest
+</pre></div>
+
+<p>Compatibly for vagrant 0.8 is provided by version 0.0.3 (which lacks a bunch of new options)</p>
+
+<h2>
+<a name="configuration--usage" class="anchor" href="#configuration--usage"><span class="octicon octicon-link"></span></a>Configuration / Usage</h2>
+
+<p>If you're lucky, <em>vagrant-vbguest</em> does not require any configurations. 
+However, here is an example for your <code>Vagrantfile</code>:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="ss">Vagrant</span><span class="p">:</span><span class="ss">:Config</span><span class="o">.</span><span class="n">run</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="c1"># we will try to autodetect this path. </span>
+  <span class="c1"># However, if we cannot or you have a special one you may pass it like:</span>
+  <span class="c1"># config.vbguest.iso_path = "#{ENV['HOME']}/Downloads/VBoxGuestAdditions.iso"</span>
+  <span class="c1"># or</span>
+  <span class="c1"># config.vbguest.iso_path = "http://company.server/VirtualBox/%{version}/VBoxGuestAdditions.iso"</span>
+
+  <span class="c1"># set auto_update to false, if do NOT want to check the correct additions </span>
+  <span class="c1"># version when booting this machine</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">vbguest</span><span class="o">.</span><span class="n">auto_update</span> <span class="o">=</span> <span class="kp">false</span>
+
+  <span class="c1"># do NOT download the iso file from a webserver</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">vbguest</span><span class="o">.</span><span class="n">no_remote</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="k">end</span>
+</pre></div>
+
+<h3>
+<a name="config-options" class="anchor" href="#config-options"><span class="octicon octicon-link"></span></a>Config options</h3>
+
+<ul>
+<li>
+<code>iso_path</code> : The full path or URL to the VBoxGuestAdditions.iso file. <br>
+The <code>iso_path</code> may contain the optional placeholder <code>%{version}</code> for the detected version (e.g. <code>4.1.8</code>).
+The URI for the actual iso download reads: <code>http://download.virtualbox.org/virtualbox/%{version}/VBoxGuestAdditions_%{version}.iso</code><br>
+vbguest will try to autodetect the best option for your system. WTF? see below.</li>
+<li>
+<code>auto_update</code> (Boolean, default: <code>true</code>) : Whether to check the correct additions version on each start (where start is <em>not</em> resuming a box).</li>
+<li>
+<code>auto_reboot</code> (Boolean, default: <code>true</code> when running as a middleware, <code>false</code> when running as a command) : Whether to reboot the box after GuestAdditions has been installed, but not loaded.</li>
+<li>
+<code>no_install</code> (Boolean, default: <code>false</code>) : Whether to check the correct additions version only. This will warn you about version mis-matches, but will not try to install anything.</li>
+<li>
+<code>no_remote</code> (Boolean, default: <code>false</code>) : Whether to <em>not</em> download the iso file from a remote location. This includes any <code>http</code> location!</li>
+<li>
+<code>installer</code> (<code>VagrantVbguest::Installers::Base</code>, optional) : Reference to a (custom) installer class</li>
+</ul><h4>
+<a name="global-configuration" class="anchor" href="#global-configuration"><span class="octicon octicon-link"></span></a>Global Configuration</h4>
+
+<p>Using <a href="http://vagrantup.com/v1/docs/vagrantfile.html#vagrantfile_load_order">Vagrantfile Load Order</a> you may change default configuration values.
+Edit (create, if missing) your <code>~/.vagrant.d/Vagrantfile</code> like this:</p>
+
+<p>For Vagrant &gt;= 1.1.0 use:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="no">Vagrant</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="s2">"2"</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">vbguest</span><span class="o">.</span><span class="n">auto_update</span> <span class="o">=</span> <span class="kp">false</span>
+<span class="k">end</span>
+</pre></div>
+
+<p>For older versions of Vagrant:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="c1"># vagrant's autoloading may not have kicked in</span>
+<span class="nb">require</span> <span class="s1">'vagrant-vbguest'</span> <span class="k">unless</span> <span class="n">defined?</span> <span class="ss">VagrantVbguest</span><span class="p">:</span><span class="ss">:Config</span>
+<span class="ss">VagrantVbguest</span><span class="p">:</span><span class="ss">:Config</span><span class="o">.</span><span class="n">auto_update</span> <span class="o">=</span> <span class="kp">false</span>
+</pre></div>
+
+<p>Settings in a project's <code>Vagrantfile</code> will overwrite those setting. When executed as a command, command line arguments will overwrite all of the above.</p>
+
+<h3>
+<a name="running-as-a-middleware" class="anchor" href="#running-as-a-middleware"><span class="octicon octicon-link"></span></a>Running as a middleware</h3>
+
+<p>Running as a middleware will is the default way using <em>vagrant-vbguest</em>. 
+It will run automatically right after the box started. This is each time the box boots, i.e. <code>vagrant up</code> or <code>vagrant reload</code>. 
+It won't run on <code>vagrant resume</code> (or <code>vagrant up</code> a suspended box) to save you some time resuming a box.</p>
+
+<p>You may switch off the middleware by setting the vm's config <code>vbguest.auto_update</code> to <code>false</code>.
+This is a per box settings. On multi vm environments you need to set that for each vm.</p>
+
+<p>When <em>vagrant-vbguest</em> is running it will provide you some logs:</p>
+
+<pre><code>[...]
+[default] Booting VM...
+[default] Booting VM...
+[default] Waiting for VM to boot. This can take a few minutes.
+[default] VM booted and ready for use!
+[default] GuestAdditions versions on your host (4.2.6) and guest (4.1.0) do not match.
+stdin: is not a tty
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  fakeroot linux-headers-2.6.32-33 patch
+
+[...]
+
+[default] Copy iso file /Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso into the box /tmp/VBoxGuestAdditions.iso
+stdin: is not a tty
+[default] Installing Virtualbox Guest Additions 4.2.6 - guest version is 4.1.0
+stdin: is not a tty
+Verifying archive integrity... All good.
+Uncompressing VirtualBox 4.2.6 Guest Additions for Linux...........
+VirtualBox Guest Additions installer
+Removing installed version 4.1.0 of VirtualBox Guest Additions...
+tar: Record size = 8 blocks
+Removing existing VirtualBox DKMS kernel modules ...done.
+Removing existing VirtualBox non-DKMS kernel modules ...done.
+Building the VirtualBox Guest Additions kernel modules ...done.
+Doing non-kernel setup of the Guest Additions ...done.
+You should restart your guest to make sure the new modules are actually used
+
+Installing the Window System drivers ...fail!
+(Could not find the X.Org or XFree86 Window System.)
+stdin: is not a tty
+[default] Restarting VM to apply changes...
+[default] Attempting graceful shutdown of VM...
+[default] Booting VM...
+[default] Waiting for VM to boot. This can take a few minutes.
+[default] VM booted and ready for use!
+[default] Configuring and enabling network interfaces...
+[default] Setting host name...
+[default] Mounting shared folders...
+[default] -- v-root: /vagrant
+[default] -- v-csc-1: /tmp/vagrant-chef-1/chef-solo-1/cookbooks
+[default] Running provisioner: Vagrant::Provisioners::ChefSolo...
+[default] Generating chef JSON and uploading...
+[default] Running chef-solo...
+[...]
+</code></pre>
+
+<p>The plugin's part starts at <code>[default] Installing Virtualbox Guest Additions 4.1.14 - guest's version is 4.1.1</code>, telling you that:</p>
+
+<ul>
+<li>the guest addition of the box <em>default</em> are outdated (or mismatch) </li>
+<li>which guest additions iso file will be used </li>
+<li>which installer script will be used</li>
+<li>all the VirtualBox Guest Additions installer output.</li>
+</ul><p>No worries on the <code>Installing the Window System drivers ...fail!</code>. Most dev boxes you are using won't run a Window Server, thus it's absolutely safe to ignore that error.</p>
+
+<p>When everything is fine, and no update is needed, you see log like:</p>
+
+<pre><code>...
+[default] Booting VM...
+[default] Waiting for VM to boot. This can take a few minutes.
+[default] VM booted and ready for use!
+[default] GuestAdditions 4.2.6 running --- OK.
+...
+</code></pre>
+
+<h3>
+<a name="running-as-a-command" class="anchor" href="#running-as-a-command"><span class="octicon octicon-link"></span></a>Running as a Command</h3>
+
+<p>When you switched off the middleware auto update, or you have a box up and running you may also run the installer manually.</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>vagrant vbguest <span class="o">[</span>vm-name<span class="o">]</span> <span class="o">[</span>--do start|rebuild|install<span class="o">]</span> <span class="o">[</span>--status<span class="o">]</span> <span class="o">[</span>-f|--force<span class="o">]</span> <span class="o">[</span>-b|--auto-reboot<span class="o">]</span> <span class="o">[</span>-R|--no-remote<span class="o">]</span> <span class="o">[</span>--iso VBoxGuestAdditions.iso<span class="o">]</span>
+</pre></div>
+
+<p>For example, when you just updated Virtual Box on your host system, you should update the gust additions right away. However, you may need to reload the box to get the guest additions working.</p>
+
+<p>If you want to check the guest additions versions, without installing them, you may run:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>vagrant vbguest --status
+</pre></div>
+
+<p>Telling you either about a version mismatch:</p>
+
+<pre><code>[default] GuestAdditions versions on your host (4.2.6) and guest (4.1.0) do not match.
+</code></pre>
+
+<p>or a match:</p>
+
+<pre><code>[default] GuestAdditions 4.2.6 running --- OK.
+</code></pre>
+
+<p>The <code>auto-reboot</code> is tured off by default, when running as a command. Vbguest will suggest you to reboot the box when needed. To turn it on simply pass the <code>--auto-reboot</code> parameter:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>vagrant vbguest --auto-reboot
+</pre></div>
+
+<p>You can also pass vagrant's <code>reload</code> options like:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>vagrant vbguest --auto-reboot --no-provision
+</pre></div>
+
+<h3>
+<a name="iso-autodetection" class="anchor" href="#iso-autodetection"><span class="octicon octicon-link"></span></a>ISO autodetection</h3>
+
+<p><em>vagrant-vbguest</em> will try to autodetect a VirtualBox GuestAdditions iso file on your system, which usually matches your installed version of VirtualBox. If it cannot find one, it downloads one from the web (virtualbox.org).<br>
+Those places will be checked in order:</p>
+
+<ol>
+<li>Checks your VirualBox "Virtual Media Maganger" for a DVD called "VBoxGuestAdditions.iso"</li>
+<li>Guess by your host operating system:
+
+<ul>
+<li>for linux : <code>/usr/share/virtualbox/VBoxGuestAdditions.iso</code>
+</li>
+<li>for Mac : <code>/Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso</code>
+</li>
+<li>for Windows : <code>%PROGRAMFILES%/Oracle/VirtualBox/VBoxGuestAdditions.iso</code>
+</li>
+</ul>
+</li>
+</ol><h3>
+<a name="automatic-reboot" class="anchor" href="#automatic-reboot"><span class="octicon octicon-link"></span></a>Automatic reboot</h3>
+
+<p>The VirtualBox GuestAdditions Installer will try to load the newly build kernel module. However the installer my fail to do, just as it is happening when updating GuestAdditions from version 4.1 to 4.2.</p>
+
+<p>Hency, vbguest will check for a loaded kernel module after the installation has finished and reboots the box, if it could not find one.</p>
+
+<h2>
+<a name="advanced-usage" class="anchor" href="#advanced-usage"><span class="octicon octicon-link"></span></a>Advanced Usage</h2>
+
+<p>vagrant-vbguest provides installers for generic linux and debian/ubuntu.<br>
+Installers take care of the whole installation process, that includes where to save the iso file inside the guest and where to mount it.</p>
+
+<div class="highlight highlight-ruby"><pre><span class="k">class</span> <span class="nc">MyInstaller</span> <span class="o">&lt;</span> <span class="ss">VagrantVbguest</span><span class="p">:</span><span class="ss">:Installers</span><span class="o">::</span><span class="no">Linux</span>
+
+  <span class="c1"># use /temp instead of /tmp</span>
+  <span class="k">def</span> <span class="nf">tmp_path</span>
+    <span class="s1">'/temp/VBoxGuestAdditions.iso'</span>
+  <span class="k">end</span>
+
+  <span class="c1"># use /media instead of /mnt</span>
+  <span class="k">def</span> <span class="nf">mount_point</span>
+    <span class="s1">'/media'</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">install</span><span class="p">(</span><span class="n">opts</span><span class="o">=</span><span class="kp">nil</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+    <span class="n">communicate</span><span class="o">.</span><span class="n">sudo</span><span class="p">(</span><span class="s1">'my_distos_way_of_preparing_guestadditions_installation'</span><span class="p">,</span> <span class="n">opts</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+    <span class="c1"># calling `super` will run the installation</span>
+    <span class="c1"># also it takes care of uploading the right iso file into the box</span>
+    <span class="c1"># and cleaning up afterward</span>
+    <span class="k">super</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="ss">Vagrant</span><span class="p">:</span><span class="ss">:Config</span><span class="o">.</span><span class="n">run</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+  <span class="n">config</span><span class="o">.</span><span class="n">vbguest</span><span class="o">.</span><span class="n">installer</span> <span class="o">=</span> <span class="no">MyInstaller</span>
+<span class="k">end</span>
+</pre></div>
+
+<h2>
+<a name="knows-issues" class="anchor" href="#knows-issues"><span class="octicon octicon-link"></span></a>Knows Issues</h2>
+
+<ul>
+<li>The installer script, which mounts and runs the GuestAdditions Installer Binary, works on linux only. Most likely it will run on most unix-like plattform.</li>
+<li>The installer script requires a directory <code>/mnt</code> on the guest system</li>
+<li>On multi vm boxes, the iso file will be downloaded for each vm</li>
+<li>The plugin installation on Windows host systems my not work as expected (using <code>vagrant gem install vagrant-vbguest</code>). Try <code>C:\vagrant\vagrant\embedded\bin\gem.bat install vagrant-vbguest</code> instead. (See <a href="https://github.com/dotless-de/vagrant-vbguest/issues/19#issuecomment-7040304">issue #19</a>)</li>
+</ul>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/dotless-de">dotless-de</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
