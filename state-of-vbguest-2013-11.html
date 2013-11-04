@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>The current state of vagrant-vbguest.</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <article>
+        <header>
+          <h1>current state of a Scratching-Your-Own-Itch-Project</h1>
+          <small>
+            <p><time pubdate datetime="2013-11-04">2013-11-04</time> by Robert aka. <a href="https://github.com/fnordfish">@fnordfish</a>.</p>
+          </small>
+        </header>
+        <section>
+          <p>Over two years ago I started to use Vagrant as a regular basis to build my development environments with. At this time, VirtualBox was very buggy (some will say, it still is) and thus updates where pretty frequent. After a while I got sick of manually updating the "GuestAdditons" in each and every box me and my coworkers where running manually and started a small plugin called <a href="https://github.com/dotless-de/vagrant-vbguest">vagrant-vbguest</a>.</p>
+
+          <h2>Thanks</h2>
+          <p>But before going further, many thanks to all of you contributing (not only with code) to this project and for taking the time to help make vbguest better. Your help is really appreciated.</p>
+          <p>In the last months I didn't had much time to work on the plugin. And like many others, I started to use VMware Fusion as my main working environment. So the itches I scratched with building vbguest are pretty much gone.</p>
+          <p>Still, this project is important to me and I'm going to maintain and enhance it. </p>
+
+          <h2>pretty messy</h2>
+          <p>Lots of code (and certainly most of the ugly parts) is dedicated to provide backwards compatibility to old gem-install style Vagrant versions. There was some demand of non-client-side users who where stuck on old version of Vagrant and I wanted to keep them getting new features and bug fixes.</p>
+          <p>With latest versions of Vagrant, the plugin API got very stable. However, internals changed a lot in early 1.x builds – particularly using the build-in SSH connection, and accessing a VM's ID.</p>
+          <p>Since the whole purpose of vbguest is to cope with version differences, I'm very aware of the fact, that people are not alway able to run the same, most recent version of Vagrant. Therefore vbguest will always support a decent range in "old" Vagrant versions.</p>
+          <p>Most certainly, this won't make things easier to implement.</p>
+
+          <h2>features and what didn't happend</h2>
+          <p>When creating vbguest, I thought people would start to contribute installation routines for their favorite OS types. To make this easier, v0.6 got a new feature which allows you to create <a href="https://github.com/dotless-de/vagrant-vbguest#advanced-usage">Custom Installers</a>.<br>
+            To my surprise, some things (didn't) happened:<br>
+            People seems to stick with either ubuntu or centos. Till today, debian/ubuntu and centos are the only high level linux distributions with build-in support in vbguest. Also those are the only ones for which bug-fixes and enhancements are regularly requested.<br>
+            There are infrequent requests on providing support for Windows. But, due to my lack of time and working strictly with unix-like system for almost a decade now, my Windows scripting abilities vanished completely and I depend on the support of people just knowing better than me. Pretty much the same goes for other systems I loved to provide direct support for (like \*BSD, OSX,  weirdness of other linux-derivates).</p>
+          <p>The whole Installers module was designed to be useful in building an own set of installers and even pack and distribute them as a gem or even Vagrant plugin. I've never seen anyone using them that way.</p>
+          <p>My current interpretation of the apparent lack of use of Custom Installers is, that there is a lack of usefulness and usability for the majority of users in it.</p>
+          <p>Why is this even important you might ask?</p>
+          <p>I still believe, that being able to write your own installation routine (and contribute it back into the community if you like) is more helpful than depending on a single project and it's maintainers to build it for you.<br>
+            Also, it's a good example for a basic design principle I tried to build vbguest after: Being able to have (company) secrets while using an open source project as a foundation to build upon. And again, contribute back to the community if you'd like.<br>
+            Last but not least, this particular feature makes it harder to comply with Varant's current plugin API.</p>
+
+          <h2>where to go</h2>
+          <p>I'd like to develop vbguest into a more comprehensive way. This is what should be done to get to a stable 1.0 version:</p>
+          <ul>
+            <li>dropping support for Vagrant 1.0 (and below) to allow major overhauls</li>
+            <li>encourage more people to build their own installation routines by providing better ways of doing so. Like an easy-to-use DSL and supporting simple script-execution again.</li>
+            <li>supporting different kinds of "GuestAdditions" like VMware Tools for example.</li>
+            <li>providing better docs. Nobody reads an endless Readme file, right?</li>
+            <li>adding or providing support for other plugins that are out of vbguest's scope (e.g. vagrant-cachier, vagrant-proxyconf, etc.) </li>
+            <li>finally, get some tests running. (esp. integration tests to run against different guests)</li>
+          </ul>
+          <p>Most certainly, vbguest won't deliver a drop-in solution for each and every edge case. It's goal is however, to deliver a easy solution to implement it yourself.</p>
+          <h2>how and when to get there</h2><p>Vagrant-vbguest is and will continue to be a side project. As such, it's quite impossible to say when things get done.</p>
+          <p>If you are disappointed to hear this, maybe this will cheer you up:</p>
+          <p>I'm very excited to announce, that vagrant-vbguest has two new committers. Besides running own open source project and being around in vagrant-world, <a href="https://github.com/scalp42">Anthony aka. @scalp42</a> and <a href="https://github.com/tmatilai">Teemu aka. @tmatilai</a> have been contributing to vbguest for quite some time.</p>
+          <p>Again, welcome on board! I hope, we'll have a great time in pushing this thing forward and make more people happy.</p>
+
+          <h2>Keep on nagging</h2>
+          <p>Please, keep on voicing ideas, complaints, bug reports or whatever you think could make vagrant-vbguest a better pice of software. We will try to get back to you as soon as our time permits.</p>
+          <p>In joyful anticipation of whatever the future will bring, keep on automating!</p>
+        </section>
+      </article>
+      <section>
+        <p>Comments, fixes, rants welcome at: <a href="https://github.com/dotless-de/vagrant-vbguest/tree/gh-pages">The vagrant-vbguest GitHub-Pages-Repo</a>.</p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by:
+       <a href="https://github.com/dotless-de">dotless.de</a>,
+       <a href="https://github.com/fnordfish">@fnordfish</a>,
+       <a href="https://github.com/scalp42">@scalp42</a>,
+       <a href="https://github.com/tmatilai">@tmatilai</a>
+      </p>
+
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
+  </body>
+</html>
