@@ -4,6 +4,8 @@
     On Ubuntu, always try to remove conflicting installations of
     GuestAdditions by removing those packages:
     virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+  - Unload kernel modules when UbuntuCloudImage packages are installed.
+    (Thanks @eric1234 for commenting on ec9a7b1f0a)
   - Wait for SSH connection to be ready. Depends on vagrant's
     `WaitForCommunicator` action, which is available from vagrant v1.3.0.
     [GH-80], [GH-90]
