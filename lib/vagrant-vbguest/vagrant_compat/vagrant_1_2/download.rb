@@ -1,4 +1,3 @@
-require 'vagrant-vbguest/download'
 require "vagrant/util/downloader"
 
 module VagrantVbguest

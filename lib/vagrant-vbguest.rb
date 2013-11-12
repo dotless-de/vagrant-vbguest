@@ -7,24 +7,32 @@ end
 # Add our custom translations to the load path
 I18n.load_path << File.expand_path("../../locales/en.yml", __FILE__)
 
-require "vagrant-vbguest/errors"
+require 'vagrant-vbguest/errors'
 require 'vagrant-vbguest/vagrant_compat'
 
-require 'vagrant-vbguest/machine'
-
-require 'vagrant-vbguest/hosts/base'
-require 'vagrant-vbguest/hosts/virtualbox'
-
-require 'vagrant-vbguest/installer'
-require 'vagrant-vbguest/installers/base'
-require 'vagrant-vbguest/installers/linux'
-require 'vagrant-vbguest/installers/debian'
-require 'vagrant-vbguest/installers/ubuntu'
-require 'vagrant-vbguest/installers/redhat'
-
-require 'vagrant-vbguest/middleware'
 
 module VagrantVbguest
+  autoload :CommandCommons, 'vagrant-vbguest/command'
+  autoload :Config,         'vagrant-vbguest/config'
+  autoload :DownloadBase,   'vagrant-vbguest/download'
+  autoload :Installer,      'vagrant-vbguest/installer'
+  autoload :Machine,        'vagrant-vbguest/machine'
+  autoload :Middleware,     'vagrant-vbguest/middleware'
+
+  module Hosts
+    autoload :Base,       'vagrant-vbguest/hosts/base'
+    autoload :VirtualBox, 'vagrant-vbguest/hosts/virtual_box'
+  end
+
+
+  module Installers
+    autoload :Base,   'vagrant-vbguest/installers/base'
+    autoload :Linux,  'vagrant-vbguest/installers/linux'
+    autoload :Debian, 'vagrant-vbguest/installers/debian'
+    autoload :Redhat, 'vagrant-vbguest/installers/redhat'
+    autoload :Ubuntu, 'vagrant-vbguest/installers/ubuntu'
+  end
+
 
   class Plugin < Vagrant.plugin("2")
 
@@ -35,7 +43,6 @@ module VagrantVbguest
     DESC
 
     config('vbguest') do
-      require File.expand_path("../vagrant-vbguest/config", __FILE__)
       Config
     end
 
