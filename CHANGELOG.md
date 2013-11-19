@@ -6,9 +6,8 @@
     virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
   - Unload kernel modules when UbuntuCloudImage packages are installed.
     (Thanks @eric1234 for commenting on ec9a7b1f0a)
-  - Wait for SSH connection to be ready. Depends on vagrant's
-    `WaitForCommunicator` action, which is available from vagrant v1.3.0.
-    [GH-80], [GH-90]
+  - Wait for SSH connection to be ready. Fixes timing issues with vagrant
+    v1.3.0 and later. [GH-80], [GH-90]
   - Fix a typo in command description [GH-84]
   - Tweak gem dependencies [GH-82]
     - add rake as development dependency
