@@ -102,8 +102,7 @@ module VagrantVbguest
       end
 
 
-      # A generic helper method to execute the installer. The iso file
-      # has to be mounted on +mount_point+.
+      # A generic helper method to execute the installer.
       # This also yields a installation warning to the user, and an error
       # warning in the event that the installer returns a non-zero exit status.
       #
@@ -112,12 +111,22 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def execute_installer(opts=nil, &block)
-        installer = File.join(mount_point, 'VBoxLinuxAdditions.run')
         yield_installation_waring(installer)
         opts = {:error_check => false}.merge(opts || {})
-        exit_status = communicate.sudo("#{installer} --nox11", opts, &block)
+        exit_status = communicate.sudo("#{installer} #{installer_arguments}", opts, &block)
         yield_installation_error_warning(installer) unless exit_status == 0
         exit_status
+      end
+
+      # The absolute path to the GuestAdditions installer script.
+      # The iso file has to be mounted on +mount_point+.
+      def installer
+        @installer ||= File.join(mount_point, 'VBoxLinuxAdditions.run')
+      end
+
+      # The arguments string, which gets passed to the installer script
+      def installer_arguments
+        @installer_arguments ||= Array(options[:installer_arguments]).join " "
       end
 
       # A generic helper method for mounting the GuestAdditions iso file

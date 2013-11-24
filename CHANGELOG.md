@@ -1,5 +1,8 @@
 ## 0.10.0 (UNRELEASED)
-  
+
+  - Adds new config option `installer_arguments`   
+    Customize arguments passed to the VirtualBox GuestAdditions shell script
+    installer. Defaults to "--no-x11". [GH-98]
   - Cope with UbuntuCloudImage by default [GH-86], [GH-64], [GH-43]
     On Ubuntu, always try to remove conflicting installations of
     GuestAdditions by removing those packages:
