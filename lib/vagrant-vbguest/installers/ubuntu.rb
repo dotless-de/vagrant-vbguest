@@ -7,7 +7,7 @@ module VagrantVbguest
       end
 
       def install(opts=nil, &block)
-        if (packaged = packaged_additions?)
+        if packaged_additions?
           unload_packaged_additions(opts, &block)
           remove_packaged_additions(opts, &block)
         end
