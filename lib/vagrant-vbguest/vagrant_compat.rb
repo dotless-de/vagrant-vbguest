@@ -7,9 +7,11 @@ supported_version = {
 }
 compat_version = supported_version.find { |requirement, version|
   Gem::Requirement.new(requirement).satisfied_by?(vagrant_version)
-}[1]
+}
 
-if !compat_version
+if compat_version
+  compat_version = compat_version[1]
+else
   # @TODO: yield warning
   compat_version = supported_version.to_a.last[1]
 end
