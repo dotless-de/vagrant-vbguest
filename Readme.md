@@ -176,7 +176,7 @@ When you switched off the middleware auto update, or you have a box up and runni
 $ vagrant vbguest [vm-name] [--do start|rebuild|install] [--status] [-f|--force] [-b|--auto-reboot] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]
 ```
 
-For example, when you just updated Virtual Box on your host system, you should update the gust additions right away. However, you may need to reload the box to get the guest additions working.
+For example, when you just updated Virtual Box on your host system, you should update the guest additions right away. However, you may need to reload the box to get the guest additions working.
 
 If you want to check the guest additions versions, without installing them, you may run:
 
