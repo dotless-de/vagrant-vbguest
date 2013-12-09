@@ -16,6 +16,7 @@
     - add rake as development dependency
     - remove version locks on gems provided by vagrant
   - Pass plugin name when registration the action hook for vagrant ≥1.1 [GH-80]
+  - Fix crash on Vagrant 1.4 [GH-100]
 
 ### heads-up
   
