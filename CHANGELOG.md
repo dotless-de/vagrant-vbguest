@@ -1,4 +1,4 @@
-## 0.10.0 (UNRELEASED)
+## 0.10.0 (2013-12-09)
 
   - Adds new config option `installer_arguments`   
     Customize arguments passed to the VirtualBox GuestAdditions shell script
