@@ -33,8 +33,8 @@ Compatibly for vagrant 0.8 is provided by version 0.0.3 (which lacks a bunch of 
 
 ## Configuration / Usage
 
-If you're lucky, *vagrant-vbguest* does not require any configurations. 
-However, here is an example for your `Vagrantfile`:
+If you're lucky, *vagrant-vbguest* does not require any configuration. 
+However, here is an example of `Vagrantfile`:
 
 ```ruby
 Vagrant::Config.run do |config|
@@ -44,8 +44,8 @@ Vagrant::Config.run do |config|
   # or
   # config.vbguest.iso_path = "http://company.server/VirtualBox/%{version}/VBoxGuestAdditions.iso"
   
-  # set auto_update to false, if do NOT want to check the correct additions 
-  # version when booting this machine
+  # set auto_update to false, if do NOT want to check the correct 
+  # additions version when booting this machine
   config.vbguest.auto_update = false
   
   # do NOT download the iso file from a webserver
@@ -56,8 +56,8 @@ end
 ### Config options
 
 * `iso_path` : The full path or URL to the VBoxGuestAdditions.iso file. <br/>
-The `iso_path` may contain the optional placeholder `%{version}` for the detected version (e.g. `4.1.8`).
-The URI for the actual iso download reads: `http://download.virtualbox.org/virtualbox/%{version}/VBoxGuestAdditions_%{version}.iso`<br/>
+The `iso_path` may contain the optional placeholder `%{version}` replaced with detected VirtualBox version (e.g. `4.1.8`).
+The default URI for the actual iso download is: `http://download.virtualbox.org/virtualbox/%{version}/VBoxGuestAdditions_%{version}.iso`<br/>
 vbguest will try to autodetect the best option for your system. WTF? see below.
 * `auto_update` (Boolean, default: `true`) : Whether to check the correct additions version on each start (where start is _not_ resuming a box).
 * `auto_reboot` (Boolean, default: `true` when running as a middleware, `false` when running as a command) : Whether to reboot the box after GuestAdditions has been installed, but not loaded.
@@ -91,12 +91,12 @@ Settings in a project's `Vagrantfile` will overwrite those setting. When execute
 
 ### Running as a middleware
 
-Running as a middleware will is the default way using *vagrant-vbguest*. 
+Running as a middleware is the default way of using *vagrant-vbguest*. 
 It will run automatically right after the box started. This is each time the box boots, i.e. `vagrant up` or `vagrant reload`. 
 It won't run on `vagrant resume` (or `vagrant up` a suspended box) to save you some time resuming a box.
 
 You may switch off the middleware by setting the vm's config `vbguest.auto_update` to `false`.
-This is a per box settings. On multi vm environments you need to set that for each vm.
+This is a per box setting. On multi vm environments you need to set that for each vm.
 
 When *vagrant-vbguest* is running it will provide you some logs:
 
@@ -151,7 +151,7 @@ When *vagrant-vbguest* is running it will provide you some logs:
 
 The plugin's part starts at `[default] Installing Virtualbox Guest Additions 4.1.14 - guest's version is 4.1.1`, telling you that:
 
-* the guest addition of the box *default* are outdated (or mismatch) 
+* the guest addition of the box *default* is outdated (or mismatching) 
 * which guest additions iso file will be used 
 * which installer script will be used
 * all the VirtualBox Guest Additions installer output.
@@ -176,9 +176,9 @@ When you switched off the middleware auto update, or you have a box up and runni
 $ vagrant vbguest [vm-name] [--do start|rebuild|install] [--status] [-f|--force] [-b|--auto-reboot] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]
 ```
 
-For example, when you just updated Virtual Box on your host system, you should update the guest additions right away. However, you may need to reload the box to get the guest additions working.
+For example, when you just updated VirtualBox on your host system, you should update the guest additions right away. However, you may need to reload the box to get the guest additions working.
 
-If you want to check the guest additions versions, without installing them, you may run:
+If you want to check the guest additions version, without installing, you may run:
 
 ```bash
 $ vagrant vbguest --status
@@ -193,7 +193,7 @@ or a match:
     [default] GuestAdditions 4.2.6 running --- OK.
 
 
-The `auto-reboot` is tured off by default, when running as a command. Vbguest will suggest you to reboot the box when needed. To turn it on simply pass the `--auto-reboot` parameter:
+The `auto-reboot` is turned off by default when running as a command. Vbguest will suggest you to reboot the box when needed. To turn it on simply pass the `--auto-reboot` parameter:
 
 ```bash
 $ vagrant vbguest --auto-reboot
@@ -221,9 +221,9 @@ Those places will be checked in order:
 
 ### Automatic reboot
 
-The VirtualBox GuestAdditions Installer will try to load the newly build kernel module. However the installer my fail to do, just as it is happening when updating GuestAdditions from version 4.1 to 4.2.
+The VirtualBox GuestAdditions Installer will try to load the newly built kernel module. However the installer may fail to load, just as it is happening when updating GuestAdditions from version 4.1 to 4.2.
 
-Hency, vbguest will check for a loaded kernel module after the installation has finished and reboots the box, if it could not find one.
+Hence, vbguest will check for a loaded kernel module after the installation has finished and reboots the box, if it could not find one.
 
 
 ## Advanced Usage
@@ -259,9 +259,9 @@ end
 ```
 
 
-## Knows Issues
+## Known Issues
 
-* The installer script, which mounts and runs the GuestAdditions Installer Binary, works on linux only. Most likely it will run on most unix-like plattform.
+* The installer script, which mounts and runs the GuestAdditions Installer Binary, works on Linux only. Most likely it will run on most Unix-like platforms.
 * The installer script requires a directory `/mnt` on the guest system
 * On multi vm boxes, the iso file will be downloaded for each vm
 * The plugin installation on Windows host systems my not work as expected (using `vagrant gem install vagrant-vbguest`). Try `C:\vagrant\vagrant\embedded\bin\gem.bat install vagrant-vbguest` instead. (See [issue #19](https://github.com/dotless-de/vagrant-vbguest/issues/19#issuecomment-7040304))
