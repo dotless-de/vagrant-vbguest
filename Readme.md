@@ -44,7 +44,7 @@ Vagrant::Config.run do |config|
   # or
   # config.vbguest.iso_path = "http://company.server/VirtualBox/%{version}/VBoxGuestAdditions.iso"
   
-  # set auto_update to false, if do NOT want to check the correct 
+  # set auto_update to false, if you do NOT want to check the correct 
   # additions version when booting this machine
   config.vbguest.auto_update = false
   
