@@ -1,3 +1,6 @@
+## 0.10.1 (Not released yet)
+
+
 ## 0.10.0 (2013-12-09)
 
   - Adds new config option `installer_arguments`   
