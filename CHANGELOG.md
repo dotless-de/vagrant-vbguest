@@ -1,5 +1,6 @@
 ## 0.10.1 (Not released yet)
 
+  - Make sure our log message strings are loaded [GH-107]
 
 ## 0.10.0 (2013-12-09)
 
