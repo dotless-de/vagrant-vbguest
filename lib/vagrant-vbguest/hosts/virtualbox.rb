@@ -70,7 +70,10 @@ module VagrantVbguest
         # Makes an educated guess where the GuestAdditions iso file
         # on linux based systems
         def linux_path
-          paths = ["/usr/share/virtualbox/VBoxGuestAdditions.iso"]
+          paths = [
+            "/usr/share/virtualbox/VBoxGuestAdditions.iso",
+            "/usr/lib/virtualbox/additions/VBoxGuestAdditions.iso"
+          ]
           paths.unshift(File.join(ENV['HOME'], '.VirtualBox', "VBoxGuestAdditions_#{version}.iso")) if ENV['HOME']
           paths
         end
