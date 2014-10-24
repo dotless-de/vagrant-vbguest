@@ -1,0 +1,68 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "ubuntu_cloud_precise" do |config|
+    config.vm.box     = 'ubuntu_cloud'
+    config.vm.box_url = 'http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
+
+    config.vm.hostname = "cloud-precise"
+    config.vm.network :private_network, ip: "33.33.254.2"
+  end
+
+  config.vm.define "ubuntu_cloud_saucy" do |config|
+    config.vm.box     = 'ubuntu_cloud_saucy'
+    config.vm.box_url = 'http://cloud-images.ubuntu.com/vagrant/saucy/current/saucy-server-cloudimg-amd64-vagrant-disk1.box'
+
+    config.vm.hostname = "cloud-saucy"
+    config.vm.network :private_network, ip: "33.33.254.3"
+  end
+
+  config.vm.define "precise32" do |config|
+    config.vm.box     = 'precise32'
+    config.vm.box_url = 'http://files.vagrantup.com/precise32.box'
+
+    config.vm.hostname = "precise32"
+    config.vm.network :private_network, ip: "33.33.254.4"
+  end
+
+  config.vm.define "precise64" do |config|
+    config.vm.box     = 'precise64'
+    config.vm.box_url = 'http://files.vagrantup.com/precise64.box'
+
+    config.vm.hostname = "precise64"
+    config.vm.network :private_network, ip: "33.33.254.5"
+  end
+
+  config.vm.define "cent64_x64" do |config|
+    config.vm.box     = 'centos-64-x64-vbox4210'
+    config.vm.box_url = 'http://puppet-vagrant-boxes.puppetlabs.com/centos-64-x64-vbox4210.box'
+
+    config.vm.hostname = "puppet-cent64x64"
+    config.vm.network :private_network, ip: "33.33.254.6"
+  end
+
+  config.vm.define "cent58_x64" do |config|
+    config.vm.box     = 'cent58_x64'
+    config.vm.box_url = 'https://dl.dropbox.com/u/17738575/CentOS-5.8-x86_64.box'
+
+    config.vm.hostname = "cent58x64"
+    config.vm.network :private_network, ip: "33.33.254.7"
+  end
+
+  config.vm.provider "virtualbox" do |v|
+    # v.gui = true
+  end
+
+  # config.vbguest.installer_arguments = "--nox11 -- --force"
+  # config.vbguest.auto_update = false
+  # config.vbguest.iso_path = '/Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso'
+  # config.vbguest.iso_path = 'http://download.virtualbox.org/virtualbox/%{version}/VBoxGuestAdditions_%{version}.iso' #% {version: '4.2.12'}
+  # config.vbguest.iso_path = "#{ENV["HOME"]}/Downloads/VBoxGuestAdditions_4.2.12.iso"
+  # config.vbguest.installer = My_Installer
+
+  # require 'Date'
+  # config.vm.provision :shell, :inline => "touch /vagrant/testrun-#{DateTime.now.strftime '%FT%T.%S%L'}"
+
+end
