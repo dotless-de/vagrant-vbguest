@@ -264,4 +264,4 @@ end
 * The installer script, which mounts and runs the GuestAdditions Installer Binary, works on Linux only. Most likely it will run on most Unix-like platforms.
 * The installer script requires a directory `/mnt` on the guest system
 * On multi vm boxes, the iso file will be downloaded for each vm
-* The plugin installation on Windows host systems my not work as expected (using `vagrant gem install vagrant-vbguest`). Try `C:\vagrant\vagrant\embedded\bin\gem.bat install vagrant-vbguest` instead. (See [issue #19](https://github.com/dotless-de/vagrant-vbguest/issues/19#issuecomment-7040304))
+* The plugin installation on Windows host systems may not work as expected (using `vagrant gem install vagrant-vbguest`). Try `C:\vagrant\vagrant\embedded\bin\gem.bat install vagrant-vbguest` instead. (See [issue #19](https://github.com/dotless-de/vagrant-vbguest/issues/19#issuecomment-7040304))
