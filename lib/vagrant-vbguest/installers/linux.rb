@@ -121,7 +121,7 @@ module VagrantVbguest
       # The absolute path to the GuestAdditions installer script.
       # The iso file has to be mounted on +mount_point+.
       def installer
-        @installer ||= File.join(mount_point, 'VBoxLinuxAdditions.run')
+        @installer ||= File.join(mount_point, 'VBoxLinuxAdditions.run force')
       end
 
       # The arguments string, which gets passed to the installer script
