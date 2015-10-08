@@ -1,6 +1,7 @@
-## 0.10.1 (Not released yet)
+## 0.10.1 (2015-10-08)
 
   - Make sure our log message strings are loaded [GH-107]
+  - Add ‘bzip2’ as a dependency for redhat based distributions. [GH-155], [GH-167]
 
 ## 0.10.0 (2013-12-09)
 
