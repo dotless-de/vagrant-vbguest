@@ -3,7 +3,7 @@ module VagrantVbguest
     class Debian < Linux
 
       def self.match?(vm)
-        :debian == self.distro(vm)
+        [:debian, :debian8].include? self.distro(vm)
       end
 
       # installes the correct linux-headers package
