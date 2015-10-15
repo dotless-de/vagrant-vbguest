@@ -65,6 +65,7 @@ vbguest will try to autodetect the best option for your system. WTF? see below.
 * `no_install` (Boolean, default: `false`) : Whether to check the correct additions version only. This will warn you about version mis-matches, but will not try to install anything.
 * `no_remote` (Boolean, default: `false`) : Whether to _not_ download the iso file from a remote location. This includes any `http` location!
 * `installer` (`VagrantVbguest::Installers::Base`, optional) : Reference to a (custom) installer class
+* `installer_arguments` (Array, default: `[]`) : List of additional arguments to pass to the installer. eg: `%w{--nox11 --force}` would execute `VBoxLinuxAdditions.run install --nox11 --force`
 
 #### Global Configuration
 
