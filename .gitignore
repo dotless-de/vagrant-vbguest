@@ -15,5 +15,6 @@ spec/reports
 test/tmp
 test/version_tmp
 tmp
-testdrive/.vagrant
-testdrive/.vagrant.d
+
+testdrive/.vagrant/
+testdrive/.vagrant.d/
