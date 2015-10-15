@@ -23,7 +23,7 @@ module VagrantVbguest
       end
 
       def dependencies
-        packages = ['kernel-devel', 'gcc', 'make']
+        packages = ['kernel-devel', 'gcc', 'make', 'tar']
         packages.join ' '
       end
     end
