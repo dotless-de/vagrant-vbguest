@@ -4,8 +4,9 @@ module VagrantVbguest
       # Scientific Linux (and probably CentOS) both show up as :redhat
       # fortunately they're probably both similar enough to RHEL
       # (RedHat Enterprise Linux) not to matter.
+      # The official centos7 box shows up as centos7
       def self.match?(vm)
-        :redhat == self.distro(vm)
+        [:redhat, :centos7].include?(self.distro(vm))
       end
 
       # Install missing deps and yield up to regular linux installation
