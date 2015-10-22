@@ -31,6 +31,7 @@ Vagrant.configure("2") do |config|
 
   next_ip.box config, "debian8", "oar-team/debian8"
   next_ip.box config, "opensuse13", "bento/opensuse-13.2"
+  next_ip.box config, "ubuntu1404", "ubuntu/trusty64"
 
   config.vm.provider "virtualbox" do |v|
     # v.gui = true
