@@ -26,8 +26,8 @@ module VagrantVbguest
       # specific version of a distribution should use heigher
       # priority numbers.
       #
-      # @param [Class] installer_class A reference to the Installer class.
-      # @param [Fixnum] prio Priority describing how specific the Installer matches. (default: `5`)
+      # @param installer_class [Class] A reference to the Installer class.
+      # @param prio [Fixnum] Priority describing how specific the Installer matches. (default: `5`)
       def register(installer_class, prio = 5)
         @installers ||= {}
         @installers[prio] ||= []
@@ -35,8 +35,11 @@ module VagrantVbguest
       end
 
       ##
-      # Returns the class of the registrated Installer class which
+      # Returns the class of the registered Installer class which
       # matches first (according to it's priority) or `nil` if none matches.
+      #
+      # @param vm [Vagrant::VM]
+      # @param options [Hash]
       def detect(vm, options)
         @installers.keys.sort.reverse.each do |prio|
           klass = @installers[prio].detect { |k| k.match?(vm) }

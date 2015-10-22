@@ -25,7 +25,7 @@ module VagrantVbguest
         #
         # To remove the created tempfile call +cleanup+
         #
-        # @param [String] The path or URI to download
+        # @param path [String] The path or URI to download
         #
         # @return [String] The path to the downloaded file
         def download(path)

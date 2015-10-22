@@ -91,9 +91,9 @@ module VagrantVbguest
         # replaces the veriosn placeholder with the additions
         # version string
         #
-        # @param [String] A path or URL (or any other String)
+        # @param path [String] A path or URL (or any other String)
         #
-        # @retrun [String] A copy of the passed string, with verision
+        # @return [String] A copy of the passed string, with verision
         #                  placeholder replaced
         def versionize(path)
           path % {:version => version}
@@ -104,7 +104,7 @@ module VagrantVbguest
         #
         # To remove the created tempfile call +cleanup+
         #
-        # @param [String] The path or URI to download
+        # @param path [String] The path or URI to download
         #
         # @return [String] The path to the downloaded file
         def download(path)

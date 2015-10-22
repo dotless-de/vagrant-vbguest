@@ -19,7 +19,7 @@ module VagrantVbguest
       # is run. It is ignored, when passing an Installer class
       # directly as an config (`installer`) option.
       #
-      # @param [Vagrant::VM]
+      # @param vm [Vagrant::VM]
       # @return [Boolean]
       def self.match?(vm)
         false
@@ -57,7 +57,7 @@ module VagrantVbguest
       # The path to the local iso file should be obtained by calling +iso_file+
       # Subclasses must override this method!
       #
-      # @param [Hash] opts Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
+      # @param opts [Hash] Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
       # @yield [type, data] Takes a Block like {Vagrant::Communication::Base#execute} for realtime output of the command being executed
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
@@ -74,7 +74,7 @@ module VagrantVbguest
       # empty.
       # Subclasses should override this method.
       #
-      # @param [Hash] opts Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
+      # @param opts [Hash] Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
       # @yield [type, data] Takes a Block like {Vagrant::Communication::Base#execute} for realtime output of the command being executed
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
@@ -90,7 +90,7 @@ module VagrantVbguest
       # this method should left empty.
       # Subclasses should override this method.
       #
-      # @param [Hash] opts Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
+      # @param opts [Hash] Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
       # @yield [type, data] Takes a Block like {Vagrant::Communication::Base#execute} for realtime output of the command being executed
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
@@ -113,7 +113,7 @@ module VagrantVbguest
       # Determinates the GuestAdditions version installed on the
       # guest system.
       #
-      # @param [Boolean] reload Whether to read the value again or use
+      # @param reload [Boolean] Whether to read the value again or use
       #                  the cached value form an erlier call.
       # @return [String] The version code of the VirtualBox Guest Additions
       #                  available on the guest, or `nil` if none installed.
@@ -181,7 +181,7 @@ module VagrantVbguest
       # @example Default upload
       #    upload(file)
       #
-      # @param [String] Path of the file to upload to the +tmp_path*
+      # @param file [String] Path of the file to upload to the +tmp_path*
       def upload(file)
         env.ui.info(I18n.t("vagrant_vbguest.start_copy_iso", :from => file, :to => tmp_path))
         communicate.upload(file, tmp_path)

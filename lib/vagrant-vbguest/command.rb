@@ -65,7 +65,10 @@ module VagrantVbguest
 
     protected
 
-    # Executes a command on a specific VM.
+    # Executes a task on a specific VM.
+    #
+    # @param vm [Vagrant::VM]
+    # @param options [Hash] Parsed options from the command line
     def execute_on_vm(vm, options)
       check_runable_on(vm)
 
