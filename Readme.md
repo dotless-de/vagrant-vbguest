@@ -2,7 +2,8 @@
 
 *vagrant-vbguest* is a [Vagrant](http://vagrantup.com) plugin which automatically installs the host's VirtualBox Guest Additions on the guest system.
 
-[![Code Climate](https://codeclimate.com/github/dotless-de/vagrant-vbguest.png)](https://codeclimate.com/github/dotless-de/vagrant-vbguest) [![Dependency Status](https://gemnasium.com/dotless-de/vagrant-vbguest.png)](https://gemnasium.com/dotless-de/vagrant-vbguest)
+[![Code Climate](https://codeclimate.com/github/dotless-de/vagrant-vbguest.png)](https://codeclimate.com/github/dotless-de/vagrant-vbguest) [![Dependency Status](https://gemnasium.com/dotless-de/vagrant-vbguest.png)](https://gemnasium.com/dotless-de/vagrant-vbguest) [![Inline docs](http://inch-ci.org/github/dotless-de/vagrant-vbguest.svg?branch=master)](http://inch-ci.org/github/dotless-de/vagrant-vbguest)
+
 
 ## Installation
 
