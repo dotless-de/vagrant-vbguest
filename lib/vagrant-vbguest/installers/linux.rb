@@ -90,7 +90,7 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def rebuild(opts=nil, &block)
-        communicate.sudo('/etc/init.d/vboxadd setup', opts, &block)
+        communicate.sudo("#{vboxadd_tool} setup", opts, &block)
       end
 
       # @param opts [Hash] Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
@@ -99,9 +99,67 @@ module VagrantVbguest
       # @yieldparam [String] data Data for the given output.
       def start(opts=nil, &block)
         opts = {:error_check => false}.merge(opts || {})
-        communicate.sudo('/etc/init.d/vboxadd start', opts, &block)
+        systemd = systemd_tool
+        if systemd
+          communicate.sudo("#{systemd[:path]} vboxadd #{systemd[:up]}", opts, &block)
+        else
+          communicate.sudo("#{vboxadd_tool} start", opts, &block)
+        end
       end
 
+      # Check for the presence of 'systemd' chkconfg or service command.
+      #
+      #    systemd_tool # => {:path=>"/usr/sbin/service", :up=>"start"}
+      #
+      # @return [Hash|nil] Hash with an absolute +path+ to the tool and the
+      #                    command string for starting.
+      #                    +nil* if neither was found.
+      def systemd_tool
+        result = nil
+        communicate.sudo('(which chkconfg || which service) 2>/dev/null', {:error_check => false}) do |type, data|
+          path = data.to_s
+          case path
+          when /\bservice\b/
+            result = { path: path, up: "start" }
+          when /\chkconfg\b/
+            result = { path: path, up: "on" }
+          end
+        end
+        result
+      end
+
+      # Checks for the correct location of the 'vboxadd' tool.
+      # It checks for a given list of possible locations. This list got
+      # extracted from the 'VBoxLinuxAdditions.run' script.
+      #
+      # @return [String|nil] Absolute path to the +vboxadd+ tool,
+      #                      or +nil+ if none found.
+      def vboxadd_tool
+        candidates = [
+          "/usr/lib/i386-linux-gnu/VBoxGuestAdditions/vboxadd",
+          "/usr/lib/x86_64-linux-gnu/VBoxGuestAdditions/vboxadd",
+          "/usr/lib64/VBoxGuestAdditions/vboxadd",
+          "/usr/lib/VBoxGuestAdditions/vboxadd",
+          "/lib64/VBoxGuestAdditions/vboxadd",
+          "/lib/VBoxGuestAdditions/vboxadd",
+          "/etc/init.d/vboxadd",
+        ]
+        bin_path = ""
+        cmd = <<-SHELL
+        for c in #{candidates.join(" ")}; do
+          if test -x "$c"; then
+            echo $c
+            break
+          fi
+        done
+        SHELL
+
+        path = nil
+        communicate.sudo(cmd, {:error_check => false}) do |type, data|
+          path = data.scrub.strip unless data.empty?
+        end
+        path
+      end
 
       # A generic helper method to execute the installer.
       # This also yields a installation warning to the user, and an error
