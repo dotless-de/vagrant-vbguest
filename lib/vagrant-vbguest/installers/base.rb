@@ -145,7 +145,7 @@ module VagrantVbguest
       # The message includes the host and installer version strings.
       def yield_installation_waring(path_to_installer)
         @env.ui.warn I18n.t("vagrant_vbguest.installing#{@options[:force] ? '_forced' : ''}",
-          :guest_version => guest_version,
+          :guest_version     => (guest_version || I18n.t("vagrant_vbguest.unknown")),
           :installer_version => installer_version(path_to_installer) || I18n.t("vagrant_vbguest.unknown"))
       end
 

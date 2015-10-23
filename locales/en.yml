@@ -52,7 +52,7 @@ en:
         no_installer_for_platform: |-
           Sorry, don't know how to %{method} Virtualbox Guest Additions on this platform. Stopping installation.
         generic_linux_installer: |-
-          The guest's platform is currently not supported, will try generic Linux method...
+          The guest's platform ("%{distro}") is currently not supported, will try generic Linux method...
         do_not_inherit_match_method: |-
           Installer classes must provide their own `match?` method.
 
