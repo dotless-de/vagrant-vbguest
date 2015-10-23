@@ -161,7 +161,7 @@ module VagrantVbguest
 
         path = nil
         communicate.sudo(cmd, {:error_check => false}) do |type, data|
-          path = data.scrub.strip unless data.empty?
+          path = data.strip unless data.empty?
         end
         path
       end
