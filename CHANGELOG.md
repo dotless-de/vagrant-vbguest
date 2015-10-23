@@ -1,3 +1,13 @@
+## 0.11.0 (unreleased)
+
+  - Add installer for opensuse. Thanks @darnells for [GH-163]
+  - Add installer for fedora. Thanks @jamesgecko and @PatrickCoffey for [GH-158]
+  - Add redhat installer support for centos7. Thanks @roidelapluie for [GH-162]
+  - Add debian installer support for debian8. Thanks @ubermuda for [GH-171]
+  - Add ISO autodetection on Archlinux hosts. [GH-135]
+  - Add configuration options for iso upload path and mount point.
+  - Add a `--no-cleanup` command-line switch to make debugging a bit more convenient.
+
 ## 0.10.1 (2015-10-08)
 
   - Make sure our log message strings are loaded [GH-107]
