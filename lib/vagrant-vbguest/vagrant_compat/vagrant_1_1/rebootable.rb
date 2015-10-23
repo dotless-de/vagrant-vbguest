@@ -6,7 +6,7 @@ module VagrantVbguest
     module Rebootable
       def reboot(vm, options)
         if reboot? vm, options
-          simle_reboot = Vagrant::Action::Builder.new.tap do |b|
+          simple_reboot = Vagrant::Action::Builder.new.tap do |b|
             b.use Vagrant::Action::Builtin::Call, Vagrant::Action::Builtin::GracefulHalt, :poweroff, :running do |env2, b2|
               if !env2[:result]
                 b2.use VagrantPlugins::ProviderVirtualBox::Action::ForcedHalt
@@ -17,7 +17,7 @@ module VagrantVbguest
               b.use Vagrant::Action::Builtin::WaitForCommunicator, [:starting, :running]
             end
           end
-          @env[:action_runner].run(simle_reboot, @env)
+          @env[:action_runner].run(simple_reboot, @env)
         end
       end
 
