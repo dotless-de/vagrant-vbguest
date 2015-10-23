@@ -21,6 +21,25 @@ class NextIP
       config.vm.hostname = name
       config.vm.network :private_network, ip: ip_addr.to_s
 
+      config.vm.provider "virtualbox" do |vb, override|
+        # Display the VirtualBox GUI when booting the machine
+        vb.gui = false
+
+        # Customize the amount of memory on the VM:
+        vb.memory = "512"
+        vb.cpus = "4"
+
+        # Specify default provider configuration
+        #  - give the VM a name - can be better localized in the VirtualBox GUI
+        #  - make the DNS resolution faster
+        vb.customize [
+          "modifyvm", :id,
+          "--name", "vbguest_testdrive-#{name}",
+          "--natdnshostresolver1", "on",
+          "--natdnshostresolver2", "on"
+        ]
+      end
+
       yield(config) if block
     end
   end
@@ -33,6 +52,12 @@ Vagrant.configure("2") do |config|
   next_ip.box config, "opensuse13", "bento/opensuse-13.2"
   next_ip.box config, "ubuntu1404", "ubuntu/trusty64"
   next_ip.box config, "centos7", "centos/7"
+  next_ip.box config, "oracle65", "tobyhferguson_oracle-65-x64" do |cfg|
+    cfg.vm.box_url = "http://tobyhferguson.org/boxes/oracle-6-5-x64-virtualbox.box"
+  end
+  next_ip.box config, "fedora22", "Fedora-Cloud-Base-Virtualbox-22" do |cfg|
+    cfg.vm.box_url = "https://download.fedoraproject.org/pub/fedora/linux/releases/22/Cloud/x86_64/Images/Fedora-Cloud-Base-Vagrant-22-20150521.x86_64.vagrant-virtualbox.box"
+  end
 
   config.vm.provider "virtualbox" do |v|
     # v.gui = true
