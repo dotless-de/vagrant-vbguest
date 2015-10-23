@@ -5,6 +5,8 @@
   - Add redhat installer support for centos7. Thanks @roidelapluie for [GH-162]
   - Add debian installer support for debian8. Thanks @ubermuda for [GH-171]
   - Add ISO autodetection on Archlinux hosts. [GH-135]
+  - Add lookup for the `vboxadd` tool, instead of assuming it in `/etc/init.d`
+  - And systemd-ish startup methods if available, instead of assuming `/etc/init.d/vboxadd` beeing useable.
   - Add configuration options for iso upload path and mount point.
   - Add a `--no-cleanup` command-line switch to make debugging a bit more convenient.
 
