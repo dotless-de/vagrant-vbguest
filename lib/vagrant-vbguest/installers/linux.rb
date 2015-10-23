@@ -50,7 +50,7 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def install(opts=nil, &block)
-        env.ui.warn I18n.t("vagrant_vbguest.errors.installer.generic_linux_installer") if self.class == Linux
+        env.ui.warn I18n.t("vagrant_vbguest.errors.installer.generic_linux_installer", distro: self.class.distro(vm)) if self.class == Linux
         upload(iso_file)
         mount_iso(opts, &block)
         execute_installer(opts, &block)
