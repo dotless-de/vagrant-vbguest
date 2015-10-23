@@ -1,7 +1,7 @@
 module VagrantVbguest
   module Installers
     class RedHat < Linux
-      # Scientific Linux (and probably CentOS) both show up as :redhat
+      # Scientific Linux and CentOS show up as :redhat (or "centos7")
       # fortunately they're probably both similar enough to RHEL
       # (RedHat Enterprise Linux) not to matter.
       def self.match?(vm)
