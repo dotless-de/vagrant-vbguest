@@ -54,7 +54,7 @@ module VagrantVbguest
         upload(iso_file)
         mount_iso(opts, &block)
         execute_installer(opts, &block)
-        unmount_iso(opts, &block)
+        unmount_iso(opts, &block) unless options[:no_cleanup]
       end
 
       # @param opts [Hash] Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends

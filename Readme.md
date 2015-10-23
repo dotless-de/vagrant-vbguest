@@ -177,7 +177,7 @@ When everything is fine, and no update is needed, you see log like:
 When you switched off the middleware auto update, or you have a box up and running you may also run the installer manually.
 
 ```bash
-$ vagrant vbguest [vm-name] [--do start|rebuild|install] [--status] [-f|--force] [-b|--auto-reboot] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]
+$ vagrant vbguest [vm-name] [--do start|rebuild|install] [--status] [-f|--force] [-b|--auto-reboot] [-R|--no-remote] [--iso VBoxGuestAdditions.iso] [--no-cleanup]
 ```
 
 For example, when you just updated VirtualBox on your host system, you should update the guest additions right away. However, you may need to reload the box to get the guest additions working.
@@ -209,7 +209,7 @@ You can also pass vagrant's `reload` options like:
 $ vagrant vbguest --auto-reboot --no-provision
 ```
 
-
+When running the install step manually like this: `vagrant vbguest --do install`, adding `--no-cleanup` keeps the downloaded, uploaded files and mounted iso in their place. Happy debugging ;)
 
 ### ISO autodetection
 

@@ -17,7 +17,15 @@ module VagrantVbguest
         :auto_reboot => false
       }
       opts = OptionParser.new do |opts|
-        opts.banner = "Usage: vagrant vbguest [vm-name] [--do start|rebuild|install] [--status] [-f|--force] [-b|--auto-reboot] [-R|--no-remote] [--iso VBoxGuestAdditions.iso]"
+        opts.banner = "Usage: vagrant vbguest [vm-name] "\
+                      "[--do start|rebuild|install] "\
+                      "[--status] "\
+                      "[-f|--force] "\
+                      "[-b|--auto-reboot] "\
+                      "[-R|--no-remote] "\
+                      "[--iso VBoxGuestAdditions.iso] "\
+                      "[--no-cleanup]"
+
         opts.separator ""
 
         opts.on("--do COMMAND", [:start, :rebuild, :install], "Manually `start`, `rebuild` or `install` GuestAdditions.") do |command|
@@ -44,6 +52,10 @@ module VagrantVbguest
 
         opts.on("--iso file_or_uri", "Full path or URI to the VBoxGuestAdditions.iso") do |file_or_uri|
           options[:iso_path] = file_or_uri
+        end
+
+        opts.on("--no-cleanup", "Do not run cleanup tasks after installation. (for debugging)") do
+          options[:no_cleanup] = true
         end
 
         build_start_options(opts, options)

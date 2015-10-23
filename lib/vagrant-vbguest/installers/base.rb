@@ -190,9 +190,11 @@ module VagrantVbguest
       # A helper method to delete the uploaded GuestAdditions iso file
       # from the guest box
       def cleanup
-        @host.cleanup
-        communicate.execute("test -f #{tmp_path} && rm #{tmp_path}", :error_check => false) do |type, data|
-          env.ui.error(data.chomp, :prefix => false)
+        unless options[:no_cleanup]
+          @host.cleanup
+          communicate.execute("test -f #{tmp_path} && rm #{tmp_path}", :error_check => false) do |type, data|
+            env.ui.error(data.chomp, :prefix => false)
+          end
         end
       end
 
