@@ -27,14 +27,19 @@ module VagrantVbguest
         communicate_to(vm).test("uname | grep 'Linux'")
       end
 
-      # defaults the temp path to "/tmp/VBoxGuestAdditions.iso" for all Linux based systems
+      # The temporary path where to upload the iso file to.
+      # Configurable via `config.vbguest.iso_upload_path`.
+      # Defaults the temp path to `/tmp/VBoxGuestAdditions.iso" for
+      # all Linux based systems
       def tmp_path
-        '/tmp/VBoxGuestAdditions.iso'
+        options[:iso_upload_path] || '/tmp/VBoxGuestAdditions.iso'
       end
 
-      # defaults the mount point to "/mnt" for all Linux based systems
+      # Mount point for the iso file.
+      # Configurable via `config.vbguest.iso_mount_point`.
+      #Ddefaults to "/mnt" for all Linux based systems.
       def mount_point
-        '/mnt'
+        options[:iso_mount_point] || '/mnt'
       end
 
       # a generic way of installing GuestAdditions assuming all

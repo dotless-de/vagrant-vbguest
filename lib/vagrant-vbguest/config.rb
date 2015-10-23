@@ -3,7 +3,9 @@ module VagrantVbguest
   class Config <( Vagrant::VERSION < "1.1.0" ? Vagrant::Config::Base : Vagrant.plugin("2", :config) )
 
     module Attributes
-      attr_accessor :iso_path, :auto_update, :auto_reboot, :no_install, :no_remote, :installer, :installer_arguments
+      attr_accessor :auto_update, :auto_reboot, :no_install, :no_remote,
+                    :installer, :installer_arguments,
+                    :iso_path, :iso_upload_path, :iso_mount_point
     end
 
     class << self
@@ -40,6 +42,8 @@ module VagrantVbguest
         :installer => installer,
         :installer_arguments => installer_arguments,
         :iso_path => iso_path,
+        :iso_upload_path => iso_upload_path,
+        :iso_mount_point => iso_mount_point,
         :auto_update => auto_update,
         :auto_reboot => auto_reboot,
         :no_install => no_install,

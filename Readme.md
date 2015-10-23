@@ -60,12 +60,14 @@ end
 The `iso_path` may contain the optional placeholder `%{version}` replaced with detected VirtualBox version (e.g. `4.1.8`).
 The default URI for the actual iso download is: `http://download.virtualbox.org/virtualbox/%{version}/VBoxGuestAdditions_%{version}.iso`<br/>
 vbguest will try to autodetect the best option for your system. WTF? see below.
+* `iso_upload_path` (String, default: `/tmp`): A writeable directory where to put the VBoxGuestAdditions.iso file on the guest system.
+* `iso_mount_point` (String, default: `/mnt`): Where to mount the VBoxGuestAdditions.iso file on the guest system.
 * `auto_update` (Boolean, default: `true`) : Whether to check the correct additions version on each start (where start is _not_ resuming a box).
 * `auto_reboot` (Boolean, default: `true` when running as a middleware, `false` when running as a command) : Whether to reboot the box after GuestAdditions has been installed, but not loaded.
 * `no_install` (Boolean, default: `false`) : Whether to check the correct additions version only. This will warn you about version mis-matches, but will not try to install anything.
 * `no_remote` (Boolean, default: `false`) : Whether to _not_ download the iso file from a remote location. This includes any `http` location!
 * `installer` (`VagrantVbguest::Installers::Base`, optional) : Reference to a (custom) installer class
-* `installer_arguments` (Array, default: `[]`) : List of additional arguments to pass to the installer. eg: `%w{--nox11 --force}` would execute `VBoxLinuxAdditions.run install --nox11 --force`
+* `installer_arguments` (Array, default: `['--nox11']`) : List of additional arguments to pass to the installer. eg: `%w{--nox11 --force}` would execute `VBoxLinuxAdditions.run install --nox11 --force`
 
 #### Global Configuration
 
@@ -264,6 +266,7 @@ end
 ## Known Issues
 
 * The installer script, which mounts and runs the GuestAdditions Installer Binary, works on Linux only. Most likely it will run on most Unix-like platforms.
-* The installer script requires a directory `/mnt` on the guest system
-* On multi vm boxes, the iso file will be downloaded for each vm
+* The installer script requires a writeable upload directory on the guest system. This defaults to `/tmp` but can be overwritten with the `iso_upload_path` option.
+* The installer script requires a valid mount point on the guest system. This defaults to `/mnt` but can be overwritten with the `iso_mount_point` option.
+* On multi vm boxes, the iso file will be downloaded for each vm.
 * The plugin installation on Windows host systems may not work as expected (using `vagrant gem install vagrant-vbguest`). Try `C:\vagrant\vagrant\embedded\bin\gem.bat install vagrant-vbguest` instead. (See [issue #19](https://github.com/dotless-de/vagrant-vbguest/issues/19#issuecomment-7040304))
