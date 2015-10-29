@@ -1,4 +1,4 @@
-## 0.11.0 (unreleased)
+## 0.11.0 (2015-10-29)
 
   - Add installer for opensuse. Thanks @darnells for [GH-163]
   - Add installer for fedora. Thanks @jamesgecko and @PatrickCoffey for [GH-158]
