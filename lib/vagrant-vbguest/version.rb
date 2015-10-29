@@ -1,3 +1,3 @@
 module VagrantVbguest
-  VERSION = "0.11.0.beta0"
+  VERSION = "0.11.0"
 end
