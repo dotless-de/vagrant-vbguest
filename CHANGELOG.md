@@ -2,6 +2,7 @@
 
   - Add installer for opensuse. Thanks @darnells for [GH-163]
   - Add installer for fedora. Thanks @jamesgecko and @PatrickCoffey for [GH-158]
+  - Add installer for oracle. Thanks @TobyHFerguson for [GH-145]
   - Add redhat installer support for centos7. Thanks @roidelapluie for [GH-162]
   - Add debian installer support for debian8. Thanks @ubermuda for [GH-171]
   - Add ISO autodetection on Archlinux hosts. [GH-135]
