@@ -42,8 +42,10 @@ Vagrant::Config.run do |config|
   # we will try to autodetect this path. 
   # However, if we cannot or you have a special one you may pass it like:
   # config.vbguest.iso_path = "#{ENV['HOME']}/Downloads/VBoxGuestAdditions.iso"
-  # or
+  # or an URL:
   # config.vbguest.iso_path = "http://company.server/VirtualBox/%{version}/VBoxGuestAdditions.iso"
+  # or relative to the Vagrantfile:
+  # config.vbguest.iso_path = File.expand_path("../relative/path/to/VBoxGuestAdditions.iso", __FILE__)
   
   # set auto_update to false, if you do NOT want to check the correct 
   # additions version when booting this machine
@@ -58,6 +60,7 @@ end
 
 * `iso_path` : The full path or URL to the VBoxGuestAdditions.iso file. <br/>
 The `iso_path` may contain the optional placeholder `%{version}` replaced with detected VirtualBox version (e.g. `4.1.8`).
+Relative paths are tricky, try to use an absolute path where possible. If not, the path is relative to the current working directory, that is where the `vagrant` command is issued. You can make sure to always be relative to the `Vagrantfile` with a little bit of ruby: `File.expand_path("../relative/path/to/VBoxGuestAdditions.iso", __FILE__)`
 The default URI for the actual iso download is: `http://download.virtualbox.org/virtualbox/%{version}/VBoxGuestAdditions_%{version}.iso`<br/>
 vbguest will try to autodetect the best option for your system. WTF? see below.
 * `iso_upload_path` (String, default: `/tmp`): A writeable directory where to put the VBoxGuestAdditions.iso file on the guest system.
