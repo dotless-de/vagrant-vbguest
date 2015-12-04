@@ -24,7 +24,7 @@ module VagrantVbguest
 
     protected
       def install_dependencies_cmd
-        "apt-get install -y #{dependencies}"
+        "apt-get install -y --force-yes #{dependencies}"
       end
 
       def dependencies
