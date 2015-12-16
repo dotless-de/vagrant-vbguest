@@ -15,7 +15,7 @@ module VagrantVbguest
       protected
 
       def install_dependencies_cmd
-        "`which dnf || which yum` install -y #{dependencies}"
+        "`bash -c 'type -p dnf || type -p yum'` install -y #{dependencies}"
       end
 
       def dependencies
