@@ -21,6 +21,8 @@ class NextIP
       config.vm.hostname = name
       config.vm.network :private_network, ip: ip_addr.to_s
 
+      config.vm.synced_folder ".", "/vagrant", type: :virtualbox
+
       config.vm.provider "virtualbox" do |vb, override|
         # Display the VirtualBox GUI when booting the machine
         vb.gui = false
