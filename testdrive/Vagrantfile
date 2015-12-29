@@ -60,6 +60,7 @@ Vagrant.configure("2") do |config|
   next_ip.box config, "fedora22", "Fedora-Cloud-Base-Virtualbox-22" do |cfg|
     cfg.vm.box_url = "https://download.fedoraproject.org/pub/fedora/linux/releases/22/Cloud/x86_64/Images/Fedora-Cloud-Base-Vagrant-22-20150521.x86_64.vagrant-virtualbox.box"
   end
+  next_ip.box config, "redhat65", "anandbitra/redhat-6.5"
 
   config.vm.provider "virtualbox" do |v|
     # v.gui = true
