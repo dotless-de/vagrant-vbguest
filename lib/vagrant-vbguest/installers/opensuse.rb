@@ -19,11 +19,11 @@ module VagrantVbguest
       end
 
       def install_dependencies_cmd
-        "zypper --non-interactive install #{dependencies}"
+        "zypper --non-interactive install -t pattern #{dependencies}"
       end
 
       def dependencies
-        packages = ['kernel-devel', 'gcc', 'make', 'tar']
+        packages = ['devel_C_C++', 'devel_basis', 'devel_kernel']
         packages.join ' '
       end
     end
