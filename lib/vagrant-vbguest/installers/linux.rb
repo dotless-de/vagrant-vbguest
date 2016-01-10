@@ -122,7 +122,7 @@ module VagrantVbguest
       def systemd_tool
         result = nil
         communicate.sudo('(which chkconfg || which service) 2>/dev/null', {:error_check => false}) do |type, data|
-          path = data.to_s
+          path = data.to_s.strip
           case path
           when /\bservice\b/
             result = { path: path, up: "start" }
