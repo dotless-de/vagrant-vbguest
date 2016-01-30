@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+
+group :development do
+  gem "vagrant", git: "https://github.com/mitchellh/vagrant.git"
+end
+
+group :plugins do
+  # gem "vagrant-vbguest", git: "https://github.com/dotless-de/vagrant-vbguest.git"
+  gem "vagrant-vbguest", path: "../.."
+  gem "vagrant-vbguest-unikorn", path: "."
+end

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+TESTDRIVE=${VAGRANT_DEV:-$(dirname "$(cd "$(dirname "$0")" && pwd)")}
+
+VAGRANT_DEFAULT_PROVIDER=virtualbox \
+VAGRANT_HOME=${TESTDRIVE}/.vagrant.d \
+bundle exec vagrant $@
