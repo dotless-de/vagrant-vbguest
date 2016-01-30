@@ -4,8 +4,8 @@
 require 'ipaddr'
 
 class NextIP
-  def initialize(start_ip)
-    @ip_addr = IPAddr.new start_ip
+  def initialize(addr)
+    @ip_addr = IPAddr.new(addr).succ
   end
 
   def get
@@ -48,7 +48,7 @@ class NextIP
 end
 
 Vagrant.configure("2") do |config|
-  next_ip = NextIP.new("44.44.0.10/24")
+  next_ip = NextIP.new("44.44.0.0/24")
 
   next_ip.box config, "debian8", "oar-team/debian8"
   next_ip.box config, "opensuse13", "bento/opensuse-13.2"
