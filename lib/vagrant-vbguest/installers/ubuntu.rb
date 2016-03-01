@@ -22,6 +22,8 @@ module VagrantVbguest
 
       def remove_packaged_additions(opts=nil, &block)
         options = (opts || {}).merge(:error_check => false)
+        command = "apt-get update"
+        communicate.sudo(command, options, &block)
         command = "apt-get -y -q purge virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11"
         communicate.sudo(command, options, &block)
       end
