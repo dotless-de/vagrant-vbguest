@@ -104,9 +104,8 @@ module VagrantVbguest
       # @yieldparam [String] data Data for the given output.
       def start(opts=nil, &block)
         opts = {:error_check => false}.merge(opts || {})
-        systemd = systemd_tool
-        if systemd
-          communicate.sudo("#{systemd[:path]} vboxadd #{systemd[:up]}", opts, &block)
+        if systemd_tool
+          communicate.sudo("#{systemd_tool[:path]} vboxadd #{systemd_tool[:up]}", opts, &block)
         else
           communicate.sudo("#{vboxadd_tool} start", opts, &block)
         end
@@ -120,17 +119,25 @@ module VagrantVbguest
       #                    command string for starting.
       #                    +nil* if neither was found.
       def systemd_tool
+        return nil if @systemd_tool == false
+
         result = nil
         communicate.sudo('(which chkconfg || which service) 2>/dev/null', {:error_check => false}) do |type, data|
           path = data.to_s.strip
           case path
           when /\bservice\b/
-            result = { path: path, up: "start" }
-          when /\chkconfg\b/
-            result = { path: path, up: "on" }
+            result = { path: path, up: "start", down: "stop" }
+          when /\bchkconfg\b/
+            result = { path: path, up: "on", down: "off" }
           end
         end
-        result
+
+        if result.nil?
+          @systemd_tool = false
+          nil
+        else
+          @systemd_tool = result
+        end
       end
 
       # Checks for the correct location of the 'vboxadd' tool.
