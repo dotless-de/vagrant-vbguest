@@ -28,11 +28,15 @@ module VagrantVbguest
       end
 
       def dependencies
-        packages = ['linux-headers-`uname -r`']
+        packages = [headers_package_name_prefix + '`uname -r`']
         # some Debian system (lenny) dont come with a dkms packe so we neet to skip that.
         # apt-cache search will exit with 0 even if nothing was found, so we need to grep.
         packages << 'dkms' if communicate.test('apt-cache search --names-only \'^dkms$\' | grep dkms')
         packages.join ' '
+      end
+
+      def headers_package_name_prefix
+        'linux-headers-'
       end
     end
   end
