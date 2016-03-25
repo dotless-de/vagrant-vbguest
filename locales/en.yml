@@ -60,4 +60,7 @@ en:
       started: "Downloading VirtualBox Guest Additions ISO from %{source}"
       with: "Downloading VirtualBox Guest Additions ISO with %{class}..."
       cleaning: "Cleaning up downloaded VirtualBox Guest Additions ISO..."
+      cleaning_failed: |-
+        FAILED: %{message}
+        You might want to delete this file mauanlly: %{destination}
       unknown_type: "Unknown or unsupported URI type given for VirtualBox Guest Additions ISO download."

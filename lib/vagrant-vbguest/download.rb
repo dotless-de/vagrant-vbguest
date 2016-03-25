@@ -20,7 +20,13 @@ module VagrantVbguest
     def cleanup
       if destination && File.exist?(destination)
         @ui.info I18n.t("vagrant_vbguest.download.cleaning")
-        File.unlink(destination)
+        # Unlinking the downloaded file might crash on Windows
+        # see: https://github.com/dotless-de/vagrant-vbguest/issues/189
+        begin
+          File.unlink(destination)
+        rescue Error => e
+          @ui.warn I18n.t("vagrant_vbguest.download.cleaning_failed", message: e.message, destination: destination)
+        end
       end
     end
   end
