@@ -149,7 +149,6 @@ module VagrantVbguest
           "/lib/VBoxGuestAdditions/vboxadd",
           "/etc/init.d/vboxadd",
         ]
-        bin_path = ""
         cmd = <<-SHELL
         for c in #{candidates.join(" ")}; do
           if test -x "$c"; then
