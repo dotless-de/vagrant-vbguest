@@ -87,7 +87,7 @@ module VagrantVbguest
         # Makes an educated guess where the GuestAdditions iso file
         # on windows systems
         def windows_path
-          if (p = ENV["VBOX_INSTALL_PATH"]) && !p.empty?
+          if (p = ENV["VBOX_INSTALL_PATH"] || ENV["VBOX_MSI_INSTALL_PATH"]) && !p.empty?
             File.join(p, "VBoxGuestAdditions.iso")
           elsif (p = ENV["PROGRAM_FILES"] || ENV["ProgramW6432"] || ENV["PROGRAMFILES"]) && !p.empty?
             File.join(p, "/Oracle/VirtualBox/VBoxGuestAdditions.iso")
