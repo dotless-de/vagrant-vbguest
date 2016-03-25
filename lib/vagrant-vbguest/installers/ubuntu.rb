@@ -9,7 +9,12 @@ module VagrantVbguest
       def install(opts=nil, &block)
         if packaged_additions?
           unload_packaged_additions(opts, &block)
-          remove_packaged_additions(opts, &block)
+          begin
+            remove_packaged_additions(opts, &block)
+          rescue
+            communicate.sudo('apt-get update', opts, &block)
+            remove_packaged_additions(opts, &block)
+          end
         end
         super
       end
@@ -28,7 +33,7 @@ module VagrantVbguest
 
       def unload_packaged_additions(opts=nil, &block)
         commands = [
-          "service virtualbox-guest-utils stop",
+          "#{systemd_tool[:path]} virtualbox-guest-utils #{systemd_tool[:down]}"
           "umount -a -t vboxsf",
           "rmmod vboxsf",
           "rmmod vboxguest"
