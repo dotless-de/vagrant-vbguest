@@ -33,7 +33,7 @@ module VagrantVbguest
 
       def unload_packaged_additions(opts=nil, &block)
         commands = [
-          "#{systemd_tool[:path]} virtualbox-guest-utils #{systemd_tool[:down]}"
+          "#{systemd_tool[:path]} virtualbox-guest-utils #{systemd_tool[:down]}",
           "umount -a -t vboxsf",
           "rmmod vboxsf",
           "rmmod vboxguest"
