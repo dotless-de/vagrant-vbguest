@@ -23,8 +23,13 @@ module VagrantVbguest
         # Unlinking the downloaded file might crash on Windows
         # see: https://github.com/dotless-de/vagrant-vbguest/issues/189
         begin
+          # Even if delete failed on Windows, we still can clean this file to save disk space
+          File.open(destination,'wb') do |f|
+            f.write('')
+            f.close()
+          end
           File.unlink(destination)
-        rescue Error => e
+        rescue Errno::EACCES => e
           @ui.warn I18n.t("vagrant_vbguest.download.cleaning_failed", message: e.message, destination: destination)
         end
       end
