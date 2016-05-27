@@ -82,9 +82,12 @@ module VagrantVbguest
         driver_version = super.to_s[/^(\d+\.\d+.\d+)/, 1]
 
         communicate.sudo('VBoxService --version', :error_check => false) do |type, data|
-          if (v = data.to_s[/^(\d+\.\d+.\d+)/, 1]) && driver_version != v
-            @env.ui.warn(I18n.t("vagrant_vbguest.guest_version_reports_differ", :driver => driver_version, :service => v))
-            @guest_version = v
+          service_version = data.to_s[/^(\d+\.\d+.\d+)/, 1]
+          if service_version 
+            if driver_version != service_version
+              @env.ui.warn(I18n.t("vagrant_vbguest.guest_version_reports_differ", :driver => driver_version, :service => service_version))
+            end
+            @guest_version = service_version
           end
         end
         @guest_version
