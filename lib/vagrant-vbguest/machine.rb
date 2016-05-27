@@ -77,6 +77,7 @@ module VagrantVbguest
 
     def info
       {
+        :vm_name => vm.name,
         :host_version => installer.host_version,
         :guest_version => installer.guest_version
       }
