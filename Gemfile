@@ -10,3 +10,5 @@ end
 group :plugins do
   gem "vagrant-vbguest", path: "."
 end
+
+gem "rake", "~> 10.0"

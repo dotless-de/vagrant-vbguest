@@ -15,12 +15,10 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
 
   s.add_dependency "micromachine", "~> 2.0.0"
-  s.add_development_dependency "bundler", ">= 1.2.0"
 
   # those should be satisfied by vagrant
   s.add_dependency "i18n"
   s.add_dependency "log4r"
-  s.add_development_dependency "rake"
 
   s.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features|testdrive)/}) }
   s.bindir        = "exe"
