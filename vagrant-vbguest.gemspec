@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 
-  s.add_dependency "micromachine", "~> 1.1.0"
+  s.add_dependency "micromachine", "~> 2.0.0"
   s.add_development_dependency "bundler", ">= 1.2.0"
 
   # those should be satisfied by vagrant
