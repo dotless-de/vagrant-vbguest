@@ -1,4 +1,4 @@
-## 0.12.0 (unreleased)
+## 0.12.0 (2016-06-16)
 
 - Fix version comparison when version is reported with revision. Thanks @apeabody for [GH-179], [GH-201]
 - Fix package manager detection on Fedora. Thanks @robnagler for [GH-185]
