@@ -1,3 +1,21 @@
+## 0.12.0 (unreleased)
+
+- Fix version comparison when version is reported with revision. Thanks @apeabody for [GH-179], [GH-201]
+- Fix package manager detection on Fedora. Thanks @robnagler for [GH-185]
+- Fix missing `binutils` dependency for RedHat. Thanks @andy-maier for [GH-188]
+- Fix detecting of `chkconfg` or `service` command. Thanks @jherre for [GH-191]
+- Fix cleaning up temp files on Windows. Thanks @JexCheng for [GH-212]
+- Fix ubuntu removing packaged_additions for old installations. [GH-199] Also thanks @thpang67 for [GH-208]
+- Fix driver and service version comparison. Big thanks to @NeMO84 for [GH-213] and [GH-214]
+- Improve installing dependencies on openSUSE. Thanks @vpereira for [GH-190]
+- Improve detection of the VBoxGuestAdditions.iso file. Thanks @Raskil for [GH-206]
+- Add the vm name to log outputs. Thanks @Tomohiro for [GH-210]
+
+
+For those who want to create their own (or overwrite existing) installers, this sample for a vbguest driver plugin might help you to get started: https://github.com/dotless-de/vagrant-vbguest/tree/master/testdrive/vagrant-vbguest-unikorn
+
+For a full diff see: https://github.com/dotless-de/vagrant-vbguest/compare/v0.11.0...v0.12.0
+
 ## 0.11.0 (2015-10-29)
 
   - Add installer for opensuse. Thanks @darnells for [GH-163]
