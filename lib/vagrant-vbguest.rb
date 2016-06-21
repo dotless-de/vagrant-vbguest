@@ -25,6 +25,7 @@ require 'vagrant-vbguest/installers/redhat'
 require 'vagrant-vbguest/installers/oracle'
 require 'vagrant-vbguest/installers/fedora'
 require 'vagrant-vbguest/installers/opensuse'
+require 'vagrant-vbguest/installers/suse'
 
 require 'vagrant-vbguest/middleware'
 
