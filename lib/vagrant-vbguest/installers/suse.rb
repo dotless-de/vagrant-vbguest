@@ -10,7 +10,7 @@ module VagrantVbguest
 
       # Install missing deps and yield up to regular linux installation
       def install(opts=nil, &block)
-        case sles_version
+        case self.sles_version(@vm)
         when 10..11.4
               communicate.sudo(install_dependencies_cmd(pre_12=true), opts, &block)
         when 12.0..13.0
@@ -21,7 +21,7 @@ module VagrantVbguest
 
     protected
       def self.sles?(vm)
-        communicate_to(vm).test "grep -q ID\"sles\" /etc/os-release"
+        communicate_to(vm).test "grep -q ID=\"sles\" /etc/os-release"
       end
 
       def self.sles_version(vm)
