@@ -45,9 +45,9 @@ module VagrantVbguest
       guest_additions_state.trigger :start
     end
 
-    def installation_ran?; guest_additions_state == :installed end
-    def started?; guest_additions_state == :started end
-    def rebuilt?; guest_additions_state == :rebuilt end
+    def installation_ran?; guest_additions_state.state == :installed end
+    def started?; guest_additions_state.state == :started end
+    def rebuilt?; guest_additions_state.state == :rebuilt end
 
     def reboot;  box_state.trigger :reboot end
     def reboot?; box_state.state == :rebooted end
