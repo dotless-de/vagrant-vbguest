@@ -12,8 +12,8 @@ module VagrantVbguest
       # @see {Vagrant::Guest::Linux#distro_dispatch}
       # @return [Symbol] One of `:debian`, `:ubuntu`, `:gentoo`, `:fedora`, `:redhat`, `:suse`, `:arch`
       def self.distro(vm)
-        @@ditro ||= {}
-        @@ditro[ vm_id(vm) ] ||= distro_name vm
+        @@distro ||= {}
+        @@distro[ vm_id(vm) ] ||= distro_name vm
       end
 
       # Matches if the operating system name prints "Linux"

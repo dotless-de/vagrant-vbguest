@@ -6,9 +6,9 @@ module VagrantVbguest
         /\Adebian\d*\Z/ =~ self.distro(vm)
       end
 
-      # installes the correct linux-headers package
-      # installes `dkms` package for dynamic kernel module loading
-      # @param opts [Hash] Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
+      # installs the correct linux-headers package
+      # installs `dkms` package for dynamic kernel module loading
+      # @param opts [Hash] Optional options Hash which might get passed to {Vagrant::Communication::SSH#execute} and friends
       # @yield [type, data] Takes a Block like {Vagrant::Communication::Base#execute} for realtime output of the command being executed
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
@@ -29,7 +29,7 @@ module VagrantVbguest
 
       def dependencies
         packages = ['linux-headers-`uname -r`']
-        # some Debian system (lenny) dont come with a dkms packe so we neet to skip that.
+        # some Debian system (lenny) don't come with a dkms package so we need to skip that.
         # apt-cache search will exit with 0 even if nothing was found, so we need to grep.
         packages << 'dkms' if communicate.test('apt-cache search --names-only \'^dkms$\' | grep dkms')
         packages.join ' '
