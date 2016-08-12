@@ -27,6 +27,29 @@ module VagrantVbguest
         communicate_to(vm).test("uname | grep 'Linux'")
       end
 
+      # Reads the `/etc/os-release` for the given `Vagrant::VM` if present, and
+      # returns it's config as a parsed Hash. The result is cached on a per-vm basis.
+      #
+      # @return [Hash|nil] The os-release configuration as Hash, or `nil if file is not present or not parsable.
+      def self.os_release(vm)
+        @@os_release_info ||= {}
+        if !@@os_release_info.has_key?(vm_id(vm)) && communicate_to(vm).test("test -f /etc/os-release")
+          osr_raw = communicate_to(vm).download("/etc/os-release")
+          osr_parsed = begin
+            VagrantVbguest::Helpers::OsRelease::Parser.(osr_raw)
+          rescue VagrantVbguest::Helpers::OsRelease::FormatError => e
+            vm.env.ui.warn(e.message)
+            nil
+          end
+          @@os_release_info[vm_id(vm)] = osr_parsed
+        end
+        @@os_release_info[vm_id(vm)]
+      end
+
+      def os_release
+        self.class.os_release(vm)
+      end
+
       # The temporary path where to upload the iso file to.
       # Configurable via `config.vbguest.iso_upload_path`.
       # Defaults the temp path to `/tmp/VBoxGuestAdditions.iso" for
@@ -37,7 +60,7 @@ module VagrantVbguest
 
       # Mount point for the iso file.
       # Configurable via `config.vbguest.iso_mount_point`.
-      #Ddefaults to "/mnt" for all Linux based systems.
+      # defaults to "/mnt" for all Linux based systems.
       def mount_point
         options[:iso_mount_point] || '/mnt'
       end
@@ -83,7 +106,7 @@ module VagrantVbguest
 
         communicate.sudo('VBoxService --version', :error_check => false) do |type, data|
           service_version = data.to_s[/^(\d+\.\d+.\d+)/, 1]
-          if service_version 
+          if service_version
             if driver_version != service_version
               @env.ui.warn(I18n.t("vagrant_vbguest.guest_version_reports_differ", :driver => driver_version, :service => service_version))
             end

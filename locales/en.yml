@@ -56,6 +56,10 @@ en:
         do_not_inherit_match_method: |-
           Installer classes must provide their own `match?` method.
 
+      os_release_parse_error: |-
+        Error while parsing the /etc/os-release file:
+        %{message}
+
     download:
       started: "Downloading VirtualBox Guest Additions ISO from %{source}"
       with: "Downloading VirtualBox Guest Additions ISO with %{class}..."
