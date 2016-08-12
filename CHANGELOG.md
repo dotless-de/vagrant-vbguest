@@ -1,3 +1,10 @@
+## 0.13.0 (2016-08-12)
+
+- Fix a bug introduced by upgrading "micormachine". Thanks @omenlabs for [GH-225]
+- Fix a typo in a local variable. Thanks @vdloo for [GH-227]
+- Add a Arch Linux specific installer. Thanks @vdloo, also for fixing some typos in [GH-229]
+- Add a SUSE Linux Enterprise Server (sles) specific installer to address [GH-219] and [GH-216]. Thanks @vpereira, @glookie1 for the hard digging. Thanks @vpereira for [GH-219]. Thanks @bkeepers for the dontenv project, from which I stole it's parser.
+
 ## 0.12.0 (2016-06-16)
 
 - Fix version comparison when version is reported with revision. Thanks @apeabody for [GH-179], [GH-201]
