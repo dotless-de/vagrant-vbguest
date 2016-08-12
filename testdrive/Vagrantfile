@@ -54,6 +54,9 @@ Vagrant.configure("2") do |config|
   next_ip.box config, "opensuse13", "bento/opensuse-13.2"
   next_ip.box config, "suse12", "elastic/sles-12-x86_64"
   next_ip.box config, "ubuntu1404", "ubuntu/trusty64"
+  next_ip.box config, "centos65", "box-cutter/centos65" do |cfg|
+    cfg.vm.box_version = "2.0.10"
+  end
   next_ip.box config, "centos7", "centos/7"
   next_ip.box config, "oracle65", "tobyhferguson_oracle-65-x64" do |cfg|
     cfg.vm.box_url = "http://tobyhferguson.org/boxes/oracle-6-5-x64-virtualbox.box"

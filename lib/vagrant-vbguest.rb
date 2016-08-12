@@ -21,14 +21,16 @@ require 'vagrant-vbguest/hosts/virtualbox'
 require 'vagrant-vbguest/installer'
 require 'vagrant-vbguest/installers/base'
 require 'vagrant-vbguest/installers/linux'
+
+require 'vagrant-vbguest/installers/archlinux'
 require 'vagrant-vbguest/installers/debian'
 require 'vagrant-vbguest/installers/ubuntu'
 require 'vagrant-vbguest/installers/redhat'
 require 'vagrant-vbguest/installers/oracle'
+require 'vagrant-vbguest/installers/centos'
 require 'vagrant-vbguest/installers/fedora'
 require 'vagrant-vbguest/installers/opensuse'
 require 'vagrant-vbguest/installers/suse'
-require 'vagrant-vbguest/installers/archlinux'
 
 require 'vagrant-vbguest/middleware'
 
