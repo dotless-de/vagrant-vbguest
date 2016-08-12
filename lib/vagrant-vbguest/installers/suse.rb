@@ -10,41 +10,33 @@ module VagrantVbguest
 
       # Install missing deps and yield up to regular linux installation
       def install(opts=nil, &block)
-        case self.sles_version(@vm)
-        when 10..11.4
-              communicate.sudo(install_dependencies_cmd(pre_12=true), opts, &block)
-        when 12.0..13.0
-              communicate.sudo(install_dependencies_cmd, opts, &block)
-        end
+        communicate.sudo(install_dependencies_cmd, opts, &block)
         super
       end
 
     protected
       def self.sles?(vm)
-        communicate_to(vm).test "grep -q ID=\"sles\" /etc/os-release"
-      end
-
-      def self.sles_version(vm)
-        communicate_to(vm).sudo("cat /etc/os-release | grep VERSION_ID | cut -f2 -d'='", :error_check => false) do |t,d|
-          return d.to_f
-        end
+        osr = self.os_release(vm)
+        osr && osr["ID"] == "sles"
       end
 
       def self.has_zypper?(vm)
         communicate_to(vm).test "which zypper"
       end
 
-      def install_dependencies_cmd(pre_12=false)
-        "zypper --non-interactive install #{dependencies(pre_12)}"
+      def install_dependencies_cmd
+        "zypper --non-interactive install #{dependencies}"
       end
 
 
-      def dependencies(pre_12=false)
-        packages = if pre_12
-          ['kernel-default-devel', 'gcc', 'make', 'tar']
-        else
-          ['kernel-devel', 'gcc', 'make', 'tar']
-        end
+      def dependencies
+        packages = case os_release["VERSION_ID"].to_f
+                   when 10..11.4
+                     ['kernel-default-devel', 'gcc', 'make', 'tar']
+                   when 12.0..13.0
+                     ['kernel-devel', 'gcc', 'make', 'tar']
+                   end
+
         packages.join ' '
       end
     end
