@@ -11,6 +11,8 @@ I18n.reload!
 require "vagrant-vbguest/errors"
 require 'vagrant-vbguest/vagrant_compat'
 
+require 'vagrant-vbguest/helpers'
+
 require 'vagrant-vbguest/machine'
 
 require 'vagrant-vbguest/hosts/base'
