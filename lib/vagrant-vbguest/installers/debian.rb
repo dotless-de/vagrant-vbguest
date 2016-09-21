@@ -13,12 +13,8 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def install(opts=nil, &block)
-        begin
-          communicate.sudo(install_dependencies_cmd, opts, &block)
-        rescue
-          communicate.sudo('apt-get update', opts, &block)
-          communicate.sudo(install_dependencies_cmd, opts, &block)
-        end
+        communicate.sudo('apt-get update', opts, &block)
+        communicate.sudo(install_dependencies_cmd, opts, &block)
         super
       end
 
