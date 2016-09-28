@@ -207,7 +207,7 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def execute_installer(opts=nil, &block)
-        yield_installation_waring(installer)
+        yield_installation_warning(installer)
         opts = {:error_check => false}.merge(opts || {})
         exit_status = communicate.sudo("#{installer} #{installer_arguments}", opts, &block)
         yield_installation_error_warning(installer) unless exit_status == 0
