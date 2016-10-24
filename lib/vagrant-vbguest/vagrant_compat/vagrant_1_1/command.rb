@@ -7,6 +7,11 @@ module VagrantVbguest
     include CommandCommons
     include VagrantPlugins::CommandUp::StartMixins
 
+    # Show description when `vagrant list-commands` is triggered
+    def self.synopsis
+      "plugin: vagrant-vbguest: install VirtualBox Guest Additions to the machine"
+    end 
+
     def check_runable_on(vm)
       raise Vagrant::Errors::VMNotCreatedError if vm.state.id == :not_created
       raise Vagrant::Errors::VMInaccessible if vm.state.id == :inaccessible
