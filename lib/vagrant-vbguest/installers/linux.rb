@@ -77,6 +77,7 @@ module VagrantVbguest
         upload(iso_file)
         mount_iso(opts, &block)
         execute_installer(opts, &block)
+        start(opts, &block)
         unmount_iso(opts, &block) unless options[:no_cleanup]
       end
 
@@ -121,7 +122,7 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def rebuild(opts=nil, &block)
-        communicate.sudo("#{vboxadd_tool} setup", opts, &block)
+        communicate.sudo("#{vboxadd_tool('vboxadd')} setup", opts, &block)
       end
 
       # @param opts [Hash] Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
@@ -133,7 +134,15 @@ module VagrantVbguest
         if systemd_tool
           communicate.sudo("#{systemd_tool[:path]} vboxadd #{systemd_tool[:up]}", opts, &block)
         else
-          communicate.sudo("#{vboxadd_tool} start", opts, &block)
+          communicate.sudo("#{vboxadd_tool('vboxadd')} start", opts, &block)
+        end
+
+        if Gem::Version.new("#{guest_version}") >= Gem::Version.new('5.1')
+          if systemd_tool
+            communicate.sudo("#{systemd_tool[:path]} vboxadd-service #{systemd_tool[:up]}", opts, &block)
+          else
+            communicate.sudo("#{vboxadd_tool('vboxadd-service')} start", opts, &block)
+          end
         end
       end
 
@@ -166,21 +175,21 @@ module VagrantVbguest
         end
       end
 
-      # Checks for the correct location of the 'vboxadd' tool.
+      # Checks for the correct location of the tool provided.
       # It checks for a given list of possible locations. This list got
       # extracted from the 'VBoxLinuxAdditions.run' script.
       #
-      # @return [String|nil] Absolute path to the +vboxadd+ tool,
+      # @return [String|nil] Absolute path to the tool,
       #                      or +nil+ if none found.
-      def vboxadd_tool
+      def find_tool(tool)
         candidates = [
-          "/usr/lib/i386-linux-gnu/VBoxGuestAdditions/vboxadd",
-          "/usr/lib/x86_64-linux-gnu/VBoxGuestAdditions/vboxadd",
-          "/usr/lib64/VBoxGuestAdditions/vboxadd",
-          "/usr/lib/VBoxGuestAdditions/vboxadd",
-          "/lib64/VBoxGuestAdditions/vboxadd",
-          "/lib/VBoxGuestAdditions/vboxadd",
-          "/etc/init.d/vboxadd",
+          "/usr/lib/i386-linux-gnu/VBoxGuestAdditions/#{tool}",
+          "/usr/lib/x86_64-linux-gnu/VBoxGuestAdditions/#{tool}",
+          "/usr/lib64/VBoxGuestAdditions/#{tool}",
+          "/usr/lib/VBoxGuestAdditions/#{tool}",
+          "/lib64/VBoxGuestAdditions/#{tool}",
+          "/lib/VBoxGuestAdditions/#{tool}",
+          "/etc/init.d/#{tool}",
         ]
         cmd = <<-SHELL
         for c in #{candidates.join(" ")}; do
