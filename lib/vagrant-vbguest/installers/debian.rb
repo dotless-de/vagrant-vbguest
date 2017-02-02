@@ -28,7 +28,12 @@ module VagrantVbguest
       end
 
       def dependencies
-        packages = ['linux-headers-`uname -r`']
+        # In case of PVE kernel, kernel modules and headers prefix is pve and not linux, so we need to check that.
+        if communicate.test('uname -r | grep pve')
+          packages = ['pve-headers-`uname -r`']
+        else
+          packages = ['linux-headers-`uname -r`']
+        end
         # some Debian system (lenny) don't come with a dkms package so we need to skip that.
         # apt-cache search will exit with 0 even if nothing was found, so we need to grep.
         packages << 'dkms' if communicate.test('apt-cache search --names-only \'^dkms$\' | grep dkms')
