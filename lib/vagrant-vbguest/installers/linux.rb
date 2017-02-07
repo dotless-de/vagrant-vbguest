@@ -122,7 +122,7 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def rebuild(opts=nil, &block)
-        communicate.sudo("#{vboxadd_tool('vboxadd')} setup", opts, &block)
+        communicate.sudo("#{find_tool('vboxadd')} setup", opts, &block)
       end
 
       # @param opts [Hash] Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
@@ -134,14 +134,14 @@ module VagrantVbguest
         if systemd_tool
           communicate.sudo("#{systemd_tool[:path]} vboxadd #{systemd_tool[:up]}", opts, &block)
         else
-          communicate.sudo("#{vboxadd_tool('vboxadd')} start", opts, &block)
+          communicate.sudo("#{find_tool('vboxadd')} start", opts, &block)
         end
 
         if Gem::Version.new("#{guest_version}") >= Gem::Version.new('5.1')
           if systemd_tool
             communicate.sudo("#{systemd_tool[:path]} vboxadd-service #{systemd_tool[:up]}", opts, &block)
           else
-            communicate.sudo("#{vboxadd_tool('vboxadd-service')} start", opts, &block)
+            communicate.sudo("#{find_tool('vboxadd-service')} start", opts, &block)
           end
         end
       end
