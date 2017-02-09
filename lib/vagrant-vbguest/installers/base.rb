@@ -143,7 +143,7 @@ module VagrantVbguest
       # Helper to yield a warning message to the user, that the installation
       # will start _now_.
       # The message includes the host and installer version strings.
-      def yield_installation_waring(path_to_installer)
+      def yield_installation_warning(path_to_installer)
         @env.ui.warn I18n.t("vagrant_vbguest.installing#{@options[:force] ? '_forced' : ''}",
           :guest_version     => (guest_version || I18n.t("vagrant_vbguest.unknown")),
           :installer_version => installer_version(path_to_installer) || I18n.t("vagrant_vbguest.unknown"))
@@ -168,6 +168,8 @@ module VagrantVbguest
         @env.ui.warn I18n.t("vagrant_vbguest.install_error",
           :installer_version => installer_version(path_to_installer) || I18n.t("vagrant_vbguest.unknown"))
       end
+      # alias to old method name (containing a typo) for backwards compatibility
+      alias_method :yield_installation_waring, :yield_installation_error_warning
 
       def iso_file
         @host.additions_file
