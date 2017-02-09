@@ -168,6 +168,8 @@ module VagrantVbguest
         @env.ui.warn I18n.t("vagrant_vbguest.install_error",
           :installer_version => installer_version(path_to_installer) || I18n.t("vagrant_vbguest.unknown"))
       end
+      # alias to old method name (containing a typo) for backwards compatibility
+      alias_method :yield_installation_waring, :yield_installation_error_warning
 
       def iso_file
         @host.additions_file
