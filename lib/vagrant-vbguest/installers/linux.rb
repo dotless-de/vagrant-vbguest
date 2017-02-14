@@ -4,18 +4,6 @@ module VagrantVbguest
     # unknown Linux based systems.
     class Linux < Base
 
-      # A helper method to cache the result of {Vagrant::Guest::Base#distro_dispatch}
-      # which speeds up Installer detection runs a lot,
-      # when having lots of Linux based Installer classes
-      # to check.
-      #
-      # @see {Vagrant::Guest::Linux#distro_dispatch}
-      # @return [Symbol] One of `:debian`, `:ubuntu`, `:gentoo`, `:fedora`, `:redhat`, `:suse`, `:arch`
-      def self.distro(vm)
-        @@distro ||= {}
-        @@distro[ vm_id(vm) ] ||= distro_name vm
-      end
-
       # Matches if the operating system name prints "Linux"
       # Raises an Error if this class is beeing subclassed but
       # this method was not overridden. This is considered an
