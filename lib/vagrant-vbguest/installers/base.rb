@@ -10,6 +10,18 @@ module VagrantVbguest
     class Base
       include VagrantVbguest::Helpers::VmCompatible
 
+      # A helper method to cache the result of {Vagrant::Guest::Base#distro_dispatch}
+      # which speeds up Installer detection runs a lot,
+      # when having lots of Linux based Installer classes
+      # to check.
+      #
+      # @see {Vagrant::Guest::Linux#distro_dispatch}
+      # @return [Symbol] One of `:debian`, `:ubuntu`, `:gentoo`, `:fedora`, `:redhat`, `:suse`, `:arch`, `:windows`
+      def self.distro(vm)
+        @@ditro ||= {}
+        @@ditro[ vm_id(vm) ] ||= distro_name vm
+      end
+
       # Tests whether this installer class is applicable to the
       # current environment. Usually, testing for a specific OS.
       # Subclasses must override this method and return `true` if
