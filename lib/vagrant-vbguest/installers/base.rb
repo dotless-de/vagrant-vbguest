@@ -25,6 +25,18 @@ module VagrantVbguest
         false
       end
 
+      # A helper method to cache the result of {Vagrant::Guest::Base#distro_dispatch}
+      # which speeds up Installer detection runs a lot,
+      # when having lots of Linux based Installer classes
+      # to check.
+      #
+      # @see {Vagrant::Guest::Linux#distro_dispatch}
+      # @return [Symbol] One of `:debian`, `:ubuntu`, `:gentoo`, `:fedora`, `:redhat`, `:suse`, `:arch`, `:windows`
+      def self.distro(vm)
+        @@distro ||= {}
+        @@distro[ vm_id(vm) ] ||= distro_name vm
+      end
+
       attr_reader :env, :vm, :options, :host
 
       def initialize(vm, options=nil)
