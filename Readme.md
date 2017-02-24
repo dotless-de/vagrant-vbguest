@@ -270,6 +270,12 @@ end
 ```
 
 
+### Extending vbguest (aka Very Advanced Usage)
+
+If you find yourself copying the same installer in each of your vagrant project, it might be a good idea to make it a plugin itself. Like vagrant-vbguest itself, installers can be [distributed as ruby gems](http://guides.rubygems.org/publishing/)
+
+This poroject contains a [sample installer gem](https://github.com/dotless-de/vagrant-vbguest/tree/master/testdrive/vagrant-vbguest-unikorn) which might serve as an boilerplate. 
+
 ## Known Issues
 
 * The installer script, which mounts and runs the GuestAdditions Installer Binary, works on Linux only. Most likely it will run on most Unix-like platforms.
