@@ -1,3 +1,13 @@
+## 0.14.0-beta1 (2017-02-24)
+
+- Added support for VirtualBox 5.1. Thanks @cdloh [GH-238], [GH-230]
+  + Waring: The helper method `vboxadd_tool` was replaced by `find_tool(tool)`
+- The installers `distro(vm)` helper method got moved from the `Linux` class down the `Base` class which should make implementing non-linux installers easier. This change was purposed by @fabriciocolombo back in [GH-129]
+- The debian installer added support for proxmox VE. Thanks @maninga [GH-246]
+- The debian installer now calls `apt-get update` with `-y --force-yes` options. Thanks @podarok [GH-237]
+- Add synopsis for help/list-commands. Thanks @m03 [GH-235], [GH-236]
+- Fix typo in the `Installers::Base#yield_installation_warning` method name (keeping the incorrect `yield_installation_waring` as an alias for backward compatibility. This alias will be removed in a future version) Thanks @m03 [GH-234]
+
 ## 0.13.0 (2016-08-12)
 
 - Fix a bug introduced by upgrading "micormachine". Thanks @omenlabs for [GH-225]
