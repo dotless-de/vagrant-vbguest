@@ -230,6 +230,7 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def mount_iso(opts=nil, &block)
+        env.ui.info(I18n.t("vagrant_vbguest.mounting_iso", :mount_point => mount_point))
         communicate.sudo("mount #{tmp_path} -o loop #{mount_point}", opts, &block)
       end
 
@@ -242,6 +243,7 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def unmount_iso(opts=nil, &block)
+        env.ui.info(I18n.t("vagrant_vbguest.unmounting_iso", :mount_point => mount_point))
         communicate.sudo("umount #{mount_point}", opts, &block)
       end
     end
