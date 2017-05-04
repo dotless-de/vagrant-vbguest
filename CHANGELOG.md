@@ -1,3 +1,7 @@
+## 0.14.0 (2017-02-24)
+
+No changes.
+
 ## 0.14.0-beta1 (2017-02-24)
 
 - Added support for VirtualBox 5.1. Thanks @cdloh [GH-238], [GH-230]
