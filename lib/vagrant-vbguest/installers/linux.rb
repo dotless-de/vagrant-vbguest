@@ -124,7 +124,7 @@ module VagrantVbguest
           communicate.sudo("#{find_tool('vboxadd')} start", opts, &block)
         end
 
-        if Gem::Version.new("#{guest_version}") >= Gem::Version.new('5.1')
+        if Gem::Version.new("#{guest_version}".sub(/_.*$/, '')) >= Gem::Version.new('5.1')
           if systemd_tool
             communicate.sudo("#{systemd_tool[:path]} vboxadd-service #{systemd_tool[:up]}", opts, &block)
           else
