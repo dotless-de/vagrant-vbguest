@@ -1,4 +1,8 @@
-## 0.14.0 (2017-02-24)
+## 0.14.1 (2017-05-05)
+
+- Fix GA version string parsing. Thanks @curtisharvey [GH-253]
+
+## 0.14.0 (2017-05-04)
 
 No changes.
 
