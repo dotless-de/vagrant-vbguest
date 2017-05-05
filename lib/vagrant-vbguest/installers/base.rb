@@ -133,7 +133,7 @@ module VagrantVbguest
         return @guest_version if @guest_version && !reload
 
         guest_version = driver.read_guest_additions_version
-        guest_version = !guest_version ? nil : guest_version.gsub(/[-_]ose/i, '')
+        guest_version = !guest_version ? nil : guest_version[/\d+\.\d+\.\d+/]
 
         @guest_version = guest_version
       end
