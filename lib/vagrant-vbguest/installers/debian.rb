@@ -16,7 +16,7 @@ module VagrantVbguest
         begin
           communicate.sudo(install_dependencies_cmd, opts, &block)
         rescue
-          communicate.sudo('apt-get -y --force-yes update', opts.merge(:error_check => false), &block)
+          communicate.sudo('apt-get -y --force-yes update', (opts || {}).merge(:error_check => false), &block)
           communicate.sudo(install_dependencies_cmd, opts, &block)
         end
         super
