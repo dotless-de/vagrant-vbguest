@@ -1,3 +1,7 @@
+## 0.14.1 (2017-05-09)
+
+- Fix Debian installer. Thanks @chrisko [GH-255], [GH-256]
+
 ## 0.14.1 (2017-05-05)
 
 - Fix GA version string parsing. Thanks @curtisharvey [GH-253]
