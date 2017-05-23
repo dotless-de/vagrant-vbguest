@@ -2,6 +2,8 @@ en:
   vagrant_vbguest:
     skipped_installation: "Updating GuestAdditions skipped."
     skipped_rebuild: "Rebuilding GuestAdditions skipped."
+    mounting_iso: "Mounting Virtualbox Guest Additions ISO to: %{mount_point}"
+    unmounting_iso: "Unmounting Virtualbox Guest Additions ISO from: %{mount_point}"
     installing: "Installing Virtualbox Guest Additions %{installer_version} - guest version is %{guest_version}"
     installing_forced: "Forcing installation of Virtualbox Guest Additions %{installer_version} - guest version is %{guest_version}"
     rebuild: "Rebuilding Virtualbox Guest Additions %{guest_version} (Your host version is %{host_version})"
