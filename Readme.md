@@ -269,6 +269,31 @@ Vagrant::Config.run do |config|
 end
 ```
 
+## Development Versions / Contributing
+
+#### Requirements
+- Ruby >= 2.0.0
+- Ruby Gems >= 1.3.6
+- Bundler >= 1.5.2 & <= 1.10.6
+- Rake
+- Git
+
+#### Build and Install
+1. Clone the repo `git clone https://github.com/dotless-de/vagrant-vbguest.git`
+2. Install any required gem dependency `bundle install`
+3. Edit the version to indicate this is a dev build `vim lib/vagrant-vbguest/version.rb`
+4. Build the package `rake build`
+5. Install `vagrant plugin install pkg/vagrant-vbguest-{version}.gem`
+
+- To later uninstall `vagrant plugin uninstall vagrant-vbguest`
+
+### Contributing
+1. Fork and Clone the repo
+3. Create your branch (`git checkout -b my-new-version`)
+3. Commit your changes (`git commit -am 'New feature or fix'`)
+4. Push to the branch (`git push origin my-new-version`)
+5. Create new Pull Request
+
 
 ### Extending vbguest (aka Very Advanced Usage)
 
