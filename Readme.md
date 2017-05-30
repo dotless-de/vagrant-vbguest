@@ -223,7 +223,7 @@ When running the install step manually like this: `vagrant vbguest --do install`
 *vagrant-vbguest* will try to autodetect a VirtualBox GuestAdditions iso file on your system, which usually matches your installed version of VirtualBox. If it cannot find one, it downloads one from the web (virtualbox.org).   
 Those places will be checked in order:
 
-1. Checks your VirtualBox "Virtual Media Maganger" for a DVD called "VBoxGuestAdditions.iso"
+1. Checks your VirtualBox "Virtual Media Manager" for a DVD called "VBoxGuestAdditions.iso"
 2. Guess by your host operating system:
   * for linux : `/usr/share/virtualbox/VBoxGuestAdditions.iso`
   * for Mac : `/Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso`
