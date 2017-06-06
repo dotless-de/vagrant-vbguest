@@ -78,7 +78,7 @@ vbguest will try to autodetect the best option for your system. WTF? see below.
 
 #### Global Configuration
 
-Using [Vagrantfile Load Order](http://vagrantup.com/v1/docs/vagrantfile.html#vagrantfile_load_order) you may change default configuration values.
+Using [Vagrantfile Load Order](https://www.vagrantup.com/docs/vagrantfile/#load-order-and-merging) you may change default configuration values.
 Edit (create, if missing) your `~/.vagrant.d/Vagrantfile` like this:
 
 For Vagrant >= 1.1.0 use:
