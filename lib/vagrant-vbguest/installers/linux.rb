@@ -205,7 +205,7 @@ module VagrantVbguest
       def execute_installer(opts=nil, &block)
         yield_installation_warning(installer)
         opts = {:error_check => false}.merge(opts || {})
-        exit_status = communicate.sudo("#{installer} #{installer_arguments}", opts, &block)
+        exit_status = communicate.sudo("yes | #{installer} #{installer_arguments}", opts, &block)
         yield_installation_error_warning(installer) unless exit_status == 0
         exit_status
       end
