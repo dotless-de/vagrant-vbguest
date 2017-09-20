@@ -5,7 +5,7 @@ module VagrantVbguest
     module Attributes
       attr_accessor :auto_update, :auto_reboot, :no_install, :no_remote,
                     :installer, :installer_arguments,
-                    :iso_path, :iso_upload_path, :iso_mount_point
+                    :iso_path, :iso_upload_path, :iso_mount_point, :yes
     end
 
     class << self
@@ -16,6 +16,7 @@ module VagrantVbguest
       def no_install;  @no_install.nil?  ? false : @no_install  end
       def no_remote;   @no_remote.nil?   ? false : @no_remote   end
       def installer_arguments; @installer_arguments.nil? ? '--nox11' : @installer_arguments end
+      def yes; @yes.nil? ? true: @yes end
 
       def iso_path
         return nil if !@iso_path || @iso_path == :auto
@@ -30,6 +31,7 @@ module VagrantVbguest
     def no_install;  @no_install.nil?  ? self.class.no_install  : @no_install  end
     def no_remote;   @no_remote.nil?   ? self.class.no_remote   : @no_remote   end
     def installer_arguments; @installer_arguments.nil? ? self.class.installer_arguments : @installer_arguments end
+    def yes; @yes.nil? ? self.class.yes : @yes end
 
     def iso_path
       return self.class.iso_path if !@iso_path || @iso_path == :auto
@@ -47,7 +49,8 @@ module VagrantVbguest
         :auto_update => auto_update,
         :auto_reboot => auto_reboot,
         :no_install => no_install,
-        :no_remote => no_remote
+        :no_remote => no_remote,
+        :yes => yes
       }
     end
 
