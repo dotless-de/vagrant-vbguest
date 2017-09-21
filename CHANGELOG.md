@@ -1,4 +1,10 @@
-## 0.14.1 (2017-05-09)
+## 0.15.0 (2017-09-21)
+
+- Interactive userinputs from the installer run will be answered with "yes" by default. Thanks @jerr0328 [GH-268], [GH-267]
+- Added logging of mounting/umounting VBoxGuestAdditions.iso file. Thanks @m03 [GH-249]
+- Updates remote location of develeopment dependencies.
+
+## 0.14.2 (2017-05-09)
 
 - Fix Debian installer. Thanks @chrisko [GH-255], [GH-256]
 
