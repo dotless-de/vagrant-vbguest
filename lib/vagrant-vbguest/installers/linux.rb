@@ -205,7 +205,7 @@ module VagrantVbguest
       def execute_installer(opts=nil, &block)
         yield_installation_warning(installer)
         opts = {:error_check => false}.merge(opts || {})
-        exit_status = communicate.sudo("#{installer} #{installer_arguments}", opts, &block)
+        exit_status = communicate.sudo("#{yes}#{installer} #{installer_arguments}", opts, &block)
         yield_installation_error_warning(installer) unless exit_status == 0
         exit_status
       end
@@ -219,6 +219,16 @@ module VagrantVbguest
       # The arguments string, which gets passed to the installer script
       def installer_arguments
         @installer_arguments ||= Array(options[:installer_arguments]).join " "
+      end
+
+      # Determine if yes needs to be called or not
+      def yes
+        # Simple yes if explicity boolean true
+        return "yes | " if !!@yes == @yes && @yes
+        # Nothing if set to false
+        return "" if !@yes
+        # Otherwise pass input string to yes
+        "yes @#{yes} | "
       end
 
       # A generic helper method for mounting the GuestAdditions iso file
