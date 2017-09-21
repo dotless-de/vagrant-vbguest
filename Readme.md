@@ -38,23 +38,23 @@ Compatibly for vagrant 0.8 is provided by version 0.0.3 (which lacks a bunch of 
 
 ## Configuration / Usage
 
-If you're lucky, *vagrant-vbguest* does not require any configuration.
+If you're lucky, *vagrant-vbguest* does not require any configuration. 
 However, here is an example of `Vagrantfile`:
 
 ```ruby
 Vagrant::Config.run do |config|
-  # we will try to autodetect this path.
+  # we will try to autodetect this path. 
   # However, if we cannot or you have a special one you may pass it like:
   # config.vbguest.iso_path = "#{ENV['HOME']}/Downloads/VBoxGuestAdditions.iso"
   # or an URL:
   # config.vbguest.iso_path = "http://company.server/VirtualBox/%{version}/VBoxGuestAdditions.iso"
   # or relative to the Vagrantfile:
   # config.vbguest.iso_path = File.expand_path("../relative/path/to/VBoxGuestAdditions.iso", __FILE__)
-
-  # set auto_update to false, if you do NOT want to check the correct
+  
+  # set auto_update to false, if you do NOT want to check the correct 
   # additions version when booting this machine
   config.vbguest.auto_update = false
-
+  
   # do NOT download the iso file from a webserver
   config.vbguest.no_remote = true
 end
@@ -103,8 +103,8 @@ Settings in a project's `Vagrantfile` will overwrite those setting. When execute
 
 ### Running as a middleware
 
-Running as a middleware is the default way of using *vagrant-vbguest*.
-It will run automatically right after the box started. This is each time the box boots, i.e. `vagrant up` or `vagrant reload`.
+Running as a middleware is the default way of using *vagrant-vbguest*. 
+It will run automatically right after the box started. This is each time the box boots, i.e. `vagrant up` or `vagrant reload`. 
 It won't run on `vagrant resume` (or `vagrant up` a suspended box) to save you some time resuming a box.
 
 You may switch off the middleware by setting the vm's config `vbguest.auto_update` to `false`.
@@ -163,8 +163,8 @@ When *vagrant-vbguest* is running it will provide you some logs:
 
 The plugin's part starts at `[default] Installing Virtualbox Guest Additions 4.1.14 - guest's version is 4.1.1`, telling you that:
 
-* the guest addition of the box *default* is outdated (or mismatching)
-* which guest additions iso file will be used
+* the guest addition of the box *default* is outdated (or mismatching) 
+* which guest additions iso file will be used 
 * which installer script will be used
 * all the VirtualBox Guest Additions installer output.
 
@@ -221,7 +221,7 @@ When running the install step manually like this: `vagrant vbguest --do install`
 
 ### ISO autodetection
 
-*vagrant-vbguest* will try to autodetect a VirtualBox GuestAdditions iso file on your system, which usually matches your installed version of VirtualBox. If it cannot find one, it downloads one from the web (virtualbox.org).
+*vagrant-vbguest* will try to autodetect a VirtualBox GuestAdditions iso file on your system, which usually matches your installed version of VirtualBox. If it cannot find one, it downloads one from the web (virtualbox.org).   
 Those places will be checked in order:
 
 1. Checks your VirtualBox "Virtual Media Manager" for a DVD called "VBoxGuestAdditions.iso"
@@ -240,7 +240,7 @@ Hence, vbguest will check for a loaded kernel module after the installation has 
 
 ## Advanced Usage
 
-vagrant-vbguest provides installers for generic linux and debian/ubuntu.
+vagrant-vbguest provides installers for generic linux and debian/ubuntu.  
 Installers take care of the whole installation process, that includes where to save the iso file inside the guest and where to mount it.
 
 ```ruby
@@ -275,7 +275,7 @@ end
 
 If you find yourself copying the same installer in each of your vagrant project, it might be a good idea to make it a plugin itself. Like vagrant-vbguest itself, installers can be [distributed as ruby gems](http://guides.rubygems.org/publishing/)
 
-This poroject contains a [sample installer gem](https://github.com/dotless-de/vagrant-vbguest/tree/master/testdrive/vagrant-vbguest-unikorn) which might serve as an boilerplate.
+This poroject contains a [sample installer gem](https://github.com/dotless-de/vagrant-vbguest/tree/master/testdrive/vagrant-vbguest-unikorn) which might serve as an boilerplate. 
 
 ## Known Issues
 
