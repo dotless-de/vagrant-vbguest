@@ -49,7 +49,7 @@ Vagrant::Config.run do |config|
   # or an URL:
   # config.vbguest.iso_path = "http://company.server/VirtualBox/%{version}/VBoxGuestAdditions.iso"
   # or relative to the Vagrantfile:
-  # config.vbguest.iso_path = File.expand_path("../relative/path/to/VBoxGuestAdditions.iso", __FILE__)
+  # config.vbguest.iso_path = "../relative/path/to/VBoxGuestAdditions.iso"
   
   # set auto_update to false, if you do NOT want to check the correct 
   # additions version when booting this machine
