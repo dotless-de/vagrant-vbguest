@@ -1,3 +1,7 @@
+## 0.15.1 (2018-01-08)
+
+- Fix disabling `yes |` via options. Thanks @davidjb [GH-280]
+
 ## 0.15.0 (2017-09-21)
 
 - Interactive userinputs from the installer run will be answered with "yes" by default. Thanks @jerr0328 [GH-268], [GH-267]
