@@ -223,12 +223,13 @@ module VagrantVbguest
 
       # Determine if yes needs to be called or not
       def yes
-        # Simple yes if explicity boolean true
-        return "yes | " if !!@yes == @yes && @yes
+        value = @options[:yes]
+        # Simple yes if explicitly boolean true
+        return "yes | " if !!value == value && value
         # Nothing if set to false
-        return "" if !@yes
+        return "" if !value
         # Otherwise pass input string to yes
-        "yes @#{yes} | "
+        "yes #{value} | "
       end
 
       # A generic helper method for mounting the GuestAdditions iso file
