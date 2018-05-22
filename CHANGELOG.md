@@ -1,3 +1,7 @@
+## 0.15.02 (2018-05-22)
+
+- On RedHad based guest, the installer will now try to install the 'kernel-devel' package additionally to 'kernel-devel-`uname -r`' Thanks @ghoneycutt [GH-299]
+
 ## 0.15.1 (2018-01-08)
 
 - Fix disabling `yes |` via options. Thanks @davidjb [GH-280]
