@@ -2,6 +2,34 @@ module VagrantVbguest
   module Hosts
     class VirtualBox < Base
 
+      def read_guest_additions_version
+        # this way of checking for the GuestAdditionsVersion is taken from Vagrant's
+        # `read_guest_additions_version` method introduced via
+        # https://github.com/hashicorp/vagrant/commit/d8ff2cb5adca25d7eba2bdd334919770316c91be
+        # for VirtualBox 4.2 and carries on for later versons until now
+        # We are vendoring it here, since Vagrant uses it is only a fallback
+        # for when `guestproperty` won't work. But `guestproperty` seems to be prone
+        # to return incorrect values.
+        if Gem::Requirement.new(">= 4.2").satisfied_by? Gem::Version.new(version)
+          uuid = self.class.vm_id(vm)
+          begin
+            info = driver.execute("showvminfo", uuid, "--machinereadable", retryable: true)
+            info.split("\n").each do |line|
+              return $1.to_s if line =~ /^GuestAdditionsVersion="(.+?)"$/
+            end
+          rescue Vagrant::Errors::VBoxManageError => e
+            if e.message =~ /Invalid command.*showvminfo/i
+              vm.env.ui.warn("Cannot read GuestAdditionsVersion using 'showvminfo'")
+              vm.env.ui.debug(e.message)
+            else
+              raise e
+            end
+          end
+        end
+
+        super
+      end
+
       protected
 
         # Default web URI, where GuestAdditions iso file can be downloaded.

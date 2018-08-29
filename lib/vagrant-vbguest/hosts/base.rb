@@ -20,6 +20,9 @@ module VagrantVbguest
         @version ||= driver.version
       end
 
+      def read_guest_additions_version
+        driver.read_guest_additions_version
+      end
 
       # Additions-file-detection-magig.
       #
