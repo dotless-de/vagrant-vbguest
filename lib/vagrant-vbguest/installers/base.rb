@@ -31,7 +31,7 @@ module VagrantVbguest
       # to check.
       #
       # @see {Vagrant::Guest::Linux#distro_dispatch}
-      # @return [Symbol] One of `:debian`, `:ubuntu`, `:gentoo`, `:fedora`, `:redhat`, `:suse`, `:arch`, `:windows`
+      # @return [Symbol] One of `:debian`, `:ubuntu`, `:gentoo`, `:fedora`, `:redhat`, `:suse`, `:arch`, `:windows`, `:amazon`
       def self.distro(vm)
         @@distro ||= {}
         @@distro[ vm_id(vm) ] ||= distro_name vm
