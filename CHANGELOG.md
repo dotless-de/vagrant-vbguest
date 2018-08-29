@@ -1,4 +1,11 @@
-## 0.15.02 (2018-05-22)
+## 0.16.0.beta1 (2018-08-29)
+
+- Refactoring of reading the GuestAdditions version. For VirtualBox >= 4.2, we'll try `VBoxManage showvminfo` first, and use Vagrant as a fallback.  
+This should fix a lot of those "Got different reports about installed GuestAdditions version" error messages.  
+See discussion in [GH-300]. Thanks @cbj4074 for asking the right questions.
+- Add support for Amazon 2. Thanks @ghoneycutt [GH-304], [GH-303]
+
+## 0.15.2 (2018-05-22)
 
 - On RedHad based guest, the installer will now try to install the 'kernel-devel' package additionally to 'kernel-devel-`uname -r`' Thanks @ghoneycutt [GH-299]
 
