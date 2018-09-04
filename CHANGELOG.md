@@ -1,3 +1,7 @@
+## 0.16.0 (2018-09-04)
+
+No changes to 0.16.0.beta1
+
 ## 0.16.0.beta1 (2018-08-29)
 
 - Refactoring of reading the GuestAdditions version. For VirtualBox >= 4.2, we'll try `VBoxManage showvminfo` first, and use Vagrant as a fallback.  
