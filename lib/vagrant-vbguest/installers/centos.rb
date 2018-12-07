@@ -8,15 +8,15 @@ module VagrantVbguest
 
       # Install missing deps and yield up to regular linux installation
       def install(opts=nil, &block)
-        install_kernel_deps
-        super
+        install_kernel_deps(opts, &block)
+        super(opts=nil, &block)
       end
 
       protected
-      def install_kernel_deps
+      def install_kernel_deps(opts=nil, &block)
         unless check_devel_info
           release = release_version
-          update_release_repos
+          update_release_repos(opts=nil, &block)
           install_kernel_devel(release)
         end
       end
@@ -33,12 +33,16 @@ module VagrantVbguest
         release
       end
 
-      def update_release_repos
-        communicate.sudo('yum install -y centos-release')
+      def update_release_repos(opts=nil, &block)
+        communicate.sudo('yum install -y centos-release', opts=nil, &block)
       end
 
-      def install_kernel_devel(rel)
-        communicate.sudo("yum install -y kernel-devel-`uname -r` --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates")
+      def install_kernel_devel(rel, opts=nil, &block)
+        communicate.sudo(
+            "yum install -y kernel-devel-`uname -r` --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates",
+            opts=nil,
+            &block
+        )
       end
 
       def dependencies
