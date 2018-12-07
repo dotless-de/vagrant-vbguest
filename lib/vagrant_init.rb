@@ -6,8 +6,6 @@ rescue LoadError
   raise "The Vagrant VBGuest plugin must be run within Vagrant."
 end
 
-require 'vagrant-vbguest/core_ext/string/interpolate'
-
 require "vagrant-vbguest/errors"
 require 'vagrant-vbguest/vagrant_compat'
 
