@@ -1,3 +1,5 @@
+require 'vagrant-vbguest/helpers/os_release'
+
 module VagrantVbguest
   module Installers
     # A basic Installer implementation for vanilla or

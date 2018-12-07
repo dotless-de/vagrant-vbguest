@@ -11,9 +11,6 @@ I18n.reload!
 require "vagrant-vbguest/errors"
 require 'vagrant-vbguest/download'
 require 'vagrant-vbguest/command'
-
-require 'vagrant-vbguest/helpers'
-
 require 'vagrant-vbguest/machine'
 
 require 'vagrant-vbguest/hosts/base'
