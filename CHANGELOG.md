@@ -1,3 +1,9 @@
+## 0.17.0.beta1 (2018-12-07)
+
+- New CentOS specific installer. Thanks @bstopp [GH-314]
+- Big cleanup, dropping support for Vagrant < 1.3. [GH-313]
+- Changes the status message for "No Virtualbox Guest Additions installation found". Thanks @SchnWalter [GH-308]
+
 ## 0.16.0 (2018-09-04)
 
 No changes to 0.16.0.beta1
@@ -19,7 +25,7 @@ See discussion in [GH-300]. Thanks @cbj4074 for asking the right questions.
 
 ## 0.15.0 (2017-09-21)
 
-- Interactive userinputs from the installer run will be answered with "yes" by default. Thanks @jerr0328 [GH-268], [GH-267]
+- Interactive user inputs from the installer run will be answered with "yes" by default. Thanks @jerr0328 [GH-268], [GH-267]
 - Added logging of mounting/umounting VBoxGuestAdditions.iso file. Thanks @m03 [GH-249]
 - Updates remote location of development dependencies.
 
@@ -49,7 +55,7 @@ No changes.
 
 - Fix a bug introduced by upgrading "micormachine". Thanks @omenlabs for [GH-225]
 - Fix a typo in a local variable. Thanks @vdloo for [GH-227]
-- Add a Arch Linux specific installer. Thanks @vdloo, also for fixing some typos in [GH-229]
+- Add an Arch Linux specific installer. Thanks @vdloo, also for fixing some typos in [GH-229]
 - Add a SUSE Linux Enterprise Server (sles) specific installer to address [GH-219] and [GH-216]. Thanks @vpereira, @glookie1 for the hard digging. Thanks @vpereira for [GH-219]. Thanks @bkeepers for the dontenv project, from which I stole it's parser.
 
 ## 0.12.0 (2016-06-16)
@@ -77,9 +83,9 @@ For a full diff see: https://github.com/dotless-de/vagrant-vbguest/compare/v0.11
   - Add installer for oracle. Thanks @TobyHFerguson for [GH-145]
   - Add redhat installer support for centos7. Thanks @roidelapluie for [GH-162]
   - Add debian installer support for debian8. Thanks @ubermuda for [GH-171]
-  - Add ISO autodetection on Archlinux hosts. [GH-135]
+  - Add ISO auto-detection on Archlinux hosts. [GH-135]
   - Add lookup for the `vboxadd` tool, instead of assuming it in `/etc/init.d`
-  - And systemd-ish startup methods if available, instead of assuming `/etc/init.d/vboxadd` beeing useable.
+  - And systemd-ish startup methods if available, instead of assuming `/etc/init.d/vboxadd` being useable.
   - Add configuration options for iso upload path and mount point.
   - Add a `--no-cleanup` command-line switch to make debugging a bit more convenient.
 
@@ -119,7 +125,7 @@ For a full diff see: https://github.com/dotless-de/vagrant-vbguest/compare/v0.11
   - Adds support for vagrant 1.3 [GH-71], [GH-72]
   - Fix crash when using as a command [GH-68].
   - Don't trust VirtualBox Media Manager informations when
-    looking for a iso file. [GH-70]
+    looking for an iso file. [GH-70]
 
 ### heads-up
 
@@ -136,15 +142,15 @@ For a full diff see: https://github.com/dotless-de/vagrant-vbguest/compare/v0.11
     (thanks @Andrew8xx8 for pointing directions)
   - Fix basic/fallback linux installer [GH-56]
   - Guard auto-reload on broken vagrant builds.
-    Some varant 1.1.x versions have a bug regarding ssh and cleaning
-    up old connections, which results in varant crashing when a box
+    Some vagrant 1.1.x versions have a bug regarding ssh and cleaning
+    up old connections, which results in vagrant crashing when a box
     is reloaded.
 
 ## 0.7.1
 
   - Fix auto-reloading for vagrant 1.1 [GH-52]
     Also changes the reload method for vagrant 1.0 when ran
-    as middleware (to not run buildin actions manually).
+    as middleware (to not run build-in actions manually).
 
 ## 0.7.0
 
@@ -160,14 +166,14 @@ For a full diff see: https://github.com/dotless-de/vagrant-vbguest/compare/v0.11
   - Fix an issue with VirtualBox GuestAdditions 4.2.8 [GH-44] /
     (thanks @jimmycuadra)
   - Reworked bunch of internals, particularly how vagrants's
-    environemnt is passed arround. Also decoupled GuestAdditions
-    finder into a seperate class.
-  - Intodruce a vagrant 1.0 compatibility layer for Installers and
+    environment is passed around. Also decoupled GuestAdditions
+    finder into a separate class.
+  - Introduce a vagrant 1.0 compatibility layer for Installers and
     other vbguest internals
 
 ### heads-up
 
-  - [GH-44] changes the behavior of vbguest to that effect, that it
+  - [GH-44] changes the behaviour of vbguest to that effect, that it
     will no longer halt vagrant workflow if running the VirtualBox
     GuestAdditions Installer returns an error-code.
     Instead it will print a human readable waring message.
@@ -206,7 +212,7 @@ For a full diff see: https://github.com/dotless-de/vagrant-vbguest/compare/v0.11
 ## 0.6.0 (2013-01-13)
 
  - Debian installer now cope with missing `dkms` package [GH-30]
- - Fixed some issues when runnig on just creating boxes [GH-31]
+ - Fixed some issues when running on just creating boxes [GH-31]
  - Fixed workding (thx @scalp42) [GH-32]
  - Add debug logging
  - Installers no longer are shell scripts, but ruby classes
@@ -233,7 +239,7 @@ For a full diff see: https://github.com/dotless-de/vagrant-vbguest/compare/v0.11
   - Box will be rebooted if the GuestAdditions installation
     process does not load the kernel module [GH-25], [GH-24]
   - Add `--auto-reboot` argument to allow rebooting when running as a
-    command (which is disabled by default when runnind as command)
+    command (which is disabled by default when running as command)
   - Adds this Changelog
 
 ## 0.4.0 (2012-10-21)
@@ -252,7 +258,7 @@ For a full diff see: https://github.com/dotless-de/vagrant-vbguest/compare/v0.11
 
 ## 0.3.3
 
-  - Add Fedora to the list of supported plattforms [GH-17]
+  - Add Fedora to the list of supported platforms [GH-17]
   - Add system package update (`apt-get update`) to the
     debian installer if package installation fails [GH-16]
   - Drop dependency on `vagrant` gem [GH-15]
@@ -260,7 +266,7 @@ For a full diff see: https://github.com/dotless-de/vagrant-vbguest/compare/v0.11
 ## 0.3.2
 
   - Stop GuestAdditions installation and fail with an error
-    when installation of dependency packes fails [GH-13]
+    when installation of dependency packages fails [GH-13]
 
 ## 0.3.1
 
@@ -273,7 +279,7 @@ For a full diff see: https://github.com/dotless-de/vagrant-vbguest/compare/v0.11
 
 ## 0.2.1
 
-  - Typo fixes in readme and internal renamings. [GH-9], [GH-7]
+  - Typo fixes in readme and internal renaming. [GH-9], [GH-7]
 
 ## 0.2.0
 
