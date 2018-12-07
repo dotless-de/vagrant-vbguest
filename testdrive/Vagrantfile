@@ -55,6 +55,10 @@ Vagrant.configure("2") do |config|
   next_ip.box config, "suse12", "elastic/sles-12-x86_64"
   next_ip.box config, "ubuntu1404", "ubuntu/trusty64"
   next_ip.box config, "centos7", "centos/7"
+  next_ip.box config, "centos7-previous", "centos/7" do |cfg|
+    # When a new CentOS version is released, change this to the previous release to validate the CentOS provider.
+    cfg.vm.box_version = "1809.01"
+  end
   next_ip.box config, "oracle65", "tobyhferguson_oracle-65-x64" do |cfg|
     cfg.vm.box_url = "http://tobyhferguson.org/boxes/oracle-6-5-x64-virtualbox.box"
   end
