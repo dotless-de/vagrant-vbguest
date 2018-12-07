@@ -1,24 +1,22 @@
 module VagrantVbguest
   module Installers
-    class CentOS < Linux
+    class CentOS < RedHat
 
       def self.match?(vm)
-        /\A(centos)\d*\Z/ =~ self.distro(vm) &&
-            communicate_to(vm).test('test -f /etc/centos-release')
+        super && communicate_to(vm).test('test -f /etc/centos-release')
       end
 
       # Install missing deps and yield up to regular linux installation
       def install(opts=nil, &block)
         install_kernel_deps
-        communicate.sudo(install_dependencies_cmd, opts, &block)
         super
       end
 
       protected
       def install_kernel_deps
         unless check_devel_info
-          update_release_repos
           release = release_version
+          update_release_repos
           install_kernel_devel(release)
         end
       end
@@ -32,17 +30,15 @@ module VagrantVbguest
       end
 
       def release_version
+        release = nil
         communicate.sudo('cat /etc/centos-release') do |type, data|
-          data.to_s[/(\d+\.\d+\.\d+)/, 1]
+         release = data.to_s[/(\d+\.\d+\.\d+)/, 1]
         end
+        release
       end
 
       def install_kernel_devel(rel)
-        communicate.sudo("yum install -y kernel-devel-`uname -r` --enablerepo=C#{rel}-base")
-      end
-
-      def install_dependencies_cmd
-        "yum install -y #{dependencies}"
+        communicate.sudo("yum install -y kernel-devel-`uname -r` --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates")
       end
 
       def dependencies
@@ -52,4 +48,5 @@ module VagrantVbguest
     end
   end
 end
-VagrantVbguest::Installer.register(VagrantVbguest::Installers::CentOS, 5)
+# Load this before the RedHat one, as we want it to be picked up first. (The higher the sooner its checked).
+VagrantVbguest::Installer.register(VagrantVbguest::Installers::CentOS, 6)
