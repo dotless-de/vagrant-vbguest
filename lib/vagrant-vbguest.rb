@@ -10,6 +10,8 @@ I18n.reload!
 
 require "vagrant-vbguest/errors"
 require 'vagrant-vbguest/vagrant_compat'
+require 'vagrant-vbguest/download'
+require 'vagrant-vbguest/command'
 
 require 'vagrant-vbguest/helpers'
 
@@ -31,7 +33,6 @@ require 'vagrant-vbguest/installers/suse'
 require 'vagrant-vbguest/installers/archlinux'
 
 require 'vagrant-vbguest/middleware'
-require 'vagrant-vbguest/command'
 
 module VagrantVbguest
 
