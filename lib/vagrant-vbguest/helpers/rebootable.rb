@@ -1,3 +1,5 @@
+require 'vagrant-vbguest/helpers/vm_compatible'
+
 module VagrantVbguest
   module Helpers
     module Rebootable

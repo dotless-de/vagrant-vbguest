@@ -1,4 +1,5 @@
 require 'uri'
+require 'vagrant-vbguest/helpers/vm_compatible'
 
 module VagrantVbguest
   module Hosts
