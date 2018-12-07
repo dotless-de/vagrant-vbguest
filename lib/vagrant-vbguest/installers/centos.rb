@@ -16,7 +16,7 @@ module VagrantVbguest
       def install_kernel_deps(opts=nil, &block)
         unless check_devel_info
           release = release_version
-          update_release_repos(opts=nil, &block)
+          update_release_repos(opts, &block)
           install_kernel_devel(release)
         end
       end
@@ -34,13 +34,13 @@ module VagrantVbguest
       end
 
       def update_release_repos(opts=nil, &block)
-        communicate.sudo('yum install -y centos-release', opts=nil, &block)
+        communicate.sudo('yum install -y centos-release', opts, &block)
       end
 
       def install_kernel_devel(rel, opts=nil, &block)
         communicate.sudo(
             "yum install -y kernel-devel-`uname -r` --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates",
-            opts=nil,
+            opts,
             &block
         )
       end
