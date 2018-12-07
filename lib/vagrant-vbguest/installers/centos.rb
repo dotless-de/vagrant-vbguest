@@ -25,16 +25,16 @@ module VagrantVbguest
         communicate.test('yum info kernel-devel-`uname -r`', { sudo: true })
       end
 
-      def update_release_repos
-        communicate.sudo('yum install -y centos-release')
-      end
-
       def release_version
         release = nil
         communicate.sudo('cat /etc/centos-release') do |type, data|
          release = data.to_s[/(\d+\.\d+\.\d+)/, 1]
         end
         release
+      end
+
+      def update_release_repos
+        communicate.sudo('yum install -y centos-release')
       end
 
       def install_kernel_devel(rel)
