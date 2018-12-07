@@ -1,3 +1,7 @@
+## 0.17.0.beta2 (2018-12-07)
+
+- Fix Incorrect syntax on parameter passing in CentOS installer. @bstopp [GH-315]
+
 ## 0.17.0.beta1 (2018-12-07)
 
 - New CentOS specific installer. Thanks @bstopp [GH-314]
