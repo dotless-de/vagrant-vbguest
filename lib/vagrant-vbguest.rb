@@ -31,6 +31,7 @@ require 'vagrant-vbguest/installers/suse'
 require 'vagrant-vbguest/installers/archlinux'
 
 require 'vagrant-vbguest/middleware'
+require 'vagrant-vbguest/command'
 
 module VagrantVbguest
 
