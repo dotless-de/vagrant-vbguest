@@ -1,5 +1,6 @@
 require 'optparse'
 require Vagrant.source_root.join("plugins/commands/up/start_mixins")
+require 'vagrant-vbguest/helpers/rebootable'
 
 module VagrantVbguest
   class Command < Vagrant.plugin("2", :command)

@@ -16,6 +16,6 @@ else
   compat_version = supported_version.to_a.last[1]
 end
 
-%w{vm_compatible rebootable}.each do |r|
+%w{vm_compatible}.each do |r|
   require File.expand_path("../vagrant_compat/vagrant_#{compat_version}/#{r}", __FILE__)
 end
