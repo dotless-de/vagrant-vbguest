@@ -27,7 +27,7 @@ en:
     unknown: unknown
 
     status:
-      clean: "[%{vm_name}] No installation found."
+      clean: "[%{vm_name}] No Virtualbox Guest Additions installation found."
       unmatched: "[%{vm_name}] GuestAdditions versions on your host (%{host_version}) and guest (%{guest_version}) do not match."
       not_running: "[%{vm_name}] GuestAdditions seems to be installed (%{guest_version}) correctly, but not running."
       ok: "[%{vm_name}] GuestAdditions %{guest_version} running --- OK."
