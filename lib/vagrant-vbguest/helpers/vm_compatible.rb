@@ -2,11 +2,11 @@ module VagrantVbguest
   module Helpers
     module VmCompatible
       def communicate
-        vm.channel
+        vm.communicate
       end
 
       def driver
-        vm.driver
+        vm.provider.driver
       end
 
       def self.included(base)
@@ -15,15 +15,15 @@ module VagrantVbguest
 
       module ClassMethods
         def vm_id(vm)
-          vm.uuid
+          vm.id
         end
 
         def communicate_to(vm)
-          vm.channel
+          vm.communicate
         end
 
         def distro_name(vm)
-          vm.guest.distro_dispatch
+          vm.guest.name
         end
       end
     end

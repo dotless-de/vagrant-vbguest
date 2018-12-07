@@ -1,6 +1,5 @@
 module VagrantVbguest
-
-  class DownloadBase
+  class Download
     attr_reader :source, :destination, :downloader
 
     def initialize(source, destination, options=nil)
@@ -14,7 +13,11 @@ module VagrantVbguest
     end
 
     def download!
-      raise NotImplementedError
+      downloader_options = {}
+      downloader_options[:ui] = @ui
+      @ui.info(I18n.t("vagrant_vbguest.download.started", :source => @source))
+      @downloader = Vagrant::Util::Downloader.new(@source, @destination, downloader_options)
+      @downloader.download!
     end
 
     def cleanup
@@ -35,5 +38,4 @@ module VagrantVbguest
       end
     end
   end
-
 end

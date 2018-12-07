@@ -9,10 +9,8 @@ I18n.load_path << File.expand_path("../../locales/en.yml", __FILE__)
 I18n.reload!
 
 require "vagrant-vbguest/errors"
-require 'vagrant-vbguest/vagrant_compat'
-
-require 'vagrant-vbguest/helpers'
-
+require 'vagrant-vbguest/download'
+require 'vagrant-vbguest/command'
 require 'vagrant-vbguest/machine'
 
 require 'vagrant-vbguest/hosts/base'

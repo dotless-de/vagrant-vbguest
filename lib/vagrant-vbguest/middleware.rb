@@ -1,9 +1,9 @@
-module VagrantVbguest
+require 'vagrant-vbguest/helpers/rebootable'
 
+module VagrantVbguest
   # A Vagrant middleware which checks the installed VirtualBox Guest
   # Additions to match the installed VirtualBox installation on the
   # host system.
-
   class Middleware
     include VagrantVbguest::Helpers::Rebootable
 
@@ -38,6 +38,5 @@ module VagrantVbguest
       end
       opts
     end
-
   end
 end
