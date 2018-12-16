@@ -10,8 +10,7 @@ module VagrantVbguest
       protected
 
       def dependencies
-        packages = ['kernel-uek-devel-`uname -r`', 'gcc', 'make', 'perl', 'bzip2']
-        packages.join ' '
+        ['kernel-uek-devel-`uname -r`', 'gcc', 'make', 'perl', 'bzip2'].join(' ')
       end
     end
   end

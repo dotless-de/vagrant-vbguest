@@ -21,8 +21,7 @@ module VagrantVbguest
       end
 
       def dependencies
-        packages = ['gcc', 'dkms', 'make', 'bzip2']
-        packages.join ' '
+        ['gcc', 'dkms', 'make', 'bzip2'].join(' ')
       end
     end
   end

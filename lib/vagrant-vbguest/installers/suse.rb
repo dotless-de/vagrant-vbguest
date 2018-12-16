@@ -28,7 +28,6 @@ module VagrantVbguest
         "zypper --non-interactive install #{dependencies}"
       end
 
-
       def dependencies
         packages = case os_release["VERSION_ID"].to_f
                    when 10..11.4
@@ -37,7 +36,7 @@ module VagrantVbguest
                      ['kernel-devel', 'gcc', 'make', 'tar']
                    end
 
-        packages.join ' '
+        packages.join(' ')
       end
     end
   end

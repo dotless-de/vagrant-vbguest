@@ -15,7 +15,7 @@ module VagrantVbguest
 
     protected
       def self.has_zypper?(vm)
-        communicate_to(vm).test "which zypper"
+        communicate_to(vm).test("which zypper")
       end
 
       def install_dependencies_cmd
@@ -23,8 +23,7 @@ module VagrantVbguest
       end
 
       def dependencies
-        packages = ['devel_C_C++', 'devel_basis', 'devel_kernel']
-        packages.join ' '
+        ['devel_C_C++', 'devel_basis', 'devel_kernel'].join(' ')
       end
     end
   end

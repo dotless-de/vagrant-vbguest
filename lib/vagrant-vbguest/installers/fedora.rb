@@ -19,8 +19,7 @@ module VagrantVbguest
       end
 
       def dependencies
-        packages = ['kernel-devel-`uname -r`', 'gcc', 'dkms', 'make', 'perl', 'bzip2']
-        packages.join ' '
+        ['kernel-devel-`uname -r`', 'gcc', 'dkms', 'make', 'perl', 'bzip2'].join(' ')
       end
     end
   end
