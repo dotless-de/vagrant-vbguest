@@ -15,14 +15,17 @@ module VagrantVbguest
       protected
 
       def install_kernel_deps(opts=nil, &block)
-        unless check_devel_info
+        unless has_kernel_devel_info?
           update_release_repos(opts, &block)
           install_kernel_devel(opts, &block)
         end
       end
 
-      def check_devel_info
-        communicate.test('yum info kernel-devel-`uname -r`', sudo: true)
+      def has_kernel_devel_info?
+        unless instance_variable_defined?(:@has_kernel_devel_info)
+          @has_kernel_devel_info = communicate.test('yum info kernel-devel-`uname -r`', sudo: true)
+        end
+        @has_kernel_devel_info
       end
 
       def release_version
@@ -44,7 +47,13 @@ module VagrantVbguest
       end
 
       def dependencies
-        ['gcc', 'binutils', 'make', 'perl', 'bzip2'].join(' ')
+        if has_kernel_devel_info?
+          # keep the original redhat dependencies
+          super
+        else
+          # we should have installed kernel-devel-`uname -r` via install_kernel_devel
+          ['gcc', 'binutils', 'make', 'perl', 'bzip2'].join(' ')
+        end
       end
     end
   end
