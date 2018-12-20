@@ -1,3 +1,7 @@
+## 0.17.1 (2018-12-20)
+
+- CentOS keeps default redhat dependencies if kernel-devel-`uname -r` exists [GH-318]
+
 ## 0.17.0 (2018-12-13)
 
 No changes to 0.17.0.beta2
