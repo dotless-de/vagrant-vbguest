@@ -31,7 +31,7 @@ module VagrantVbguest
       def release_version
         release = nil
         communicate.sudo('cat /etc/centos-release') do |type, data|
-          release = data.to_s[/(\d+\.\d+\.\d+)/, 1]
+          release = data.to_s[/(\d+\.\d+(\.\d+)?)/, 1]
         end
         release
       end
