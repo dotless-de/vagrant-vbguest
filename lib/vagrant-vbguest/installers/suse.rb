@@ -29,12 +29,13 @@ module VagrantVbguest
       end
 
       def dependencies
-        packages = case os_release["VERSION_ID"].to_f
-                   when 10..11.4
-                     ['kernel-default-devel', 'gcc', 'make', 'tar']
-                   when 12.0..13.0
-                     ['kernel-devel', 'gcc', 'make', 'tar']
-                   end
+        version = os_release["VERSION_ID"].to_f
+        packages =
+          if (10...12).include?(version)
+            ['kernel-default-devel', 'gcc', 'make', 'tar']
+          elsif version >= 12.0
+            ['kernel-devel', 'gcc', 'make', 'tar']
+          end
 
         packages.join(' ')
       end
