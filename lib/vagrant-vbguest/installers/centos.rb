@@ -28,12 +28,22 @@ module VagrantVbguest
         @has_kernel_devel_info
       end
 
-      def release_version
-        release = nil
-        communicate.sudo('cat /etc/centos-release') do |type, data|
-          release = data.to_s[/(\d+\.\d+(\.\d+)?)/, 1]
+      def has_rel_repo?
+        unless instance_variable_defined?(:@has_rel_repo)
+          rel = release_version
+          @has_rel_repo = communicate.test("yum repolist --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates")
         end
-        release
+        @has_rel_repo
+      end
+
+      def release_version
+        unless instance_variable_defined?(:@release_version)
+          @release_version = nil
+          communicate.sudo('cat /etc/centos-release') do |type, data|
+            @release_version = data.to_s[/(\d+\.\d+(\.\d+)?)/, 1]
+          end
+        end
+        @release_version
       end
 
       def update_release_repos(opts=nil, &block)
@@ -41,7 +51,7 @@ module VagrantVbguest
       end
 
       def install_kernel_devel(opts=nil, &block)
-        rel = release_version
+        rel = has_rel_repo? ? release_version : '*'
         cmd = "yum install -y kernel-devel-`uname -r` --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates"
         communicate.sudo(cmd, opts, &block)
       end
