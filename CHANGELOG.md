@@ -1,6 +1,8 @@
 ## 0.17.2 (2019-01-23)
 
 - ContOS installer now activates all repositories when installing the kernel-devel-`uname -r` package and there's no specific release repository. [GH-320]
+- Fix CentOS release version detection for major.minor version numbers. Thanks @jaredg [GH-324]
+- Open upper version limit for Suse installer, supporting Suse 15 (and possibly above). Thanks @Fdall [GH-323]
 
 ## 0.17.1 (2018-12-20)
 
