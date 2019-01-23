@@ -1,3 +1,7 @@
+## 0.17.2 (2019-01-23)
+
+- ContOS installer now activates all repositories when installing the kernel-devel-`uname -r` package and there's no specific release repository. [GH-320]
+
 ## 0.17.1 (2018-12-20)
 
 - CentOS keeps default redhat dependencies if kernel-devel-`uname -r` exists [GH-318]
