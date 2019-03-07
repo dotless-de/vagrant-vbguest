@@ -23,7 +23,7 @@ module VagrantVbguest
 
       def has_kernel_devel_info?
         unless instance_variable_defined?(:@has_kernel_devel_info)
-          @has_kernel_devel_info = communicate.test('yum info kernel-devel-`uname -r`', sudo: true)
+          @has_kernel_devel_info = communicate.test('test -e /usr/src/kernels/`uname -r`', sudo: true)
         end
         @has_kernel_devel_info
       end
@@ -52,8 +52,17 @@ module VagrantVbguest
 
       def install_kernel_devel(opts=nil, &block)
         rel = has_rel_repo? ? release_version : '*'
-        cmd = "yum install -y kernel-devel-`uname -r` --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates"
-        communicate.sudo(cmd, opts, &block)
+        package_name = nil
+        communicate.sudo("repoquery -f /usr/src/kernels/`uname -r`") do |type, data|
+          data = data.to_s
+          if data != ""
+            package_name = data.to_s
+          end
+        end
+        if !package_name.nil?
+          cmd = "yum install -y #{package_name} --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates"
+          communicate.sudo(cmd, opts, &block)
+        end
       end
 
       def dependencies
