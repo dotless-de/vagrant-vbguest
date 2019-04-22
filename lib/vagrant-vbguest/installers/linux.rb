@@ -78,7 +78,7 @@ module VagrantVbguest
         opts = {
           :sudo => true
         }.merge(opts || {})
-        communicate.test('lsmod | grep vboxsf', opts, &block)
+        communicate.test('lsmod | grep vboxguest && test -e /lib/modules/`uname -r`/misc/vboxsf.ko', opts, &block)
       end
 
       # This overrides {VagrantVbguest::Installers::Base#guest_version}
