@@ -179,6 +179,7 @@ module VagrantVbguest
           "/lib64/VBoxGuestAdditions/#{tool}",
           "/lib/VBoxGuestAdditions/#{tool}",
           "/etc/init.d/#{tool}",
+          "/usr/sbin/rc#{tool}"
         ]
         cmd = <<-SHELL
         for c in #{candidates.join(" ")}; do
