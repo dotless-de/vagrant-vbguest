@@ -27,7 +27,8 @@ module VagrantVbguest
           'binutils',
           'make',
           'perl',
-          'bzip2'
+          'bzip2',
+          'elfutils-libelf-devel'
         ].join(' ')
       end
     end
