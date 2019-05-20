@@ -1,3 +1,7 @@
+## 0.18.0 (2019-05-20)
+
+- Fix Linux kernel module detection for VirtuaBox >= 6.0.6. @carlosefr [GH-334]
+
 ## 0.17.2 (2019-01-23)
 
 - ContOS installer now activates all repositories when installing the kernel-devel-`uname -r` package and there's no specific release repository. [GH-320]
