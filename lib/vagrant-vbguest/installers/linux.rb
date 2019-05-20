@@ -78,7 +78,7 @@ module VagrantVbguest
         opts = {
           :sudo => true
         }.merge(opts || {})
-        communicate.test('lsmod | grep vboxsf', opts, &block)
+        communicate.test('grep -qE "^vboxguest\s.+\s\([^\s]*O[^\s]*\)$" /proc/modules && test -e /lib/modules/`uname -r`/misc/vboxsf.ko', opts, &block)
       end
 
       # This overrides {VagrantVbguest::Installers::Base#guest_version}
@@ -179,6 +179,8 @@ module VagrantVbguest
           "/lib64/VBoxGuestAdditions/#{tool}",
           "/lib/VBoxGuestAdditions/#{tool}",
           "/etc/init.d/#{tool}",
+          "/usr/sbin/rc#{tool}",
+          "/sbin/rc#{tool}"
         ]
         cmd = <<-SHELL
         for c in #{candidates.join(" ")}; do
