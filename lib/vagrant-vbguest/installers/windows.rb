@@ -26,7 +26,9 @@ module VagrantVbguest
 
       def mount_point
         communicate.execute(
-          "(Get-DiskImage -DevicePath (Get-DiskImage -ImagePath #{tmp_path}).DevicePath | Get-Volume).DriveLetter"
+          "(Get-DiskImage -DevicePath (
+            Get-DiskImage -ImagePath #{tmp_path}
+          ).DevicePath | Get-Volume).DriveLetter"
         ) do |type, data|
           return data.strip
         end
@@ -34,7 +36,9 @@ module VagrantVbguest
 
       def installer_version(path_to_installer)
         version = nil
-        communicate.execute("(get-item #{path_to_installer}).VersionInfo.ProductVersion", error_check: false) do |type, data|
+        communicate.execute(
+          "(get-item #{path_to_installer}).VersionInfo.ProductVersion",
+        ) do |type, data|
           if (v = data.to_s.match(/(\d+\.\d+.\d+)/i))
             version = v[1]
           end
@@ -50,38 +54,48 @@ module VagrantVbguest
       end
 
       def running?(opts = nil, &block)
-        communicate.test("get-service VBoxService", opts, &block)
+        # Windows always needs to reboot after installation
+        false
       end
 
       def guest_version(reload = false)
         return @guest_version if @guest_version && !reload
-
         driver_version = super.to_s[/^(\d+\.\d+.\d+)/, 1]
 
-        service_version = communicate.execute(
+        communicate.execute(
           "VBoxService --version", error_check: false
-        )[1].to_s[/^(\d+\.\d+.\d+)/, 1]
+        ) do |type,data|
+          service_version = data.to_s[/^(\d+\.\d+.\d+)/, 1]
 
-        if service_version
-          if driver_version != service_version
-            @env.ui.warn(I18n.t(
-              "vagrant_vbguest.guest_version_reports_differ",
-              driver: driver_version, service: service_version)
-            )
-          else
-            return service_version
+          if service_version
+            if driver_version != service_version
+              @env.ui.warn(I18n.t(
+                "vagrant_vbguest.guest_version_reports_differ",
+                driver: driver_version, service: service_version)
+              )
+            end
+            @guest_version = service_version
           end
         end
-        nil
+        @guest_version
       end
 
       def execute_installer(opts = nil, &block)
         yield_installation_warning(installer)
-        opts = { error_check: false }.merge(opts || {})
-        opts = { auto_reboot: true }.merge(opts || {})
-        exit_status = communicate.execute("(Start-Process #{installer} /S -Wait).ExitCode", opts, &block)
+        opts = { elevated: true }.merge(opts || {})
+
+        exit_status = communicate.execute(install_command, opts, &block)
         yield_installation_error_warning(installer) unless exit_status == 0
         exit_status
+      end
+
+      def install_command
+        [
+          # Silent install only works if the driver certs are pre-installed
+          "cd #{File.join("#{mount_point}:", 'cert')}",
+          "./VBoxCertUtil.exe add-trusted-publisher *.cer --root *.cer",
+          "#{installer} /S",
+        ].join(";")
       end
 
       def installer
