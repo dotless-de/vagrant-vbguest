@@ -59,9 +59,7 @@ module VagrantVbguest
         mount_iso(opts, &block)
         execute_installer(opts, &block)
         unmount_iso(opts, &block) unless options[:no_cleanup]
-        communicate.execute(
-          "shutdown -r -t 0", opts, &block
-        )
+        reboot_after_install(opts, &block)
       end
 
       def running?(opts = nil, &block)
@@ -133,6 +131,15 @@ module VagrantVbguest
         )
         communicate.execute(
           "Remove-Item -Path #{tmp_path}", opts, &block
+        )
+      end
+
+      def reboot_after_install(opts = nil, &block)
+        env.ui.info(I18n.t(
+          "vagrant_vbguest.restart_vm"
+        ))
+        communicate.execute(
+          "shutdown -r -t 0", opts, &block
         )
       end
 
