@@ -1,4 +1,4 @@
-## 0.19.0 (unreleased)
+## 0.19.0 (2019-07-09)
 
 - Relax verion pin on micormachine dependency. Allow 2.x to 3.x. @johanneskastl [GH-341]
 
