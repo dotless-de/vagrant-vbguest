@@ -11,9 +11,17 @@ module VagrantVbguest
       end
 
       def self.os_release(vm)
-        @@os_release_info[vm_id(vm)] = communicate_to(vm).test(
-          "(Get-WMIObject win32_operatingsystem).name"
+        @@os_release_info ||= {}
+        if !@@os_release_info.has_key?(vm_id(vm)) && communicate_to(vm).test(
+          "(Get-WMIObject win32_operatingsystem).Name"
         )
+          communicate.execute(
+            "(Get-WMIObject win32_operatingsystem).Name",
+          ) do |type, data|
+            @@os_release_info[vm_id(vm)] = data
+          end
+        end
+        @@os_release_info[vm_id(vm)]
       end
 
       def os_release
@@ -51,11 +59,15 @@ module VagrantVbguest
         mount_iso(opts, &block)
         execute_installer(opts, &block)
         unmount_iso(opts, &block) unless options[:no_cleanup]
+        communicate.execute(
+          "shutdown -r -t 0", opts, &block
+        )
       end
 
       def running?(opts = nil, &block)
-        # Windows always needs to reboot after installation
-        false
+        communicate.test(
+          "'Running' -eq (Get-Service VBoxService)"
+        )
       end
 
       def guest_version(reload = false)
