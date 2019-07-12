@@ -1,6 +1,8 @@
 require "delegate"
 
 module VagrantVbguest
+  VERSION = File.read(File.expand_path("../../../VERSION", __FILE__)).chop
+
   # Helper to create a new Gem::Version by parsing the common version pattern.
   # When overwriting the pattern, make sure that the matched version string is
   # the capture `1`

@@ -53,6 +53,7 @@ vbguest will try to autodetect the best option for your system. WTF? see below.
 * `iso_mount_point` (String, default: `/mnt`): Where to mount the VBoxGuestAdditions.iso file on the guest system.
 * `auto_update` (Boolean, default: `true`) : Whether to check the correct additions version on each start (where start is _not_ resuming a box).
 * `auto_reboot` (Boolean, default: `true` when running as a middleware, `false` when running as a command) : Whether to reboot the box after GuestAdditions has been installed, but not loaded.
+* `allow_downgrade` (Boolean, default: `true`) : Allow to install an older version of Guest Additions onto the guest. (Eg. your are running a host with VirtualBox 5 and the box is already on 6).
 * `no_install` (Boolean, default: `false`) : Whether to check the correct additions version only. This will warn you about version mis-matches, but will not try to install anything.
 * `no_remote` (Boolean, default: `false`) : Whether to _not_ download the iso file from a remote location. This includes any `http` location!
 * `installer` (`VagrantVbguest::Installers::Base`, optional) : Reference to a (custom) installer class

@@ -69,8 +69,14 @@ module VagrantVbguest
       running = installer.running?
       @logger.debug("Current states for VM '#{vm.name}' are : guest_version=#{guest_version} : host_version=#{host_version} : running=#{running}")
 
-      return :clean       if !guest_version
-      return :unmatched   if host_version != guest_version
+      return :clean if !guest_version
+
+      if host_version != guest_version
+        return :unmatched if host_version > guest_version || options[:allow_downgrade] || options[:force]
+        return :not_running if !running # still need to check this here, so we don't miss it before running into "skipped_downgrade"
+        return :skipped_downgrade if host_version < guest_version
+      end
+
       return :not_running if !running
       return :ok
     end
