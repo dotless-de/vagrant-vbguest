@@ -8,6 +8,7 @@ end
 I18n.load_path << File.expand_path("../../locales/en.yml", __FILE__)
 I18n.reload!
 
+require "vagrant-vbguest/version"
 require "vagrant-vbguest/errors"
 require 'vagrant-vbguest/download'
 require 'vagrant-vbguest/command'

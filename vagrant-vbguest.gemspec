@@ -1,9 +1,7 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/vagrant-vbguest/version', __FILE__)
-
 Gem::Specification.new do |s|
   s.name        = "vagrant-vbguest"
-  s.version     = VagrantVbguest::VERSION
+  s.version     = File.read('VERSION').chop
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Robert Schulze"]
   s.email       = ["robert@dotless.de"]
