@@ -1,9 +1,7 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/vagrant-vbguest/version', __FILE__)
-
 Gem::Specification.new do |s|
   s.name        = "vagrant-vbguest"
-  s.version     = VagrantVbguest::VERSION
+  s.version     = File.read('VERSION').chop
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Robert Schulze"]
   s.email       = ["robert@dotless.de"]
@@ -14,7 +12,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 
-  s.add_dependency "micromachine", "~> 2.0.0"
+  s.add_dependency "micromachine", ">= 2", "< 4"
 
   # those should be satisfied by vagrant
   s.add_dependency "i18n"

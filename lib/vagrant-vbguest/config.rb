@@ -4,7 +4,7 @@ module VagrantVbguest
 
     module Attributes
       attr_accessor :auto_update, :auto_reboot, :no_install, :no_remote,
-                    :installer, :installer_arguments,
+                    :installer, :installer_arguments, :allow_downgrade,
                     :iso_path, :iso_upload_path, :iso_mount_point, :yes
     end
 
@@ -22,6 +22,8 @@ module VagrantVbguest
         return nil if !@iso_path || @iso_path == :auto
         @iso_path
       end
+
+      def allow_downgrade; @allow_downgrade.nil? ? false : @allow_downgrade end
     end
 
     include Attributes
@@ -38,6 +40,8 @@ module VagrantVbguest
       @iso_path
     end
 
+    def allow_downgrade; @allow_downgrade.nil? ? self.class.allow_downgrade : @allow_downgrade end
+
     # explicit hash, to get symbols in hash keys
     def to_hash
       {
@@ -50,7 +54,8 @@ module VagrantVbguest
         :auto_reboot => auto_reboot,
         :no_install => no_install,
         :no_remote => no_remote,
-        :yes => yes
+        :yes => yes,
+        :allow_downgrade => allow_downgrade
       }
     end
 

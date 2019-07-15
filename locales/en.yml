@@ -31,6 +31,7 @@ en:
       unmatched: "[%{vm_name}] Guest Additions versions on your host (%{host_version}) and guest (%{guest_version}) do not match."
       not_running: "[%{vm_name}] Guest Additions seem to be installed (%{guest_version}) correctly, but not running."
       ok: "[%{vm_name}] Guest Additions %{guest_version} running --- OK."
+      skipped_downgrade: "Guest Additions are newer than your host but, downgrades are disabled. Skipping."
 
     errors:
       autodetect_iso_path: |-

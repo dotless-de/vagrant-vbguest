@@ -39,8 +39,10 @@ module VagrantVbguest
       def release_version
         unless instance_variable_defined?(:@release_version)
           @release_version = nil
+          version_pattern = /(\d+\.\d+(\.\d+)?)/
           communicate.sudo('cat /etc/centos-release') do |type, data|
-            @release_version = data.to_s[/(\d+\.\d+(\.\d+)?)/, 1]
+            v = VagrantVbguest::Version(data, version_pattern)
+            @release_version = v if v
           end
         end
         @release_version

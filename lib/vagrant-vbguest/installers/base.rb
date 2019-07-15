@@ -113,7 +113,7 @@ module VagrantVbguest
 
       # Determinates if the GuestAdditions kernel module is loaded.
       # This method tests if there is a working GuestAdditions
-      # kernel module. If there is none, {#rebuild} is beeing called.
+      # kernel module. If there is none, {#rebuild} is being called.
       # If there is no way of telling if there is a working
       # GuestAddition for a specific system, this method should
       # return `true`.
@@ -128,28 +128,34 @@ module VagrantVbguest
       # guest system.
       #
       # @param reload [Boolean] Whether to read the value again or use
-      #                  the cached value form an erlier call.
-      # @return [String] The version code of the VirtualBox Guest Additions
+      #                  the cached value form an earlier call.
+      # @return [Gem::Version] The version code of the VirtualBox Guest Additions
       #                  available on the guest, or `nil` if none installed.
       def guest_version(reload=false)
         return @guest_version if @guest_version && !reload
 
-        guest_version = @host.read_guest_additions_version
-        guest_version = !guest_version ? nil : guest_version[/\d+\.\d+\.\d+/]
+        @guest_version = VagrantVbguest::Version(@host.read_guest_additions_version)
+      end
 
-        @guest_version = guest_version
+      # Determinates the host (eg VirtualBox) version
+      # @param reload [Boolean] Whether to read the value again or use
+      #                  the cached value form an earlier call.
+      # @return [Gem::Version] The version code of the host provider
+      def host_version(reload=false)
+        return @host_version if @host_version && !reload
+
+        @host_version = VagrantVbguest::Version(@host.version)
       end
 
 
       # Determinates the version of the GuestAdditions installer in use
       #
-      # @return [String] The version code of the GuestAdditions installer
+      # @return [Gem::Version] The version code of the GuestAdditions installer
       def installer_version(path_to_installer)
         version = nil
         communicate.sudo("#{path_to_installer} --info", :error_check => false) do |type, data|
-          if (v = data.to_s.match(/\AIdentification.*\s(\d+\.\d+.\d+)/i))
-            version = v[1]
-          end
+          v = VagrantVbguest::Version(data, /\AIdentification.*\s(\d+\.\d+.\d+)/i)
+          version = v if v
         end
         version
       end

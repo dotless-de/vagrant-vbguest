@@ -94,7 +94,7 @@ module VagrantVbguest
     def host_version
       installer = guest_installer
       raise NoInstallerFoundError, :method => 'check host version of' if !installer
-      installer.host.version
+      installer.host_version
     end
 
     def running?

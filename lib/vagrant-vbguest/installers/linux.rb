@@ -88,14 +88,14 @@ module VagrantVbguest
       # additions installed on the host may differ. If this happens, we
       # assume, that the host binaries are right and yield a warning message.
       #
-      # @return [String] The version code of the VirtualBox Guest Additions
-      #                  available on the guest, or `nil` if none installed.
+      # @return [Gem::Version] The version code of the VirtualBox Guest Additions
+      #   available on the guest, or `nil` if none installed.
       def guest_version(reload = false)
         return @guest_version if @guest_version && !reload
-        driver_version = super.to_s[/^(\d+\.\d+.\d+)/, 1]
+        driver_version = VagrantVbguest::Version(super)
 
         communicate.sudo('VBoxService --version', :error_check => false) do |type, data|
-          service_version = data.to_s[/^(\d+\.\d+.\d+)/, 1]
+          service_version = VagrantVbguest::Version(data)
           if service_version
             if driver_version != service_version
               @env.ui.warn(I18n.t("vagrant_vbguest.guest_version_reports_differ", :driver => driver_version, :service => service_version))
@@ -126,7 +126,7 @@ module VagrantVbguest
           communicate.sudo("#{find_tool('vboxadd')} start", opts, &block)
         end
 
-        if Gem::Version.new("#{guest_version}") >= Gem::Version.new('5.1')
+        if guest_version && guest_version >= Gem::Version.new('5.1')
           if systemd_tool
             communicate.sudo("#{systemd_tool[:path]} vboxadd-service #{systemd_tool[:up]}", opts, &block)
           else

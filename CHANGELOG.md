@@ -1,3 +1,7 @@
+## 0.19.0 (2019-07-09)
+
+- Relax version pin on micromachine dependency. Allow 2.x to 3.x. @johanneskastl [GH-341]
+
 ## 0.18.0 (2019-05-20)
 
 - Fix Linux kernel module detection for VirtuaBox >= 6.0.6. @carlosefr [GH-334]
