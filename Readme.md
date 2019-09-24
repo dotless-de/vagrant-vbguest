@@ -1,6 +1,6 @@
 # vagrant-vbguest
 
-*vagrant-vbguest* is a [Vagrant](http://vagrantup.com) plugin which automatically installs the host's VirtualBox Guest Additions on guest Linux machines. (Pull requests are welcome for [Windows guest support](https://github.com/dotless-de/vagrant-vbguest/issues/65#issuecomment-17386964).)
+*vagrant-vbguest* is a [Vagrant](http://vagrantup.com) plugin which automatically installs the host's VirtualBox Guest Additions on guest Linux machines.
 
 [![Join the chat at https://gitter.im/dotless-de/vagrant-vbguest](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dotless-de/vagrant-vbguest?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Code Climate](https://codeclimate.com/github/dotless-de/vagrant-vbguest.svg)](https://codeclimate.com/github/dotless-de/vagrant-vbguest)
