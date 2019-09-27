@@ -268,3 +268,4 @@ This project contains a [sample installer gem](https://github.com/dotless-de/vag
 * On multi vm boxes, the iso file will be downloaded for each vm.
 * The plugin installation on Windows host systems may not work as expected (using `vagrant gem install vagrant-vbguest`). Try `C:\vagrant\vagrant\embedded\bin\gem.bat install vagrant-vbguest` instead. (See [issue #19](https://github.com/dotless-de/vagrant-vbguest/issues/19#issuecomment-7040304))
 * The Windows guest additions installer will only properly install virtual drivers (enabling e.g. seamless resizing) if a user is logged in during the install. Automatic login is recommended for Windows Vagrant boxes.
+* Uploading GuestAdditions into a Windows guest might take longer than expected.
