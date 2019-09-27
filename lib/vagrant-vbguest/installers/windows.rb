@@ -94,25 +94,23 @@ module VagrantVbguest
       end
 
       def execute_installer(opts = nil, &block)
+        cert_dir  = File.join("#{mount_point}:", 'cert')
+        installer = File.join("#{mount_point}:", "VBoxWindowsAdditions.exe")
+
         yield_installation_warning(installer)
         opts = { elevated: true }.merge(opts || {})
 
-        exit_status = communicate.execute(install_command, opts, &block)
+        # ignore "CRYPT_E_EXISTS" error when re-installing
+        communicate.execute(<<-SHELL, opts.merge(error_check: false), &block)
+          cd #{cert_dir}; ./VBoxCertUtil.exe add-trusted-publisher *.cer --root *.cer
+        SHELL
+
+        exit_status = communicate.execute(<<-SHELL, opts, &block)
+          cd #{cert_dir}; #{installer} /S
+        SHELL
+
         yield_installation_error_warning(installer) unless exit_status == 0
         exit_status
-      end
-
-      def install_command
-        [
-          # Silent install only works if the driver certs are pre-installed
-          "cd #{File.join("#{mount_point}:", 'cert')}",
-          "./VBoxCertUtil.exe add-trusted-publisher *.cer --root *.cer",
-          "#{installer} /S",
-        ].join(";")
-      end
-
-      def installer
-        @installer ||= File.join("#{mount_point}:", "VBoxWindowsAdditions.exe")
       end
 
       def mount_iso(opts = nil, &block)
