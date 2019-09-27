@@ -1,7 +1,7 @@
 en:
   vagrant_vbguest:
-    skipped_installation: "Updating Guest Additions skipped."
-    skipped_rebuild: "Rebuilding Guest Additions skipped."
+    skipped_installation: "Updating GuestAdditions skipped."
+    skipped_rebuild: "Rebuilding GuestAdditions skipped."
     mounting_iso: "Mounting Virtualbox Guest Additions ISO to: %{mount_point}"
     unmounting_iso: "Unmounting Virtualbox Guest Additions ISO from: %{mount_point}"
     installing: "Installing Virtualbox Guest Additions %{installer_version} - guest version is %{guest_version}"
@@ -17,7 +17,7 @@ en:
     restart_loop_guard_activated: "Guest Additions will not load, even after reboot."
     machine_loop_guard: "Could not execute %{command} from current state %{state}. To prevent running in circles, we'll stop."
     guest_version_reports_differ: |-
-      Got different reports about installed Guest Additions version:
+      Got different reports about installed GuestAdditions version:
       Virtualbox on your host claims:   %{driver}
       VBoxService inside the vm claims: %{service}
       Going on, assuming VBoxService is correct...
@@ -28,10 +28,10 @@ en:
 
     status:
       clean: "[%{vm_name}] No Virtualbox Guest Additions installation found."
-      unmatched: "[%{vm_name}] Guest Additions versions on your host (%{host_version}) and guest (%{guest_version}) do not match."
-      not_running: "[%{vm_name}] Guest Additions seem to be installed (%{guest_version}) correctly, but not running."
-      ok: "[%{vm_name}] Guest Additions %{guest_version} running --- OK."
-      skipped_downgrade: "Guest Additions are newer than your host but, downgrades are disabled. Skipping."
+      unmatched: "[%{vm_name}] GuestAdditions versions on your host (%{host_version}) and guest (%{guest_version}) do not match."
+      not_running: "[%{vm_name}] GuestAdditions seems to be installed (%{guest_version}) correctly, but not running."
+      ok: "[%{vm_name}] GuestAdditions %{guest_version} running --- OK."
+      skipped_downgrade: "GuestAdditions are newer than your host but, downgrades are disabled. Skipping."
 
     errors:
       autodetect_iso_path: |-
