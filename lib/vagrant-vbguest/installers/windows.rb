@@ -59,12 +59,10 @@ module VagrantVbguest
         mount_iso(opts, &block)
         execute_installer(opts, &block)
         unmount_iso(opts, &block) unless options[:no_cleanup]
-        env.ui.info(I18n.t(
-          "vagrant_vbguest.restart_vm"
-        ))
-        communicate.execute(
-          "shutdown -r -t 0", opts, &block
-        )
+      end
+
+      def reboot_after_install?(opts = nil, &block)
+        true
       end
 
       def running?(opts = nil, &block)
