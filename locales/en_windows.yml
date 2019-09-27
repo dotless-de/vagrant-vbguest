@@ -1,0 +1,4 @@
+en:
+  vagrant_vbguest:
+    windows:
+      install_error: An error occurred during installation of VirtualBox Guest Additions %{installer_version}. Some functionality may not work as intended.

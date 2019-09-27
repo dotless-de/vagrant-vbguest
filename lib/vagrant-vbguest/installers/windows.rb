@@ -138,6 +138,13 @@ module VagrantVbguest
           "Remove-Item -Path #{tmp_path}", opts, &block
         )
       end
+
+      def yield_installation_error_warning(path_to_installer)
+        @env.ui.warn I18n.t(
+          "vagrant_vbguest.windows.install_error",
+          installer_version: installer_version(path_to_installer) || I18n.t("vagrant_vbguest.unknown")
+        )
+      end
     end
   end
 end

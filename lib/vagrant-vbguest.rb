@@ -5,7 +5,7 @@ rescue LoadError
 end
 
 # Add our custom translations to the load path
-I18n.load_path << File.expand_path("../../locales/en.yml", __FILE__)
+I18n.load_path += Dir[File.expand_path("../../locales/*.yml", __FILE__)]
 I18n.reload!
 
 require "vagrant-vbguest/version"
