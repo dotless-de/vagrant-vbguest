@@ -103,16 +103,32 @@ module VagrantVbguest
       installer.running?
     end
 
+    def reboot_after_install?
+      if (installer = guest_installer)
+        guest_installer.reboot_after_install?
+      end
+    end
+
     # Returns an installer instance for the current vm
     # This is either the one configured via `installer` option or
     # detected from all registered installers (see {Installer.detect})
     #
     # @return [Installers::Base]
     def guest_installer
-      @guest_installer ||= if @options[:installer].is_a? Class
-        @options[:installer].new(@vm, @options)
+      return @guest_installer if @guest_installer
+
+      if (klass = guest_installer_class)
+        @guest_installer = klass.new(@vm, @options)
+      end
+
+      @guest_installer
+    end
+
+    def guest_installer_class
+      if @options[:installer].is_a?(Class)
+        @options[:installer]
       else
-        installer_klass = Installer.detect(@vm, @options) and installer_klass.new(@vm, @options)
+        Installer.detect(@vm, @options)
       end
     end
 

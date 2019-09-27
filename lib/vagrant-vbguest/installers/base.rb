@@ -124,6 +124,11 @@ module VagrantVbguest
         true
       end
 
+      # This manipulate the run-list of a the vbguest machine.
+      def reboot_after_install?(opts=nil, &block)
+        false
+      end
+
       # Determinates the GuestAdditions version installed on the
       # guest system.
       #

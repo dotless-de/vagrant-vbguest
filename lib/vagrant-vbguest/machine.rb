@@ -13,7 +13,7 @@ module VagrantVbguest
       @logger = Log4r::Logger.new("vagrant::plugins::vbguest-machine")
       @logger.debug("initialize vbguest machine for VM '#{vm.name}' (#{vm.to_s})")
 
-      @installer = Installer.new vm, options
+      @installer = Installer.new(vm, options)
     end
 
     def run
@@ -55,7 +55,7 @@ module VagrantVbguest
     def steps(state)
       case state
       when :clean, :unmatched
-        [:install]
+        [:install].tap { |l| l << :reboot if installer.reboot_after_install? }
       when :not_running
         installation_ran? ? [:reboot] : [:start, :rebuild, :reboot]
       else
