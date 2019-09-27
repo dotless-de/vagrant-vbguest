@@ -73,12 +73,12 @@ module VagrantVbguest
 
       def guest_version(reload = false)
         return @guest_version if @guest_version && !reload
-        driver_version = super.to_s[/^(\d+\.\d+.\d+)/, 1]
+        driver_version = VagrantVbguest::Version(super)
 
         communicate.execute(
           "VBoxService --version", error_check: false
         ) do |type,data|
-          service_version = data.to_s[/^(\d+\.\d+.\d+)/, 1]
+          service_version = VagrantVbguest::Version(data)
 
           if service_version
             if driver_version != service_version
