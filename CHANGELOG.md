@@ -1,3 +1,9 @@
+## 0.20.0 (2019-09-27)
+
+- Add Windows support. @thumperward [GH-343]
+- Add `allow_downgrade` config. Set it to `false` to prevent downgrades. [GH-310]
+- the gem version is now hold in a plain text file `VERSION` (additionally to the ruby constant `VagrantVbguest::VERSION`)
+
 ## 0.19.0 (2019-07-09)
 
 - Relax version pin on micromachine dependency. Allow 2.x to 3.x. @johanneskastl [GH-341]
