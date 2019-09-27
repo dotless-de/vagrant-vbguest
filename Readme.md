@@ -260,6 +260,14 @@ If you find yourself copying the same installer in each of your vagrant project,
 
 This project contains a [sample installer gem](https://github.com/dotless-de/vagrant-vbguest/tree/master/testdrive/vagrant-vbguest-unikorn) which might serve as an boilerplate. 
 
+
+## Contributing
+
+Bug reports and pull requests are welcome on GitHub at https://github.com/dotless-de/vagrant-vbguest.
+
+For the forseeable future, no more pull requests will be accepted which add new guest support/installers. Please build your gem as a plugin to vbguest (see "Very Advanced Usage" section of this file). In fact, please open a pull request to remove support for a guest system if feel confident that your sulution is any better.
+
+
 ## Known Issues
 
 * The installer script, which mounts and runs the GuestAdditions Installer Binary, works on Linux only. Most likely it will run on most Unix-like platforms.
