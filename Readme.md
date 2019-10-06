@@ -265,7 +265,7 @@ This project contains a [sample installer gem](https://github.com/dotless-de/vag
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/dotless-de/vagrant-vbguest.
 
-For the forseeable future, no more pull requests will be accepted which add new guest support/installers. Please build your gem as a plugin to vbguest (see "Very Advanced Usage" section of this file). In fact, please open a pull request to remove support for a guest system if feel confident that your sulution is any better.
+For the forseeable future, no more pull requests will be accepted which add new guest support/installers. Please build your gem as a plugin to vbguest (see "Very Advanced Usage" section of this file). In fact, please open a pull request to remove support for a guest system if feel confident that your solution is better.
 
 
 ## Known Issues
