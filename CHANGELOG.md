@@ -1,3 +1,8 @@
+## 0.21.0 (2019-11-11)
+
+- Default `web_path` to virtualbox now uses https. @adamzerella [GH-354]
+- Support for Centos7-style compressed modules. @jude [GH-352]
+
 ## 0.20.0 (2019-09-27)
 
 - Add Windows support. @thumperward [GH-343]
