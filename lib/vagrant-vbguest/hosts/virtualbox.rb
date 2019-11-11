@@ -36,7 +36,7 @@ module VagrantVbguest
         #
         # @return [String] A URI template containing the versions placeholder.
         def web_path
-          "http://download.virtualbox.org/virtualbox/%{version}/VBoxGuestAdditions_%{version}.iso"
+          "https://download.virtualbox.org/virtualbox/%{version}/VBoxGuestAdditions_%{version}.iso"
         end
 
 
