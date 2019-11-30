@@ -64,7 +64,7 @@ module VagrantVbguest
           super
         else
           # we should have installed kernel-devel-`uname -r` via install_kernel_devel
-          ['gcc', 'binutils', 'make', 'perl', 'bzip2'].join(' ')
+          ['gcc', 'binutils', 'make', 'perl', 'bzip2', 'elfutils-libelf-devel'].join(' ')
         end
       end
     end
