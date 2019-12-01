@@ -54,7 +54,7 @@ module VagrantVbguest
 
     def steps(state)
       case state
-      when :clean, :unmatched
+      when :clean, :dirty, :unmatched
         [:install].tap { |l| l << :reboot if installer.reboot_after_install? }
       when :not_running
         installation_ran? ? [:reboot] : [:start, :rebuild, :reboot]
@@ -70,6 +70,9 @@ module VagrantVbguest
       @logger.debug("Current states for VM '#{vm.name}' are : guest_version=#{guest_version} : host_version=#{host_version} : running=#{running}")
 
       return :clean if !guest_version
+
+      # some sort of distro installation bot no `vboxadd` tools to trgger rebuilds or manual starts
+      return :dirty if !installer.has_service_tools?
 
       if host_version != guest_version
         return :unmatched if host_version > guest_version || options[:allow_downgrade] || options[:force]

@@ -105,7 +105,14 @@ module VagrantVbguest
 
     def reboot_after_install?
       if (installer = guest_installer)
-        guest_installer.reboot_after_install?
+        installer.reboot_after_install?
+      end
+    end
+
+    # Does the guest installer provide service tooling to manually start or rebuild guest additions?
+    def has_service_tools?
+      if (installer = guest_installer)
+        installer.has_vboxadd_tools?
       end
     end
 

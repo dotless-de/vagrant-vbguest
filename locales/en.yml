@@ -28,6 +28,7 @@ en:
 
     status:
       clean: "[%{vm_name}] No Virtualbox Guest Additions installation found."
+      dirty: "[%{vm_name}] A Virtualbox Guest Additions installation was found but no tools to rebuild or start them."
       unmatched: "[%{vm_name}] GuestAdditions versions on your host (%{host_version}) and guest (%{guest_version}) do not match."
       not_running: "[%{vm_name}] GuestAdditions seems to be installed (%{guest_version}) correctly, but not running."
       ok: "[%{vm_name}] GuestAdditions %{guest_version} running --- OK."

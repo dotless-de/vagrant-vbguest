@@ -129,6 +129,11 @@ module VagrantVbguest
         false
       end
 
+      # Does the guest installer provide tooling to manually start or rebuild guest additions?
+      def has_vboxadd_tools?(opts=nil, &block)
+        false
+      end
+
       # Determinates the GuestAdditions version installed on the
       # guest system.
       #

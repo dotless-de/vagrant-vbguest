@@ -135,6 +135,10 @@ module VagrantVbguest
         end
       end
 
+      def has_service_tools?(opts=nil, &block)
+        !!find_tool('vboxadd') || communicate.test('systemctl list-units --type service | grep -q vboxadd', {:sudo => true})
+      end
+
       # Check for the presence of 'systemd' chkconfg or service command.
       #
       #    systemd_tool # => {:path=>"/usr/sbin/service", :up=>"start"}
