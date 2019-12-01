@@ -10,7 +10,13 @@ module VagrantVbguest
       protected
 
       def dependencies
-        ['kernel-uek-devel-`uname -r`', 'gcc', 'make', 'perl', 'bzip2'].join(' ')
+        [
+          'kernel-`uname -a | grep -q "uek." && echo "uek-"`devel-`uname -r`',
+          'gcc',
+          'make',
+          'perl',
+          'bzip2'
+        ].join(' ')
       end
     end
   end
