@@ -53,7 +53,10 @@ Vagrant.configure("2") do |config|
   next_ip.box config, "debian8", "oar-team/debian8"
   next_ip.box config, "opensuse13", "bento/opensuse-13.2"
   next_ip.box config, "suse12", "elastic/sles-12-x86_64"
+  next_ip.box config, "opensuse151", "bento/opensuse-leap-15.1"
+  next_ip.box config, "ubuntu1204", "ubuntu/precise64"
   next_ip.box config, "ubuntu1404", "ubuntu/trusty64"
+  next_ip.box config, "ubuntu1804", "ubuntu/bionic64"
   next_ip.box config, "centos6", "centos/6"
   next_ip.box config, "centos7", "centos/7"
   next_ip.box config, "centos7-previous", "centos/7" do |cfg|
