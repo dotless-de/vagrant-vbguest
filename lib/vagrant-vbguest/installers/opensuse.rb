@@ -9,6 +9,7 @@ module VagrantVbguest
 
       # Install missing deps and yield up to regular linux installation
       def install(opts=nil, &block)
+        communicate.sudo(uninstall_dist_install_cmd, (opts || {}).merge(:error_check => false), &block)
         communicate.sudo(install_dependencies_cmd, opts, &block)
         super
       end
@@ -16,6 +17,10 @@ module VagrantVbguest
     protected
       def self.has_zypper?(vm)
         communicate_to(vm).test("which zypper")
+      end
+
+      def uninstall_dist_install_cmd
+        "zypper --non-interactive rm -y virtualbox-guest-kmp-default virtualbox-guest-tools virtualbox-guest-x11"
       end
 
       def install_dependencies_cmd
