@@ -1,3 +1,9 @@
+## 0.22.0 (2019-12-01)
+
+- Opensuse installer now uninstalls packaged guest additions
+- Fix error trying to rebuild/start guest additions when no `vboxadd` to is present [GH-358]
+- Fiy Oracle installer to support non UEK kernel. [GH-357]
+
 ## 0.21.0 (2019-11-11)
 
 - Default `web_path` to virtualbox now uses https. @adamzerella [GH-354]
