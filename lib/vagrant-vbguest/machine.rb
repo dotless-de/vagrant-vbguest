@@ -22,8 +22,11 @@ module VagrantVbguest
       @logger.debug("Runlist for state #{current_state} is: #{runlist}")
       while (command = runlist.shift)
         @logger.debug("Running command #{command} from runlist")
-        if !self.send(command)
-          env.ui.error('vagrant_vbguest.machine_loop_guard', :command => command, :state => current_state)
+        case self.send(command)
+        when nil # skipped
+          return false
+        when false # machine state change error
+          env.ui.error(I18n.t('vagrant_vbguest.machine_loop_guard', :command => command, :state => guest_additions_state.state))
           return false
         end
         return run if current_state != state
@@ -71,8 +74,8 @@ module VagrantVbguest
 
       return :clean if !guest_version
 
-      # some sort of distro installation bot no `vboxadd` tools to trgger rebuilds or manual starts
-      return :dirty if !installer.has_service_tools?
+      # some sort of distro installation bot no `vboxadd` tools to trigger rebuilds or manual starts
+      return :dirty if installer.provides_vboxadd_tools? && !installer.vboxadd_tools_available?
 
       if host_version != guest_version
         return :unmatched if host_version > guest_version || options[:allow_downgrade] || options[:force]

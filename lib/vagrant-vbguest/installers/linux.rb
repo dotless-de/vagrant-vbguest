@@ -135,7 +135,11 @@ module VagrantVbguest
         end
       end
 
-      def has_service_tools?(opts=nil, &block)
+      def provides_vboxadd_tools?
+        true
+      end
+
+      def vboxadd_tools_available?
         !!find_tool('vboxadd') || communicate.test('systemctl list-units --type service | grep -q vboxadd', {:sudo => true})
       end
 

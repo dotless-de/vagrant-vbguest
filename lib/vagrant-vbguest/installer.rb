@@ -104,16 +104,21 @@ module VagrantVbguest
     end
 
     def reboot_after_install?
-      if (installer = guest_installer)
-        installer.reboot_after_install?
-      end
+      installer = guest_installer
+      raise NoInstallerFoundError, :method => 'check if we need to reboot after installing' if !installer
+      installer.reboot_after_install?
     end
 
-    # Does the guest installer provide service tooling to manually start or rebuild guest additions?
-    def has_service_tools?
-      if (installer = guest_installer)
-        installer.has_vboxadd_tools?
-      end
+    def provides_vboxadd_tools?
+      installer = guest_installer
+      raise NoInstallerFoundError, :method => 'check platform support for vboxadd tools of' if !installer
+      installer.provides_vboxadd_tools?
+    end
+
+    def vboxadd_tools_available?
+      installer = guest_installer
+      raise NoInstallerFoundError, :method => 'check for existing vboxadd tools of' if !installer
+      installer.vboxadd_tools_available?
     end
 
     # Returns an installer instance for the current vm

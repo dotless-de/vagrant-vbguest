@@ -125,13 +125,24 @@ module VagrantVbguest
       end
 
       # This manipulate the run-list of a the vbguest machine.
-      def reboot_after_install?(opts=nil, &block)
+      #
+      # @return [Boolean]
+      def reboot_after_install?
         false
       end
 
       # Does the guest installer provide tooling to manually start or rebuild guest additions?
-      def has_vboxadd_tools?(opts=nil, &block)
+      #
+      # @return [Boolean]
+      def provides_vboxadd_tools?
         false
+      end
+
+      # Is the tooling to manually start or rebuild guest additions installed on the guest?
+      #
+      # @return [Boolean]
+      def vboxadd_tools_available?
+        raise NotImplementedError
       end
 
       # Determinates the GuestAdditions version installed on the
