@@ -1,3 +1,7 @@
+## 0.22.0 (2019-12-06)
+
+- Fix checking for `vboxadd` tools. [GH-362]
+
 ## 0.22.0 (2019-12-01)
 
 - Opensuse installer now uninstalls packaged guest additions
