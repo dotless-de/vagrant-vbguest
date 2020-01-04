@@ -15,7 +15,8 @@ module VagrantVbguest
           'gcc',
           'make',
           'perl',
-          'bzip2'
+          'bzip2',
+          'elfutils-libelf-devel'
         ].join(' ')
       end
     end
