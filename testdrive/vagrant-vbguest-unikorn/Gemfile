@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 group :development do
   gem "vagrant", git: "https://github.com/mitchellh/vagrant.git"
+  gem "rake", ">= 12.3.3"
 end
 
 group :plugins do

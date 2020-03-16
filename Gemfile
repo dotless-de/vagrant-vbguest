@@ -11,7 +11,7 @@ group :development do
   else
     gem "vagrant", :git => "https://github.com/hashicorp/vagrant.git"
   end
-  gem "rake", "~> 10.0"
+  gem "rake", ">= 12.3.3"
 end
 
 group :plugins do
