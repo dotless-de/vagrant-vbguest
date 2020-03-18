@@ -24,7 +24,7 @@ module VagrantVbguest
 
     protected
       def install_dependencies_cmd
-        "apt-get install -y #{dependencies}"
+        "DEBIAN_FRONTEND=noninteractive apt-get install -y #{dependencies}"
       end
 
       def dependencies
