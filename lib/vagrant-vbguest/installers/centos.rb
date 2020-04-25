@@ -49,7 +49,7 @@ module VagrantVbguest
       end
       
       def centos_8?
-        release_version && release_version.start_with?('8')
+        release_version && release_version.to_s.start_with?('8')
       end
 
       def update_release_repos(opts=nil, &block)
