@@ -1,0 +1,4 @@
+en:
+  vagrant_vbguest:
+    centos:
+      rebooting: "[%{vm_name}] Rebooting after kernel upgrade."
