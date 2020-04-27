@@ -8,11 +8,26 @@ module VagrantVbguest
 
       # Install missing deps and yield up to regular linux installation
       def install(opts=nil, &block)
-        install_kernel_deps(opts, &block)
+        if upgrade_kernel?
+          upgrade_kernel(opts, &block)
+        else
+          install_kernel_deps(opts, &block)
+        end
         super
       end
 
+      def installer_options
+        @installer_options ||= {
+          allow_kernel_upgrade: false,
+          reboot_timeout: 300
+        }.merge!(super)
+      end
+
       protected
+
+      def upgrade_kernel?
+        installer_options[:allow_kernel_upgrade]
+      end
 
       def install_kernel_deps(opts=nil, &block)
         unless has_kernel_devel_info?
@@ -31,7 +46,7 @@ module VagrantVbguest
       def has_rel_repo?
         unless instance_variable_defined?(:@has_rel_repo)
           rel = release_version
-          @has_rel_repo = communicate.test(centos_8? ? 'yum repolist' : "yum repolist --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates")
+          @has_rel_repo = communicate.test("yum repolist --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates")
         end
         @has_rel_repo
       end
@@ -47,37 +62,35 @@ module VagrantVbguest
         end
         @release_version
       end
-      
-      def centos_8?
-        release_version && release_version.to_s.start_with?('8')
-      end
 
       def update_release_repos(opts=nil, &block)
         communicate.sudo('yum install -y centos-release', opts, &block)
       end
 
       def install_kernel_devel(opts=nil, &block)
-        if centos_8?
-          communicate.sudo('yum update -y kernel', opts, &block)
-          communicate.sudo('yum install -y kernel-devel', opts, &block)
-          communicate.sudo('shutdown -r now', opts, &block)
+        rel = has_rel_repo? ? release_version : '*'
+        cmd = "yum install -y kernel-devel-`uname -r` --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates"
+        communicate.sudo(cmd, opts, &block)
+      end
 
-          begin
-            sleep 10
-          end until @vm.communicate.ready?
-        else
-          rel = has_rel_repo? ? release_version : '*'
-          cmd = "yum install -y kernel-devel-`uname -r` --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates"
-          communicate.sudo(cmd, opts, &block)
-        end
+      def upgrade_kernel(opts=nil, &block)
+        communicate.sudo('yum update -y kernel', opts, &block)
+        communicate.sudo('yum install -y kernel-devel', opts, &block)
+        communicate.sudo('shutdown -r now', opts, &block)
+
+        sleep_guard = installer_options[:reboot_timeout]
+        begin
+          sleep 10
+          sleep_guard -= 10
+        end while sleep_guard >= 0 && !@vm.communicate.ready?
       end
 
       def dependencies
-        if has_kernel_devel_info?
+        if !upgrade_kernel? && has_kernel_devel_info?
           # keep the original redhat dependencies
           super
         else
-          # we should have installed kernel-devel-`uname -r` via install_kernel_devel
+          # we should have installed kernel-devel(-`uname -r`) via install_kernel_devel or upgrade_kernel
           ['gcc', 'binutils', 'make', 'perl', 'bzip2', 'elfutils-libelf-devel'].join(' ')
         end
       end
