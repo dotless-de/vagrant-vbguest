@@ -61,6 +61,25 @@ vbguest will try to autodetect the best option for your system. WTF? see below.
 * `installer_options` (Hash, default: `{}`) : Configure how a Installer internally works. Should be set on a `vm` level.
 * `yes` (Boolean or String, default: `true`): Wheter to pipe `yes` to the installer. If `true`, executes `yes | VBoxLinuxAdditions.run install`. With `false`, the command is executed without `yes`. You can also put in a string here for `yes` (e.g. `no` to refuse all messages)
 
+
+#### Installer Specific Options (`installer_options`)
+
+Those settings are specific for OS-specific installer. Especially in a multi-box environment, you should put those options on the box configuration like this:
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.define "my_cent_os_box" do |c|
+    c.box = "centos/8"
+    c.vbguest.installer_options = { allow_kernel_upgrade: true }
+  end
+end
+```
+
+##### CentOS
+
+* `:allow_kernel_upgrade` (default: `false`): If `true`, instead of trying to find matching the matching kernel-devel package to the installed kernel version, the kernel will be updated and the (now matching) up-to-date kernel-devel will be installed. __NOTE__: This will trigger a reboot of the box.
+* `:reboot_timeout` (default: `300`): Number of seconds to wait for the box to reboot after a kernel upgrade.
+
 #### Global Configuration
 
 Using [Vagrantfile Load Order](https://www.vagrantup.com/docs/vagrantfile/#load-order-and-merging) you may change default configuration values.
