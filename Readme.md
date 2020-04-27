@@ -58,6 +58,7 @@ vbguest will try to autodetect the best option for your system. WTF? see below.
 * `no_remote` (Boolean, default: `false`) : Whether to _not_ download the iso file from a remote location. This includes any `http` location!
 * `installer` (`VagrantVbguest::Installers::Base`, optional) : Reference to a (custom) installer class
 * `installer_arguments` (Array, default: `['--nox11']`) : List of additional arguments to pass to the installer. eg: `%w{--nox11 --force}` would execute `VBoxLinuxAdditions.run install --nox11 --force`
+* `installer_options` (Hash, default: `{}`) : Configure how a Installer internally works. Should be set on a `vm` level.
 * `yes` (Boolean or String, default: `true`): Wheter to pipe `yes` to the installer. If `true`, executes `yes | VBoxLinuxAdditions.run install`. With `false`, the command is executed without `yes`. You can also put in a string here for `yes` (e.g. `no` to refuse all messages)
 
 #### Global Configuration

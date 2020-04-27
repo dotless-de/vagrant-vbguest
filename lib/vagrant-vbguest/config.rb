@@ -4,7 +4,8 @@ module VagrantVbguest
 
     module Attributes
       attr_accessor :auto_update, :auto_reboot, :no_install, :no_remote,
-                    :installer, :installer_arguments, :allow_downgrade,
+                    :installer, :installer_arguments, :installer_options,
+                    :allow_downgrade,
                     :iso_path, :iso_upload_path, :iso_mount_point, :yes
     end
 
@@ -47,6 +48,7 @@ module VagrantVbguest
       {
         :installer => installer,
         :installer_arguments => installer_arguments,
+        :installer_options => installer_options,
         :iso_path => iso_path,
         :iso_upload_path => iso_upload_path,
         :iso_mount_point => iso_mount_point,

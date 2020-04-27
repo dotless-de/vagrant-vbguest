@@ -181,6 +181,10 @@ module VagrantVbguest
         version
       end
 
+      def installer_options
+        options[:installer_options] || {}
+      end
+
       # Helper to yield a warning message to the user, that the installation
       # will start _now_.
       # The message includes the host and installer version strings.
