@@ -76,6 +76,8 @@ module VagrantVbguest
       def upgrade_kernel(opts=nil, &block)
         communicate.sudo('yum update -y kernel', opts, &block)
         communicate.sudo('yum install -y kernel-devel', opts, &block)
+
+        env.ui.info(I18n.t("vagrant_vbguest.centos.rebooting", vm_name: vm.name))
         communicate.sudo('shutdown -r now', opts, &block)
 
         sleep_guard = installer_options[:reboot_timeout]
