@@ -1,3 +1,10 @@
+## 0.24.0.beta1 (2020-04-28)
+
+- Add a new configuration `installer_options`, as an optional way to pass options to Installer classes.
+- Add new `installer_options` for the CentOS Installer. Thanks @pedrofurtado for [GH-373]
+  + `allow_kernel_upgrade`: Will update the kernel and reboots the box
+  + `reboot_timeout`: Optionally, set the max amount of seconds to wait after reboot
+
 ## 0.23.0 (2020-01-05)
 
 - Fix Oracle Linux Installer. Installs `elfutils-libelf-devel`. [GH-364], @fribeiro1 [GH-365]
