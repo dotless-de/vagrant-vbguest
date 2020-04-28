@@ -17,6 +17,7 @@ module VagrantVbguest
       def no_install;  @no_install.nil?  ? false : @no_install  end
       def no_remote;   @no_remote.nil?   ? false : @no_remote   end
       def installer_arguments; @installer_arguments.nil? ? '--nox11' : @installer_arguments end
+      def installer_options; @installer_options ||= {} end
       def yes; @yes.nil? ? true : @yes end
 
       def iso_path
@@ -34,6 +35,7 @@ module VagrantVbguest
     def no_install;  @no_install.nil?  ? self.class.no_install  : @no_install  end
     def no_remote;   @no_remote.nil?   ? self.class.no_remote   : @no_remote   end
     def installer_arguments; @installer_arguments.nil? ? self.class.installer_arguments : @installer_arguments end
+    def installer_options; @installer_options ||= self.class.installer_options end
     def yes; @yes.nil? ? self.class.yes : @yes end
 
     def iso_path
