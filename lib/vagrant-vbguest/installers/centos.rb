@@ -31,7 +31,7 @@ module VagrantVbguest
       def has_rel_repo?
         unless instance_variable_defined?(:@has_rel_repo)
           rel = release_version
-          @has_rel_repo = communicate.test("yum repolist --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates")
+          @has_rel_repo = communicate.test(centos_8? ? 'yum repolist' : "yum repolist --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates")
         end
         @has_rel_repo
       end
@@ -47,15 +47,29 @@ module VagrantVbguest
         end
         @release_version
       end
+      
+      def centos_8?
+        release_version && release_version.to_s.start_with?('8')
+      end
 
       def update_release_repos(opts=nil, &block)
         communicate.sudo('yum install -y centos-release', opts, &block)
       end
 
       def install_kernel_devel(opts=nil, &block)
-        rel = has_rel_repo? ? release_version : '*'
-        cmd = "yum install -y kernel-devel-`uname -r` --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates"
-        communicate.sudo(cmd, opts, &block)
+        if centos_8?
+          communicate.sudo('yum update -y kernel', opts, &block)
+          communicate.sudo('yum install -y kernel-devel', opts, &block)
+          communicate.sudo('shutdown -r now', opts, &block)
+
+          begin
+            sleep 10
+          end until @vm.communicate.ready?
+        else
+          rel = has_rel_repo? ? release_version : '*'
+          cmd = "yum install -y kernel-devel-`uname -r` --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates"
+          communicate.sudo(cmd, opts, &block)
+        end
       end
 
       def dependencies
