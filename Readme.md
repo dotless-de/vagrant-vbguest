@@ -75,10 +75,34 @@ Vagrant.configure("2") do |config|
 end
 ```
 
+Note that box-specific settings overwrite earlier settings:
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vbguest.installer_options = { foo: 1, bar: 2 }
+
+  config.vm.define "a" do |box_config|
+    # not setting any `installer_options` will inherit the "global" ones
+    # installer_options => { foo: 1, bar: 2 }
+  end
+
+  config.vm.define "b" do |box_config|
+    # setting any `installer_options` will start from scratch
+    box_config.vbguest.installer_options[:zort] = 3 # => { zort: 3 }
+  end
+
+  config.vm.define "c" do |box_config|
+    # however, you can explicitly merge the global config
+    box_config.vbguest.installer_options = config.vbguest.installer_options.merge(zort: 3) # => { foo: 1, bar: 2, zort: 3 }
+  end
+end
+```
+
+
 ##### CentOS
 
 * `:allow_kernel_upgrade` (default: `false`): If `true`, instead of trying to find matching the matching kernel-devel package to the installed kernel version, the kernel will be updated and the (now matching) up-to-date kernel-devel will be installed. __NOTE__: This will trigger a reboot of the box.
-* `:reboot_timeout` (default: `300`): Number of seconds to wait for the box to reboot after a kernel upgrade.
+* `:reboot_timeout` (default: `300`): Maximum number of seconds to wait for the box to reboot after a kernel upgrade.
 
 #### Global Configuration
 
