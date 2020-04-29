@@ -1,3 +1,7 @@
+## 0.24.0 (2020-04-29)
+
+No code changes to 0.24.0.beta1
+
 ## 0.24.0.beta1 (2020-04-28)
 
 - Add a new configuration `installer_options`, as an optional way to pass options to Installer classes.
