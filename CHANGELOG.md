@@ -1,3 +1,8 @@
+## 0.25.0 (unreleased)
+
+- Renames mainline branch from "master" to "main"
+- Fix not detecting running GuestAdditions on some systems [GH-347], [GH-376]. Thanks @Morac2 for [GH-377]
+
 ## 0.24.0 (2020-04-29)
 
 No code changes to 0.24.0.beta1
