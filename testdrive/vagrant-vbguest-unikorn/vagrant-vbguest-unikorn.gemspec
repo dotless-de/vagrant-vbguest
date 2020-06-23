@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.summary       = "Sample of creating an own vagrant-vbguest Installer as gem"
   spec.description   = "Extends vagrant-vbguest vagrant plugin with an specific installer class " \
                         "for the hypothetical Unikorn Linux."
-  spec.homepage      = "https://github.com/dotless-de/vagrant-vbguest/tree/master/testdrive/vagrant-vbguest-unikorn"
+  spec.homepage      = "https://github.com/dotless-de/vagrant-vbguest/tree/main/testdrive/vagrant-vbguest-unikorn"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or

@@ -31,7 +31,7 @@ To release your gem, run `bundle exec rake release`, which will create a git tag
 
 ### Creating your own installer
 
-Have a ook at the sample [installer.rb](https://github.com/dotless-de/vagrant-vbguest/tree/master/testdrive/vagrant-vbguest-unikorn/lib/vagrant-vbguest-unikorn/installer.rb) and it's comments. It fulfills 3 major roles:
+Have a ook at the sample [installer.rb](https://github.com/dotless-de/vagrant-vbguest/tree/main/testdrive/vagrant-vbguest-unikorn/lib/vagrant-vbguest-unikorn/installer.rb) and it's comments. It fulfills 3 major roles:
 
 - Check if this installer should be used for a system
 - Prepare the guest system for installing the gust additions (eg: install packages or cleaning up conflicting installations)

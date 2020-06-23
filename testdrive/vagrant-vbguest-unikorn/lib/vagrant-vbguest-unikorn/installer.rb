@@ -1,7 +1,7 @@
 module VagrantVbguestUnikorn
   # This installer overwrites the matching and installing methods only.
   # Please have a look at the VagrantVbguest::Installers::Linux class
-  # (https://github.com/dotless-de/vagrant-vbguest/blob/master/lib/vagrant-vbguest/installers/linux.rb)
+  # (https://github.com/dotless-de/vagrant-vbguest/blob/main/lib/vagrant-vbguest/installers/linux.rb)
   # for possibly other interesting methods worth customizing. For example:
   #    - running?
   #    - start

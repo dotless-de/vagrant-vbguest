@@ -4,7 +4,7 @@
 
 [![Join the chat at https://gitter.im/dotless-de/vagrant-vbguest](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dotless-de/vagrant-vbguest?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Code Climate](https://codeclimate.com/github/dotless-de/vagrant-vbguest.svg)](https://codeclimate.com/github/dotless-de/vagrant-vbguest)
-[![Inline docs](http://inch-ci.org/github/dotless-de/vagrant-vbguest.svg?branch=master)](http://inch-ci.org/github/dotless-de/vagrant-vbguest)
+[![Inline docs](http://inch-ci.org/github/dotless-de/vagrant-vbguest.svg?branch=main)](http://inch-ci.org/github/dotless-de/vagrant-vbguest)
 [![Gem Version](https://badge.fury.io/rb/vagrant-vbguest.svg)](https://badge.fury.io/rb/vagrant-vbguest)
 
 
@@ -302,14 +302,14 @@ end
 
 If you find yourself copying the same installer in each of your vagrant project, it might be a good idea to make it a plugin itself. Like vagrant-vbguest itself, installers can be [distributed as ruby gems](http://guides.rubygems.org/publishing/)
 
-This project contains a [sample installer gem](https://github.com/dotless-de/vagrant-vbguest/tree/master/testdrive/vagrant-vbguest-unikorn) which might serve as an boilerplate. 
+This project contains a [sample installer gem](https://github.com/dotless-de/vagrant-vbguest/tree/main/testdrive/vagrant-vbguest-unikorn) which might serve as an boilerplate. 
 
 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/dotless-de/vagrant-vbguest.
 
-For the forseeable future, no more pull requests will be accepted which add new guest support/installers. Please build your gem as a plugin to vbguest (see "Very Advanced Usage" section of this file). In fact, please open a pull request to remove support for a guest system if feel confident that your solution is better.
+For the foreseeable future, no more pull requests will be accepted which add new guest support/installers. Please build your gem as a plugin to vbguest (see "Very Advanced Usage" section of this file). In fact, please open a pull request to remove support for a guest system if feel confident that your solution is better.
 
 
 ## Known Issues

@@ -23,4 +23,10 @@ Gem::Specification.new do |s|
   s.executables   = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  s.metadata = {
+    "bug_tracker_uri" => "https://github.com/dotless-de/vagrant-vbguest/issues",
+    "changelog_uri" => "https://github.com/dotless-de/vagrant-vbguest/blob/main/CHANGELOG.md",
+    "documentation_uri" => "http://rubydoc.info/gems/vagrant-vbguest",
+    "source_code_uri" => "https://github.com/dotless-de/vagrant-vbguest"
+  }
 end
