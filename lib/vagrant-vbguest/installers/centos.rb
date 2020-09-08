@@ -46,7 +46,7 @@ module VagrantVbguest
       def has_rel_repo?
         unless instance_variable_defined?(:@has_rel_repo)
           rel = release_version
-          @has_rel_repo = communicate.test("yum repolist --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates")
+          @has_rel_repo = communicate.test('yum repolist')
         end
         @has_rel_repo
       end
@@ -69,7 +69,7 @@ module VagrantVbguest
 
       def install_kernel_devel(opts=nil, &block)
         rel = has_rel_repo? ? release_version : '*'
-        cmd = "yum install -y kernel-devel-`uname -r` --enablerepo=C#{rel}-base --enablerepo=C#{rel}-updates"
+        cmd = 'yum install -y kernel-devel-`uname -r`'
         communicate.sudo(cmd, opts, &block)
       end
 
