@@ -2,6 +2,9 @@
 
 - Renames mainline branch from "master" to "main"
 - Fix not detecting running GuestAdditions on some systems [GH-347], [GH-376]. Thanks @Morac2 for [GH-377]
+- Fixes package installation issues on CentOS 8.
+  CentOS installers no longe use the `--enablerepo` parameter when running `yum` to install packages.
+  Thanks @ghoneycutt for [GH-384]
 
 ## 0.24.0 (2020-04-29)
 
