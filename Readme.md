@@ -59,6 +59,7 @@ vbguest will try to autodetect the best option for your system. WTF? see below.
 * `installer` (`VagrantVbguest::Installers::Base`, optional) : Reference to a (custom) installer class
 * `installer_arguments` (Array, default: `['--nox11']`) : List of additional arguments to pass to the installer. eg: `%w{--nox11 --force}` would execute `VBoxLinuxAdditions.run install --nox11 --force`
 * `installer_options` (Hash, default: `{}`) : Configure how a Installer internally works. Should be set on a `vm` level.
+* `installer_hooks` (Hash, default: `{}`) : Configure scripts to be run before/after installer steps.
 * `yes` (Boolean or String, default: `true`): Wheter to pipe `yes` to the installer. If `true`, executes `yes | VBoxLinuxAdditions.run install`. With `false`, the command is executed without `yes`. You can also put in a string here for `yes` (e.g. `no` to refuse all messages)
 
 
@@ -126,6 +127,26 @@ VagrantVbguest::Config.auto_update = false
 ```
 
 Settings in a project's `Vagrantfile` will overwrite those setting. When executed as a command, command line arguments will overwrite all of the above.
+
+
+#### Installer Hooks (`installer_hooks`)
+
+Additionally to the build-in `installer_options`, you can configure to execute scripts around the install steps `install`, `rebuild` and `start`.
+Accepts either a single command or and array of commands. Box-specific settings overwrite earlier settings, just like with `installer_options`.
+
+Use this make changes to the guest, for example to install specific dependencies or tweak the network setup.
+
+* `before_install`/`after_install`: Runs before/after the install step. That is before uploading the iso file into the guest and after unmounting the iso file.
+* `before_rebuild`/`after_rebuild`: Runs before/after the installer runs a command to let the GuestAdditions rebuild itself.
+* `before_start`/`after_start`: Runs before/after the installer runs a command to start the GuestAdditions service.
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.define "my_cent_os_box" do |c|
+    c.vbguest.installer_hooks[:before_install] = ["yum install -y epel-release", "sleep 1"]
+  end
+end
+```
 
 
 ### Running as a middleware

@@ -1,4 +1,8 @@
-## 0.25.0 (unreleased)
+## 0.26.0 (unreleased)
+
+- Add a new configuration `installer_hooks` allows to configure arbitrary scripts to be run on the guest before/after installer steps are executed.
+
+## 0.25.0 (2020-09-26)
 
 - Renames mainline branch from "master" to "main"
 - Fix not detecting running GuestAdditions on some systems [GH-347], [GH-376]. Thanks @Morac2 for [GH-377]

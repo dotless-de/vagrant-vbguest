@@ -60,8 +60,10 @@ module VagrantVbguest
       installer = guest_installer
       raise NoInstallerFoundError, :method => 'install' if !installer
 
-      installer.install do |type, data|
-        @env.ui.info(data, :prefix => false, :new_line => false)
+      with_hooks(:install) do
+        installer.install do |type, data|
+          @env.ui.info(data, :prefix => false, :new_line => false)
+        end
       end
     ensure
       cleanup
@@ -71,8 +73,10 @@ module VagrantVbguest
       installer = guest_installer
       raise NoInstallerFoundError, :method => 'rebuild' if !installer
 
-      installer.rebuild do |type, data|
-        @env.ui.info(data, :prefix => false, :new_line => false)
+      with_hooks(:rebuild) do
+        installer.rebuild do |type, data|
+          @env.ui.info(data, :prefix => false, :new_line => false)
+        end
       end
     end
 
@@ -80,8 +84,10 @@ module VagrantVbguest
       installer = guest_installer
       raise NoInstallerFoundError, :method => 'manual start' if !installer
 
-      installer.start do |type, data|
-        @env.ui.info(data, :prefix => false, :new_line => false)
+      with_hooks(:start) do
+        installer.start do |type, data|
+          @env.ui.info(data, :prefix => false, :new_line => false)
+        end
       end
     end
 
@@ -148,5 +154,25 @@ module VagrantVbguest
       @guest_installer.cleanup if @guest_installer
     end
 
+    def with_hooks(step_name)
+      run_hook(:"before_#{step_name}")
+      ret = yield
+      run_hook(:"after_#{step_name}")
+
+      ret
+    end
+
+    def run_hook(hook_name)
+      hooks = @options.dig(:installer_hooks, hook_name)
+
+      return if !hooks || hooks.empty?
+
+      @vm.ui.info I18n.t("vagrant_vbguest.installer_hooks.#{hook_name}")
+      Array(hooks).each do |l|
+        @vm.communicate.sudo(l) do |type, data|
+          @env.ui.info(data, :prefix => false, :new_line => false)
+        end
+      end
+    end
   end
 end

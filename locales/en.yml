@@ -34,6 +34,14 @@ en:
       ok: "[%{vm_name}] GuestAdditions %{guest_version} running --- OK."
       skipped_downgrade: "GuestAdditions are newer than your host but, downgrades are disabled. Skipping."
 
+    installer_hooks:
+      before_install: "Executing pre-install hooks"
+      after_install: "Executing post-install hooks"
+      before_rebuild: "Executing pre-rebuild hooks"
+      after_rebuild: "Executing post-rebuild hooks"
+      before_start: "Executing pre-start hooks"
+      after_start: "Executing post-start hooks"
+
     errors:
       autodetect_iso_path: |-
         Could not locate a local Virtualbox Guest Additions iso file.
