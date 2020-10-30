@@ -1,4 +1,4 @@
-## 0.26.0 (unreleased)
+## 0.26.0 (2020-10-30)
 
 - Add a new configuration `installer_hooks` allows to configure arbitrary scripts to be run on the guest before/after installer steps are executed.
 - Fix RHEL8 perl vs. perl-interpreter [GH-368]
