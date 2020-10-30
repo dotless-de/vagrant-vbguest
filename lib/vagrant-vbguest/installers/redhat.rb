@@ -16,7 +16,11 @@ module VagrantVbguest
 
     protected
       def install_dependencies_cmd
-        "yum install -y #{dependencies}"
+        "#{package_manager_cmd} install -y #{dependencies}"
+      end
+
+      def package_manager_cmd
+        "`bash -c 'type -p dnf || type -p yum'`"
       end
 
       def dependencies
@@ -26,10 +30,21 @@ module VagrantVbguest
           'gcc',
           'binutils',
           'make',
-          'perl',
+          perl_dependency,
           'bzip2',
           'elfutils-libelf-devel'
         ].join(' ')
+      end
+
+      def perl_dependency
+        unless instance_variable_defined?(:@perl_dependency)
+          @perl_dependency = if communicate.test("#{package_manager_cmd} list perl-interpreter")
+            "perl-interpreter"
+          else
+            "perl"
+          end
+        end
+        @perl_dependency
       end
     end
   end
