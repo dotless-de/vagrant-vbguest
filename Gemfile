@@ -9,7 +9,7 @@ group :development do
   elsif ENV['VAGRANT_LOCAL']
     gem 'vagrant', path: ENV['VAGRANT_LOCAL']
   else
-    gem 'vagrant', :git => 'https://github.com/hashicorp/vagrant.git'
+    gem 'vagrant', :git => 'https://github.com/hashicorp/vagrant.git', branch: "main"
   end
   gem 'rake', '>= 12.3.3'
 end
