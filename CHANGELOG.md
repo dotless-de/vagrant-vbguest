@@ -1,3 +1,8 @@
+## 0.27.0 (2020-11-15)
+
+- Un-mounting the guest additions iso will now take place in the cleanup step [GH-393]
+- Running detection now checks for vboxguest and vboxsf kernel module. [GH-392], Fixes [GH-387]
+
 ## 0.26.0 (2020-10-30)
 
 - Add a new configuration `installer_hooks` allows to configure arbitrary scripts to be run on the guest before/after installer steps are executed.
