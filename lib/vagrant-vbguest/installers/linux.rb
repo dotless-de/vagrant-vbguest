@@ -67,7 +67,6 @@ module VagrantVbguest
         mount_iso(opts, &block)
         execute_installer(opts, &block)
         start(opts, &block)
-        unmount_iso(opts, &block) unless options[:no_cleanup]
       end
 
       # @param opts [Hash] Optional options Hash wich meight get passed to {Vagrant::Communication::SSH#execute} and firends
@@ -268,6 +267,13 @@ module VagrantVbguest
       def unmount_iso(opts=nil, &block)
         env.ui.info(I18n.t("vagrant_vbguest.unmounting_iso", :mount_point => mount_point))
         communicate.sudo("umount #{mount_point}", opts, &block)
+      end
+
+      def cleanup(opts=nil, &block)
+        unless options[:no_cleanup]
+          unmount_iso(opts, &block)
+          super
+        end
       end
     end
   end

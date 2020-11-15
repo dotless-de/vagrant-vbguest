@@ -51,7 +51,6 @@ module VagrantVbguest
         upload(iso_file)
         mount_iso(opts, &block)
         execute_installer(opts, &block)
-        unmount_iso(opts, &block) unless options[:no_cleanup]
       end
 
       def reboot_after_install?(opts = nil, &block)
@@ -111,6 +110,13 @@ module VagrantVbguest
         env.ui.info(I18n.t("vagrant_vbguest.unmounting_iso",mount_point: mount_point))
         communicate.execute("Dismount-DiskImage -ImagePath #{tmp_path}", opts, &block)
         communicate.execute("Remove-Item -Path #{tmp_path}", opts, &block)
+      end
+
+      def cleanup(opts = nil, &block)
+        unless options[:no_cleanup]
+          unmount_iso(opts, &block)
+          super
+        end
       end
 
       def yield_installation_error_warning(path_to_installer)

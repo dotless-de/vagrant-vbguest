@@ -236,12 +236,13 @@ module VagrantVbguest
 
       # A helper method to delete the uploaded GuestAdditions iso file
       # from the guest box
-      def cleanup
+      def cleanup(opts, &block)
         unless options[:no_cleanup]
           @host.cleanup
-          communicate.execute("test -f #{tmp_path} && rm #{tmp_path}", :error_check => false) do |type, data|
-            env.ui.error(data.chomp, :prefix => false)
-          end
+
+          opts = (opts || {}).merge(:error_check => false)
+          block ||= proc { |type, data| env.ui.error(data.chomp, :prefix => false) }
+          communicate.execute("test -f #{tmp_path} && rm #{tmp_path}", opts, &block)
         end
       end
     end
