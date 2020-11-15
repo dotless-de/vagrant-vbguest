@@ -151,7 +151,11 @@ module VagrantVbguest
     end
 
     def cleanup
-      @guest_installer.cleanup if @guest_installer
+      return unless @guest_installer
+
+      @guest_installer.cleanup do |type, data|
+        @env.ui.info(data, :prefix => false, :new_line => false)
+      end
     end
 
     def with_hooks(step_name)
