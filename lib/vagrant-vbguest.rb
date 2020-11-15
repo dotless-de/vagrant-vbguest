@@ -31,8 +31,6 @@ require 'vagrant-vbguest/installers/suse'
 require 'vagrant-vbguest/installers/archlinux'
 require 'vagrant-vbguest/installers/windows'
 
-require 'vagrant-vbguest/middleware'
-
 module VagrantVbguest
 
   class Plugin < Vagrant.plugin("2")
@@ -52,14 +50,9 @@ module VagrantVbguest
       Command
     end
 
-    # hook after anything that boots:
-    # that's all middlewares which will run the buildin "VM::Boot" action
-    action_hook('vbguest') do |hook|
-      if defined?(VagrantPlugins::ProviderVirtualBox::Action::CheckGuestAdditions)
-        hook.before(VagrantPlugins::ProviderVirtualBox::Action::CheckGuestAdditions, VagrantVbguest::Middleware)
-      else
-        hook.after(VagrantPlugins::ProviderVirtualBox::Action::Boot, VagrantVbguest::Middleware)
-      end
+    action_hook('vbguest', :machine_action_up) do |hook|
+      require 'vagrant-vbguest/middleware'
+      hook.append(VagrantVbguest::Middleware)
     end
   end
 end
