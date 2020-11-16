@@ -50,9 +50,27 @@ module VagrantVbguest
       Command
     end
 
-    action_hook('vbguest', :machine_action_up) do |hook|
-      require 'vagrant-vbguest/middleware'
-      hook.append(VagrantVbguest::Middleware)
+    if ("2.2.11".."2.2.13").include?(Gem::Version.create(Vagrant::VERSION).release.to_s)
+      $stderr.puts(
+        "Vagrant v#{Vagrant::VERSION} has a bug which prevents vagrant-vbguest to register probably.\n" \
+        "vagrant-vbguest will try to do the next best thing, but might not be working as expected.\n" \
+        "If possible, please upgrade Vagrant to >= 2.2.14"
+      )
+      action_hook('vbguest', :machine_action_up) do |hook|
+        require 'vagrant-vbguest/middleware'
+        hook.append(VagrantVbguest::Middleware)
+      end
+    else
+      # hook after anything that boots:
+      # that's all middlewares which will run the buildin "VM::Boot" action
+      action_hook('vbguest') do |hook|
+        require 'vagrant-vbguest/middleware'
+        if defined?(VagrantPlugins::ProviderVirtualBox::Action::CheckGuestAdditions)
+          hook.before(VagrantPlugins::ProviderVirtualBox::Action::CheckGuestAdditions, VagrantVbguest::Middleware)
+        else
+          hook.after(VagrantPlugins::ProviderVirtualBox::Action::Boot, VagrantVbguest::Middleware)
+        end
+      end
     end
   end
 end
