@@ -7,7 +7,7 @@
 
 - Add a new configuration `installer_hooks` allows to configure arbitrary scripts to be run on the guest before/after installer steps are executed.
 - Fix RHEL8 perl vs. perl-interpreter [GH-368]
-- On RedHad, use `dnf` instead of `yum` if available. [GH-368]
+- On RedHat, use `dnf` instead of `yum` if available. [GH-368]
 - Fix incorrect re-use of installer_* options.
 
 ## 0.25.0 (2020-09-26)
@@ -100,7 +100,7 @@ See discussion in [GH-300]. Thanks @cbj4074 for asking the right questions.
 
 ## 0.15.2 (2018-05-22)
 
-- On RedHad based guest, the installer will now try to install the 'kernel-devel' package additionally to 'kernel-devel-`uname -r`' Thanks @ghoneycutt [GH-299]
+- On RedHat based guest, the installer will now try to install the 'kernel-devel' package additionally to 'kernel-devel-`uname -r`' Thanks @ghoneycutt [GH-299]
 
 ## 0.15.1 (2018-01-08)
 
