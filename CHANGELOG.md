@@ -1,3 +1,7 @@
+## 0.28.0 (2020-11-20)
+
+- Work around a bug in vagrant 2.2.11 to 2.2.13, which would not load the vbguest middleware. [GH-394], Fixes [GH-391]
+
 ## 0.27.0 (2020-11-15)
 
 - Un-mounting the guest additions iso will now take place in the cleanup step [GH-393]
