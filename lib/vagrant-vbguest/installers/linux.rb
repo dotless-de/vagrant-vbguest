@@ -77,7 +77,7 @@ module VagrantVbguest
         opts = {
           :sudo => true
         }.merge(opts || {})
-        communicate.test('grep -qE "^vboxguest\b.*vboxsf\b" /proc/modules', opts, &block)
+        communicate.test('grep -qE "^vboxguest\b" /proc/modules', opts, &block)
       end
 
       # This overrides {VagrantVbguest::Installers::Base#guest_version}
