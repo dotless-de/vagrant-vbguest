@@ -1,3 +1,8 @@
+## 0.29.0 (2021-01-03)
+
+- Add installer_option :enablerepo for CentOS. [GH-402], Fixes [GH-398]
+- Add installer_option :running_kernel_modules for all Linux installers. [GH-403], Fixes [GH-396]
+
 ## 0.28.0 (2020-11-20)
 
 - Work around a bug in vagrant 2.2.11 to 2.2.13, which would not load the vbguest middleware. [GH-394], Fixes [GH-391]
