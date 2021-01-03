@@ -74,10 +74,20 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def running?(opts=nil, &block)
-        opts = {
-          :sudo => true
-        }.merge(opts || {})
-        communicate.test('grep -qE "^vboxguest\b.*vboxsf\b" /proc/modules', opts, &block)
+        kmods = nil
+        communicate.sudo('cat /proc/modules', opts) do |type, data|
+          block.call(type, data) if block
+          kmods = data if type == :stdout && data
+        end
+
+        unless kmods
+          env.ui.warn "Could not read /proc/modules"
+          return true
+        end
+
+        Array(installer_options[:running_kernel_modules]).all? do |mod|
+          /^#{mod}\b/i.match(kmods)
+        end
       end
 
       # This overrides {VagrantVbguest::Installers::Base#guest_version}
@@ -230,6 +240,12 @@ module VagrantVbguest
       # The arguments string, which gets passed to the installer script
       def installer_arguments
         @installer_arguments ||= Array(options[:installer_arguments]).join " "
+      end
+
+      def installer_options
+        @installer_options ||= {
+          running_kernel_modules: ["vboxguest", "vboxsf"]
+        }.merge!(super)
       end
 
       # Determine if yes needs to be called or not
