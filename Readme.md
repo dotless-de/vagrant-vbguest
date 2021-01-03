@@ -98,7 +98,11 @@ Vagrant.configure("2") do |config|
   end
 end
 ```
+##### Linux
 
+This option is available on all Linux type installers.
+
+* `:running_kernel_modules` (default: `["vboxguest", "vboxsf"]`) The list used to check for the "running" state. Each of these modules need to appear at the beginning of a line in `/proc/modules`.
 
 ##### CentOS
 
