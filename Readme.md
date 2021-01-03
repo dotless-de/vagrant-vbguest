@@ -104,6 +104,11 @@ end
 
 * `:allow_kernel_upgrade` (default: `false`): If `true`, instead of trying to find matching the matching kernel-devel package to the installed kernel version, the kernel will be updated and the (now matching) up-to-date kernel-devel will be installed. __NOTE__: This will trigger a reboot of the box.
 * `:reboot_timeout` (default: `300`): Maximum number of seconds to wait for the box to reboot after a kernel upgrade.
+* `:enablerepo`: (default: `false`) Configure `yum --enablerepo` settings. Possible values are:
+  - Single String: `"C*-base"` converts to `--enablerepo=C*-base`
+  - Array of Strings: `['C*-base', 'C*-updates']` converts to `--enablerepo=C*-base --enablerepo=C*-updates`
+  - `true`: Enables `C${release_version}-base` and `C${release_version}-updates` with release_version read from `/etc/centos-release` if the repo exists, otherwise `*`.
+  - `false`: Does not set any `--enablerepo`
 
 #### Global Configuration
 
