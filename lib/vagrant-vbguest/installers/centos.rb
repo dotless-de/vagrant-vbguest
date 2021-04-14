@@ -58,7 +58,7 @@ module VagrantVbguest
 
       def has_kernel_devel_info?
         unless instance_variable_defined?(:@has_kernel_devel_info)
-          @has_kernel_devel_info = communicate.test('yum info kernel-devel-`uname -r`', sudo: true)
+          @has_kernel_devel_info = communicate.test('yum info kernel-devel', sudo: true)
         end
         @has_kernel_devel_info
       end
@@ -88,7 +88,7 @@ module VagrantVbguest
       end
 
       def install_kernel_devel(opts=nil, &block)
-        cmd = "yum install -y kernel-devel-`uname -r` #{enablerepo}"
+        cmd = "yum install -y kernel-devel #{enablerepo}"
         communicate.sudo(cmd, opts, &block)
       end
 
@@ -111,7 +111,7 @@ module VagrantVbguest
           # keep the original redhat dependencies
           super
         else
-          # we should have installed kernel-devel(-`uname -r`) via install_kernel_devel or upgrade_kernel
+          # we should have installed kernel-devel via install_kernel_devel or upgrade_kernel
           ['gcc', 'binutils', 'make', 'perl', 'bzip2', 'elfutils-libelf-devel'].join(' ')
         end
       end
