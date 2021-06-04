@@ -240,7 +240,6 @@ module VagrantVbguest
         unless options[:no_cleanup]
           @host.cleanup
 
-          opts = (opts || {}).merge(:error_check => false)
           block ||= proc { |type, data| env.ui.error(data.chomp, :prefix => false) }
           communicate.execute("test -f #{tmp_path} && rm #{tmp_path}", opts, &block)
         end
