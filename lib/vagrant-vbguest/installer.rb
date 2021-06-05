@@ -153,7 +153,7 @@ module VagrantVbguest
     def cleanup
       return unless @guest_installer
 
-      @guest_installer.cleanup do |type, data|
+      @guest_installer.cleanup(:error_check => false) do |type, data|
         @env.ui.info(data, :prefix => false, :new_line => false)
       end
     end
