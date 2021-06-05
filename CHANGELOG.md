@@ -1,3 +1,7 @@
+## 0.30.0 (2021-06-05)
+
+- Fix Ruby 3 compatibility [GH-409]
+
 ## 0.29.0 (2021-01-03)
 
 - Add installer_option :enablerepo for CentOS. [GH-402], Fixes [GH-398]
