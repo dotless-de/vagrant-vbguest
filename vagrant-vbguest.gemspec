@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{A Vagrant plugin to install the VirtualBoxAdditions into the guest VM}
   s.description = %q{A Vagrant plugin which automatically installs the host's VirtualBox Guest Additions on the guest system.}
 
+  s.required_ruby_version = ">= 2.0"
   s.required_rubygems_version = ">= 1.3.6"
 
   s.add_dependency "micromachine", ">= 2", "< 4"
