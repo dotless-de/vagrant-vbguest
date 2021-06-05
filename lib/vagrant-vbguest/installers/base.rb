@@ -189,16 +189,18 @@ module VagrantVbguest
       # will start _now_.
       # The message includes the host and installer version strings.
       def yield_installation_warning(path_to_installer)
-        @env.ui.warn I18n.t("vagrant_vbguest.installing#{@options[:force] ? '_forced' : ''}",
-          :guest_version     => (guest_version || I18n.t("vagrant_vbguest.unknown")),
-          :installer_version => installer_version(path_to_installer) || I18n.t("vagrant_vbguest.unknown"))
+        @env.ui.warn I18n.t(
+          "vagrant_vbguest.installing#{@options[:force] ? '_forced' : ''}",
+          guest_version: (guest_version || I18n.t("vagrant_vbguest.unknown")),
+          installer_version: (installer_version(path_to_installer) || I18n.t("vagrant_vbguest.unknown")))
       end
 
       # Helper to yield a warning message to the user, that the installation
       # will be rebuild using the installed GuestAdditions.
       # The message includes the host and installer version strings.
       def yield_rebuild_warning
-        @env.ui.warn I18n.t("vagrant_vbguest.rebuild#{@options[:force] ? '_forced' : ''}",
+        @env.ui.warn I18n.t(
+          "vagrant_vbguest.rebuild#{@options[:force] ? '_forced' : ''}",
           :guest_version => guest_version(true),
           :host_version => @host.version)
       end
@@ -210,8 +212,9 @@ module VagrantVbguest
       # knows there could be a problem. The message includles the installer
       # version.
       def yield_installation_error_warning(path_to_installer)
-        @env.ui.warn I18n.t("vagrant_vbguest.install_error",
-          :installer_version => installer_version(path_to_installer) || I18n.t("vagrant_vbguest.unknown"))
+        @env.ui.warn I18n.t(
+          "vagrant_vbguest.install_error",
+          installer_version: (installer_version(path_to_installer) || I18n.t("vagrant_vbguest.unknown")))
       end
       # alias to old method name (containing a typo) for backwards compatibility
       alias_method :yield_installation_waring, :yield_installation_error_warning
@@ -230,7 +233,7 @@ module VagrantVbguest
       #
       # @param file [String] Path of the file to upload to the +tmp_path*
       def upload(file)
-        env.ui.info(I18n.t("vagrant_vbguest.start_copy_iso", :from => file, :to => tmp_path))
+        env.ui.info(I18n.t("vagrant_vbguest.start_copy_iso", from: file, to: tmp_path))
         communicate.upload(file, tmp_path)
       end
 
