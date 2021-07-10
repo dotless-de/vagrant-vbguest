@@ -34,6 +34,8 @@ module VagrantVbguest
         else
           ['linux-headers-`uname -r`']
         end
+        # include build-essential so we can compile the kernel modules.
+        packages << 'build-essential'
         # some Debian system (lenny) don't come with a dkms package so we need to skip that.
         # apt-cache search will exit with 0 even if nothing was found, so we need to grep.
         packages << 'dkms' if communicate.test('apt-cache search --names-only \'^dkms$\' | grep dkms')
