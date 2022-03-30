@@ -24,7 +24,7 @@ If you're lucky, *vagrant-vbguest* does not require any configuration.
 However, here is an example of `Vagrantfile`:
 
 ```ruby
-Vagrant::Config.run do |config|
+Vagrant.configure("2") do |config|
   # we will try to autodetect this path. 
   # However, if we cannot or you have a special one you may pass it like:
   # config.vbguest.iso_path = "#{ENV['HOME']}/Downloads/VBoxGuestAdditions.iso"
