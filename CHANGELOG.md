@@ -1,3 +1,8 @@
+## 0.31.0 (2022-11-28)
+
+- Use the CentOS installer when detecting Rocky Linux. Thanks @djflux [GH-424]
+- Install build-essential in Debian installer. Thanks @chpatton013 [GH-415]
+
 ## 0.30.0 (2021-06-05)
 
 - Fix Ruby 3 compatibility [GH-409]
