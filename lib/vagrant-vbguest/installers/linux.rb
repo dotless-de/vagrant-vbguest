@@ -77,7 +77,9 @@ module VagrantVbguest
         kmods = nil
         communicate.sudo('cat /proc/modules', opts) do |type, data|
           block.call(type, data) if block
-          kmods = data if type == :stdout && data
+          if type == :stdout && data
+            kmods = kmods.nil? ? data : kmods + data
+          end
         end
 
         unless kmods
