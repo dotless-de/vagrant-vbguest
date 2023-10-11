@@ -284,7 +284,7 @@ module VagrantVbguest
       # @yieldparam [String] data Data for the given output.
       def unmount_iso(opts=nil, &block)
         env.ui.info(I18n.t("vagrant_vbguest.unmounting_iso", :mount_point => mount_point))
-        communicate.sudo("umount #{mount_point}", opts, &block)
+        communicate.sudo("findmnt -M #{mount_point} >/dev/null && umount #{mount_point}", opts, &block)
       end
 
       def cleanup(opts=nil, &block)
