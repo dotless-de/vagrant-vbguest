@@ -6,6 +6,7 @@
   Requires the `findmnt` command, which should be available on most modern Linux distributions.
 - Fix testing for running GuestAdditions on Linux, when reading `/proc/modules` returns in
   multiple chunks. Thanks @kubasov-s [GH-436]
+- Use RedHat installer for AlmaLinux. Thanks @alexgit2k [GH-431]
 
 ## 0.31.0 (2022-11-28)
 
