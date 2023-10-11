@@ -7,7 +7,6 @@
 [![Inline docs](http://inch-ci.org/github/dotless-de/vagrant-vbguest.svg?branch=main)](http://inch-ci.org/github/dotless-de/vagrant-vbguest)
 [![Gem Version](https://badge.fury.io/rb/vagrant-vbguest.svg)](https://badge.fury.io/rb/vagrant-vbguest)
 
-
 ## Installation
 
 Requires vagrant 1.3 or later
@@ -15,12 +14,12 @@ Requires vagrant 1.3 or later
 ### Vagrant ≥ 1.3
 
 ```bash
-$ vagrant plugin install vagrant-vbguest
+vagrant plugin install vagrant-vbguest
 ```
 
 ## Configuration / Usage
 
-If you're lucky, *vagrant-vbguest* does not require any configuration. 
+If you're lucky, *vagrant-vbguest* does not require any configuration.
 However, here is an example of `Vagrantfile`:
 
 ```ruby
@@ -51,11 +50,11 @@ The default URI for the actual iso download is: `https://download.virtualbox.org
 vbguest will try to autodetect the best option for your system. WTF? see below.
 * `iso_upload_path` (String, default: `/tmp`): A writeable directory where to put the VBoxGuestAdditions.iso file on the guest system.
 * `iso_mount_point` (String, default: `/mnt`): Where to mount the VBoxGuestAdditions.iso file on the guest system.
-* `auto_update` (Boolean, default: `true`) : Whether to check the correct additions version on each start (where start is _not_ resuming a box).
+* `auto_update` (Boolean, default: `true`) : Whether to check the correct additions version on each start (where start is *not* resuming a box).
 * `auto_reboot` (Boolean, default: `true` when running as a middleware, `false` when running as a command) : Whether to reboot the box after GuestAdditions has been installed, but not loaded.
 * `allow_downgrade` (Boolean, default: `true`) : Allow to install an older version of Guest Additions onto the guest. (Eg. you are running a host with VirtualBox 5 and the box is already on 6).
 * `no_install` (Boolean, default: `false`) : Whether to check the correct additions version only. This will warn you about version mis-matches, but will not try to install anything.
-* `no_remote` (Boolean, default: `false`) : Whether to _not_ download the iso file from a remote location. This includes any `http` location!
+* `no_remote` (Boolean, default: `false`) : Whether to *not* download the iso file from a remote location. This includes any `http` location!
 * `installer` (`VagrantVbguest::Installers::Base`, optional) : Reference to a (custom) installer class or a named installer.
   Build-in named installers are:
   * `:arch`, `:archlinux`, `:arch_linux` : Arch Linux
@@ -72,7 +71,6 @@ vbguest will try to autodetect the best option for your system. WTF? see below.
 * `installer_options` (Hash, default: `{}`) : Configure how a Installer internally works. Should be set on a `vm` level.
 * `installer_hooks` (Hash, default: `{}`) : Configure scripts to be run before/after installer steps.
 * `yes` (Boolean or String, default: `true`): Wheter to pipe `yes` to the installer. If `true`, executes `yes | VBoxLinuxAdditions.run install`. With `false`, the command is executed without `yes`. You can also put in a string here for `yes` (e.g. `no` to refuse all messages)
-
 
 #### Installer Specific Options (`installer_options`)
 
@@ -109,6 +107,7 @@ Vagrant.configure("2") do |config|
   end
 end
 ```
+
 ##### Linux
 
 This option is available on all Linux type installers.
@@ -120,10 +119,10 @@ This option is available on all Linux type installers.
 * `:allow_kernel_upgrade` (default: `false`): If `true`, instead of trying to find matching the matching kernel-devel package to the installed kernel version, the kernel will be updated and the (now matching) up-to-date kernel-devel will be installed. __NOTE__: This will trigger a reboot of the box.
 * `:reboot_timeout` (default: `300`): Maximum number of seconds to wait for the box to reboot after a kernel upgrade.
 * `:enablerepo`: (default: `false`) Configure `yum --enablerepo` settings. Possible values are:
-  - Single String: `"C*-base"` converts to `--enablerepo=C*-base`
-  - Array of Strings: `['C*-base', 'C*-updates']` converts to `--enablerepo=C*-base --enablerepo=C*-updates`
-  - `true`: Enables `C${release_version}-base` and `C${release_version}-updates` with release_version read from `/etc/centos-release` if the repo exists, otherwise `*`.
-  - `false`: Does not set any `--enablerepo`
+  * Single String: `"C*-base"` converts to `--enablerepo=C*-base`
+  * Array of Strings: `['C*-base', 'C*-updates']` converts to `--enablerepo=C*-base --enablerepo=C*-updates`
+  * `true`: Enables `C${release_version}-base` and `C${release_version}-updates` with release_version read from `/etc/centos-release` if the repo exists, otherwise `*`.
+  * `false`: Does not set any `--enablerepo`
 
 #### Global Configuration
 
@@ -148,7 +147,6 @@ VagrantVbguest::Config.auto_update = false
 
 Settings in a project's `Vagrantfile` will overwrite those setting. When executed as a command, command line arguments will overwrite all of the above.
 
-
 #### Installer Hooks (`installer_hooks`)
 
 Additionally to the build-in `installer_options`, you can configure to execute scripts around the install steps `install`, `rebuild` and `start`.
@@ -168,11 +166,10 @@ Vagrant.configure("2") do |config|
 end
 ```
 
-
 ### Running as a middleware
 
-Running as a middleware is the default way of using *vagrant-vbguest*. 
-It will run automatically right after the box started. This is each time the box boots, i.e. `vagrant up` or `vagrant reload`. 
+Running as a middleware is the default way of using *vagrant-vbguest*.
+It will run automatically right after the box started. This is each time the box boots, i.e. `vagrant up` or `vagrant reload`.
 It won't run on `vagrant resume` (or `vagrant up` a suspended box) to save you some time resuming a box.
 
 You may switch off the middleware by setting the vm's config `vbguest.auto_update` to `false`.
@@ -180,59 +177,60 @@ This is a per box setting. On multi vm environments you need to set that for eac
 
 When *vagrant-vbguest* is running it will provide you some logs:
 
-    [...]
-    [default] Booting VM...
-    [default] Booting VM...
-    [default] Waiting for VM to boot. This can take a few minutes.
-    [default] VM booted and ready for use!
-    [default] GuestAdditions versions on your host (4.2.6) and guest (4.1.0) do not match.
-    stdin: is not a tty
-    Reading package lists...
-    Building dependency tree...
-    Reading state information...
-    The following extra packages will be installed:
-      fakeroot linux-headers-2.6.32-33 patch
+```log
+[...]
+[default] Booting VM...
+[default] Booting VM...
+[default] Waiting for VM to boot. This can take a few minutes.
+[default] VM booted and ready for use!
+[default] GuestAdditions versions on your host (4.2.6) and guest (4.1.0) do not match.
+stdin: is not a tty
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following extra packages will be installed:
+  fakeroot linux-headers-2.6.32-33 patch
 
-    [...]
+[...]
 
-    [default] Copy iso file /Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso into the box /tmp/VBoxGuestAdditions.iso
-    stdin: is not a tty
-    [default] Installing Virtualbox Guest Additions 4.2.6 - guest version is 4.1.0
-    stdin: is not a tty
-    Verifying archive integrity... All good.
-    Uncompressing VirtualBox 4.2.6 Guest Additions for Linux...........
-    VirtualBox Guest Additions installer
-    Removing installed version 4.1.0 of VirtualBox Guest Additions...
-    tar: Record size = 8 blocks
-    Removing existing VirtualBox DKMS kernel modules ...done.
-    Removing existing VirtualBox non-DKMS kernel modules ...done.
-    Building the VirtualBox Guest Additions kernel modules ...done.
-    Doing non-kernel setup of the Guest Additions ...done.
-    You should restart your guest to make sure the new modules are actually used
+[default] Copy iso file /Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso into the box /tmp/VBoxGuestAdditions.iso
+stdin: is not a tty
+[default] Installing Virtualbox Guest Additions 4.2.6 - guest version is 4.1.0
+stdin: is not a tty
+Verifying archive integrity... All good.
+Uncompressing VirtualBox 4.2.6 Guest Additions for Linux...........
+VirtualBox Guest Additions installer
+Removing installed version 4.1.0 of VirtualBox Guest Additions...
+tar: Record size = 8 blocks
+Removing existing VirtualBox DKMS kernel modules ...done.
+Removing existing VirtualBox non-DKMS kernel modules ...done.
+Building the VirtualBox Guest Additions kernel modules ...done.
+Doing non-kernel setup of the Guest Additions ...done.
+You should restart your guest to make sure the new modules are actually used
 
-    Installing the Window System drivers ...fail!
-    (Could not find the X.Org or XFree86 Window System.)
-    stdin: is not a tty
-    [default] Restarting VM to apply changes...
-    [default] Attempting graceful shutdown of VM...
-    [default] Booting VM...
-    [default] Waiting for VM to boot. This can take a few minutes.
-    [default] VM booted and ready for use!
-    [default] Configuring and enabling network interfaces...
-    [default] Setting host name...
-    [default] Mounting shared folders...
-    [default] -- v-root: /vagrant
-    [default] -- v-csc-1: /tmp/vagrant-chef-1/chef-solo-1/cookbooks
-    [default] Running provisioner: Vagrant::Provisioners::ChefSolo...
-    [default] Generating chef JSON and uploading...
-    [default] Running chef-solo...
-    [...]
-
+Installing the Window System drivers ...fail!
+(Could not find the X.Org or XFree86 Window System.)
+stdin: is not a tty
+[default] Restarting VM to apply changes...
+[default] Attempting graceful shutdown of VM...
+[default] Booting VM...
+[default] Waiting for VM to boot. This can take a few minutes.
+[default] VM booted and ready for use!
+[default] Configuring and enabling network interfaces...
+[default] Setting host name...
+[default] Mounting shared folders...
+[default] -- v-root: /vagrant
+[default] -- v-csc-1: /tmp/vagrant-chef-1/chef-solo-1/cookbooks
+[default] Running provisioner: Vagrant::Provisioners::ChefSolo...
+[default] Generating chef JSON and uploading...
+[default] Running chef-solo...
+[...]
+```
 
 The plugin's part starts at `[default] Installing Virtualbox Guest Additions 4.1.14 - guest's version is 4.1.1`, telling you that:
 
-* the guest addition of the box *default* is outdated (or mismatching) 
-* which guest additions iso file will be used 
+* the guest addition of the box *default* is outdated (or mismatching)
+* which guest additions iso file will be used
 * which installer script will be used
 * all the VirtualBox Guest Additions installer output.
 
@@ -240,20 +238,21 @@ No worries on the `Installing the Window System drivers ...fail!`. Most dev boxe
 
 When everything is fine, and no update is needed, you see log like:
 
-    ...
-    [default] Booting VM...
-    [default] Waiting for VM to boot. This can take a few minutes.
-    [default] VM booted and ready for use!
-    [default] GuestAdditions 4.2.6 running --- OK.
-    ...
-
+```log
+[...]
+[default] Booting VM...
+[default] Waiting for VM to boot. This can take a few minutes.
+[default] VM booted and ready for use!
+[default] GuestAdditions 4.2.6 running --- OK.
+[...]
+```
 
 ### Running as a Command
 
 When you switched off the middleware auto update, or you have a box up and running you may also run the installer manually.
 
 ```bash
-$ vagrant vbguest [vm-name] [--do start|rebuild|install] [--status] [-f|--force] [-b|--auto-reboot] [-R|--no-remote] [--iso VBoxGuestAdditions.iso] [--no-cleanup]
+vagrant vbguest [vm-name] [--do start|rebuild|install] [--status] [-f|--force] [-b|--auto-reboot] [-R|--no-remote] [--iso VBoxGuestAdditions.iso] [--no-cleanup]
 ```
 
 For example, when you just updated VirtualBox on your host system, you should update the guest additions right away. However, you may need to reload the box to get the guest additions working.
@@ -261,50 +260,52 @@ For example, when you just updated VirtualBox on your host system, you should up
 If you want to check the guest additions version, without installing, you may run:
 
 ```bash
-$ vagrant vbguest --status
+vagrant vbguest --status
 ```
 
 Telling you either about a version mismatch:
 
-    [default] GuestAdditions versions on your host (4.2.6) and guest (4.1.0) do not match.
+```log
+[default] GuestAdditions versions on your host (4.2.6) and guest (4.1.0) do not match.
+```
 
 or a match:
 
-    [default] GuestAdditions 4.2.6 running --- OK.
-
+```log
+[default] GuestAdditions 4.2.6 running --- OK.
+```
 
 The `auto-reboot` is turned off by default when running as a command. Vbguest will suggest you to reboot the box when needed. To turn it on simply pass the `--auto-reboot` parameter:
 
 ```bash
-$ vagrant vbguest --auto-reboot
+vagrant vbguest --auto-reboot
 ```
 
 You can also pass vagrant's `reload` options like:
 
 ```bash
-$ vagrant vbguest --auto-reboot --no-provision
+vagrant vbguest --auto-reboot --no-provision
 ```
 
 When running the install step manually like this: `vagrant vbguest --do install`, adding `--no-cleanup` keeps the downloaded, uploaded files and mounted iso in their place. Happy debugging ;)
 
 ### ISO autodetection
 
-*vagrant-vbguest* will try to autodetect a VirtualBox GuestAdditions iso file on your system, which usually matches your installed version of VirtualBox. If it cannot find one, it downloads one from the web (virtualbox.org).   
+*vagrant-vbguest* will try to autodetect a VirtualBox GuestAdditions iso file on your system, which usually matches your installed version of VirtualBox. If it cannot find one, it downloads one from the web (virtualbox.org).  
 Those places will be checked in order:
 
 1. Checks your VirtualBox "Virtual Media Manager" for a DVD called "VBoxGuestAdditions.iso"
 2. Guess by your host operating system:
-  * for linux : `/usr/share/virtualbox/VBoxGuestAdditions.iso`
-  * for Mac : `/Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso`
-  * for Windows : `%PROGRAMFILES%/Oracle/VirtualBox/VBoxGuestAdditions.iso`
 
+* for linux : `/usr/share/virtualbox/VBoxGuestAdditions.iso`
+* for Mac : `/Applications/VirtualBox.app/Contents/MacOS/VBoxGuestAdditions.iso`
+* for Windows : `%PROGRAMFILES%/Oracle/VirtualBox/VBoxGuestAdditions.iso`
 
 ### Automatic reboot
 
 The VirtualBox GuestAdditions Installer will try to load the newly built kernel module. However the installer may fail to load, just as it is happening when updating GuestAdditions from version 4.1 to 4.2.
 
 Hence, vbguest will check for a loaded kernel module after the installation has finished and reboots the box, if it could not find one.
-
 
 ## Advanced Usage
 
@@ -338,20 +339,17 @@ Vagrant::Config.run do |config|
 end
 ```
 
-
 ### Extending vbguest (aka Very Advanced Usage)
 
 If you find yourself copying the same installer in each of your vagrant project, it might be a good idea to make it a plugin itself. Like vagrant-vbguest itself, installers can be [distributed as ruby gems](http://guides.rubygems.org/publishing/)
 
-This project contains a [sample installer gem](https://github.com/dotless-de/vagrant-vbguest/tree/main/testdrive/vagrant-vbguest-unikorn) which might serve as an boilerplate. 
-
+This project contains a [sample installer gem](https://github.com/dotless-de/vagrant-vbguest/tree/main/testdrive/vagrant-vbguest-unikorn) which might serve as an boilerplate.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/dotless-de/vagrant-vbguest.
+Bug reports and pull requests are welcome on GitHub at <https://github.com/dotless-de/vagrant-vbguest>.
 
 For the foreseeable future, no more pull requests will be accepted which add new guest support/installers. Please build your gem as a plugin to vbguest (see "Very Advanced Usage" section of this file). In fact, please open a pull request to remove support for a guest system if feel confident that your solution is better.
-
 
 ## Known Issues
 
