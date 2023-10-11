@@ -74,21 +74,20 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def running?(opts=nil, &block)
-        kmods = nil
+        kmods = []
         communicate.sudo('cat /proc/modules', opts) do |type, data|
           block.call(type, data) if block
-          if type == :stdout && data
-            kmods = kmods.nil? ? data : kmods + data
-          end
+          kmods << data if type == :stdout && data
         end
 
-        unless kmods
+        if kmods.empty?
           env.ui.warn "Could not read /proc/modules"
           return true
         end
 
         Array(installer_options[:running_kernel_modules]).all? do |mod|
-          /^#{mod}\b/i.match(kmods)
+          regexp = /^#{mod}\b/i
+          kmods.any? { |d| regexp.match(d) }
         end
       end
 
