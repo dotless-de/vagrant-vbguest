@@ -128,4 +128,4 @@ module VagrantVbguest
     end
   end
 end
-VagrantVbguest::Installer.register(VagrantVbguest::Installers::Windows, 2)
+VagrantVbguest::Installer.register(:windows, VagrantVbguest::Installers::Windows, 2)

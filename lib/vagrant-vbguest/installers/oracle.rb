@@ -22,4 +22,6 @@ module VagrantVbguest
     end
   end
 end
-VagrantVbguest::Installer.register(VagrantVbguest::Installers::Oracle, 6)
+VagrantVbguest::Installer.register(:oracle, VagrantVbguest::Installers::Oracle, 6)
+VagrantVbguest::Installer.register(:oraclelinux, VagrantVbguest::Installers::Oracle, 6)
+VagrantVbguest::Installer.register(:oracle_linux, VagrantVbguest::Installers::Oracle, 6)

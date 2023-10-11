@@ -33,4 +33,5 @@ module VagrantVbguest
     end
   end
 end
-VagrantVbguest::Installer.register(VagrantVbguest::Installers::OpenSuse, 5)
+VagrantVbguest::Installer.register(:opensuse, VagrantVbguest::Installers::OpenSuse, 5)
+VagrantVbguest::Installer.register(:open_suse, VagrantVbguest::Installers::OpenSuse, 5)

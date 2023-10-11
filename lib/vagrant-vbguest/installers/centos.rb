@@ -119,4 +119,5 @@ module VagrantVbguest
   end
 end
 # Load this before the RedHat one, as we want it to be picked up first. (The higher the sooner its checked).
-VagrantVbguest::Installer.register(VagrantVbguest::Installers::CentOS, 6)
+VagrantVbguest::Installer.register(:centos, VagrantVbguest::Installers::CentOS, 6)
+VagrantVbguest::Installer.register(:cent_os, VagrantVbguest::Installers::CentOS, 6)

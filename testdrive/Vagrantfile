@@ -66,6 +66,7 @@ Vagrant.configure("2") do |config|
     cfg.vbguest.installer_hooks[:before_install] = ["yum install -y epel-release", "sleep 1"]
   end
   next_ip.box config, "centos7-previous", "centos/7" do |cfg|
+    cfg.vbguest.installer = :centos
     cfg.vbguest.installer_options = { allow_kernel_upgrade: false, enablerepo: true }
     cfg.vbguest.installer_hooks[:before_install] = ["yum install -y epel-release", "sleep 1"]
     cfg.vm.box_version = "1809.01"

@@ -42,4 +42,4 @@ module VagrantVbguest
     end
   end
 end
-VagrantVbguest::Installer.register(VagrantVbguest::Installers::Suse, 6)
+VagrantVbguest::Installer.register(:suse, VagrantVbguest::Installers::Suse, 6)

@@ -295,4 +295,4 @@ module VagrantVbguest
     end
   end
 end
-VagrantVbguest::Installer.register(VagrantVbguest::Installers::Linux, 2)
+VagrantVbguest::Installer.register(:linux, VagrantVbguest::Installers::Linux, 2)

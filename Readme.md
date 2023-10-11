@@ -56,7 +56,18 @@ vbguest will try to autodetect the best option for your system. WTF? see below.
 * `allow_downgrade` (Boolean, default: `true`) : Allow to install an older version of Guest Additions onto the guest. (Eg. you are running a host with VirtualBox 5 and the box is already on 6).
 * `no_install` (Boolean, default: `false`) : Whether to check the correct additions version only. This will warn you about version mis-matches, but will not try to install anything.
 * `no_remote` (Boolean, default: `false`) : Whether to _not_ download the iso file from a remote location. This includes any `http` location!
-* `installer` (`VagrantVbguest::Installers::Base`, optional) : Reference to a (custom) installer class
+* `installer` (`VagrantVbguest::Installers::Base`, optional) : Reference to a (custom) installer class or a named installer.
+  Build-in named installers are:
+  * `:arch`, `:archlinux`, `:arch_linux` : Arch Linux
+  * `:centos`, `:cent_os` : CentOS
+  * `:debian` : Debian
+  * `:fedora` : Fedora
+  * `:opensuse`, `:open_suse` : openSUSE
+  * `:oracle`, `:oraclelinux`, `:oracle_linux` : Oracle Linux
+  * `:redhat`, `:red_hat` : Red Hat
+  * `:suse` : SUSE
+  * `:ubuntu` : Ubuntu
+  * `:windows` : Windows
 * `installer_arguments` (Array, default: `['--nox11']`) : List of additional arguments to pass to the installer. eg: `%w{--nox11 --force}` would execute `VBoxLinuxAdditions.run install --nox11 --force`
 * `installer_options` (Hash, default: `{}`) : Configure how a Installer internally works. Should be set on a `vm` level.
 * `installer_hooks` (Hash, default: `{}`) : Configure scripts to be run before/after installer steps.

@@ -26,4 +26,6 @@ module VagrantVbguest
     end
   end
 end
-VagrantVbguest::Installer.register(VagrantVbguest::Installers::Archlinux, 5)
+VagrantVbguest::Installer.register(:arch, VagrantVbguest::Installers::Archlinux, 5)
+VagrantVbguest::Installer.register(:archlinux, VagrantVbguest::Installers::Archlinux, 5)
+VagrantVbguest::Installer.register(:arch_linux, VagrantVbguest::Installers::Archlinux, 5)

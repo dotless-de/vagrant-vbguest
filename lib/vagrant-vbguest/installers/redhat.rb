@@ -49,4 +49,5 @@ module VagrantVbguest
     end
   end
 end
-VagrantVbguest::Installer.register(VagrantVbguest::Installers::RedHat, 5)
+VagrantVbguest::Installer.register(:redhat, VagrantVbguest::Installers::RedHat, 5)
+VagrantVbguest::Installer.register(:red_hat, VagrantVbguest::Installers::RedHat, 5)

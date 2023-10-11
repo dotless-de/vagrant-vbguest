@@ -26,12 +26,30 @@ module VagrantVbguest
       # specific version of a distribution should use heigher
       # priority numbers.
       #
+      # @param installer_key [Symbol] A key to identify the Installer class.
       # @param installer_class [Class] A reference to the Installer class.
       # @param prio [Fixnum] Priority describing how specific the Installer matches. (default: `5`)
-      def register(installer_class, prio = 5)
+      def register(*args)
+        installer_key = nil
+        installer_class = nil
+        prio = 5
+
+        if args.first.is_a?(Symbol) || args.first.is_a?(String)
+          installer_key   = args.first.to_s
+          installer_class = args[1]
+          prio            = args[2] if args[2]
+        else
+          warn "DEPRECATION: Passing Installer class directly to Installer.register is deprecated. Please use a registration identifier as first argument. `Installer.register(:my_system, MySystemInstaller, 1)`"
+          installer_class = args.first
+          prio            = args[1] if args[1]
+        end
+
         @installers ||= {}
-        @installers[prio] ||= []
+        @installers[prio] ||= Set.new
         @installers[prio] << installer_class
+
+        @registered ||= {}
+        @registered[installer_key] = installer_class if installer_key
       end
 
       ##
@@ -46,6 +64,15 @@ module VagrantVbguest
           return klass if klass
         end
         return nil
+      end
+
+      ##
+      # Returns the registered Installer class for the given key.
+      #
+      # @param key [Symbol, String]
+      # @return [Class,nil]
+      def get(key)
+        @registered[key.to_s]
       end
     end
 
@@ -143,8 +170,11 @@ module VagrantVbguest
     end
 
     def guest_installer_class
-      if @options[:installer].is_a?(Class)
-        @options[:installer]
+      case (installer = @options[:installer])
+      when Class
+        installer
+      when Symbol, String
+        Installer.get(installer)
       else
         Installer.detect(@vm, @options)
       end

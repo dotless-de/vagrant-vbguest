@@ -24,4 +24,4 @@ module VagrantVbguest
     end
   end
 end
-VagrantVbguest::Installer.register(VagrantVbguest::Installers::Fedora, 5)
+VagrantVbguest::Installer.register(:fedora, VagrantVbguest::Installers::Fedora, 5)
