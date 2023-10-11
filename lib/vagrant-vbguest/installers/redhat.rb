@@ -5,7 +5,7 @@ module VagrantVbguest
       # fortunately they're probably both similar enough to RHEL
       # (RedHat Enterprise Linux) not to matter.
       def self.match?(vm)
-        /\A(redhat|centos|amazon|rocky)\d*\Z/ =~ self.distro(vm)
+        /\A(redhat|centos|amazon|rocky|alma)\d*\Z/ =~ self.distro(vm)
       end
 
       # Install missing deps and yield up to regular linux installation
