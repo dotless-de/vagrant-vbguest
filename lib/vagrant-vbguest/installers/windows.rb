@@ -104,12 +104,16 @@ module VagrantVbguest
       def mount_iso(opts = nil, &block)
         communicate.execute("Mount-DiskImage -ImagePath #{tmp_path}", opts, &block)
         env.ui.info(I18n.t("vagrant_vbguest.mounting_iso", mount_point: mount_point))
+        @mounted = true
       end
 
       def unmount_iso(opts = nil, &block)
+        return unless @mounted
         env.ui.info(I18n.t("vagrant_vbguest.unmounting_iso",mount_point: mount_point))
+        opts = (opts || {}).merge(:error_check => false)
         communicate.execute("Dismount-DiskImage -ImagePath #{tmp_path}", opts, &block)
         communicate.execute("Remove-Item -Path #{tmp_path}", opts, &block)
+        @mounted = false
       end
 
       def cleanup(opts = nil, &block)
