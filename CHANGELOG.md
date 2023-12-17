@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.32.0 (unreleased)
+## 0.32.0 (2023-12-17)
 
 - Fix testing for running GuestAdditions on Linux, when reading `/proc/modules` returns in
   multiple chunks. Thanks @kubasov-s [GH-436]
