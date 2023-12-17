@@ -1,5 +1,10 @@
 # vagrant-vbguest
 
+**Please note that as of 2023-12-17, this project is archived and will not receive further updates or support from me.**  
+**However, the existing codebase will remain available for reference and use under the project's open-source license.**
+
+---
+
 *vagrant-vbguest* is a [Vagrant](http://vagrantup.com) plugin which automatically installs the host's VirtualBox Guest Additions on the guest system.
 
 [![Join the chat at https://gitter.im/dotless-de/vagrant-vbguest](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dotless-de/vagrant-vbguest?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
