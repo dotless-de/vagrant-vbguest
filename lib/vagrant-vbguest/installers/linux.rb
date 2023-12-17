@@ -283,7 +283,11 @@ module VagrantVbguest
       # @yieldparam [String] type Type of the output, `:stdout`, `:stderr`, etc.
       # @yieldparam [String] data Data for the given output.
       def unmount_iso(opts=nil, &block)
-        return unless @mounted
+        unless @mounted
+          env.ui.info(I18n.t("vagrant_vbguest.skip_unmounting_iso"))
+          return
+        end
+
         env.ui.info(I18n.t("vagrant_vbguest.unmounting_iso", :mount_point => mount_point))
         opts = (opts || {}).merge(:error_check => false)
         communicate.sudo("umount #{mount_point}", opts, &block)
